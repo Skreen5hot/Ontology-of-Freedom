@@ -74,6 +74,7 @@ A -- participates_in --&gt; P5
 F -- participates_in --&gt; P6
 T -- participates_in --&gt; P7
 P2 --&gt; P3 --&gt; P4 --&gt; P5 --&gt; P6 --&gt; P7
+```
 In this model, the Fruit Drop Process is understood as an aggregate of temporally related
 subprocesses, involving specific participants (the fruit, the tree, and the abscission layer). The
 level of granularity chosen here focuses on the key biological events leading to detachment and

@@ -254,19 +254,6 @@ Resulting Triples After Reasoning
 
 :Fruit456 rdf:type :Fruit ;
     :hasQuality :MatureFruit .
-
-:NaturalFruitDrop rdf:type owl:Class ;
-    rdfs:subClassOf cco:InformationContentEntity ;
-    owl:equivalentClass [
-        rdf:type owl:Class ;
-        owl:intersectionOf (
-            cco:InformationContentEntity
-            [ owl:Restriction ;
-              owl:onProperty cco:isAbout ;
-              owl:someValuesFrom :FruitDropProcess
-            ]
-        )
-    ] .
 ```
 **Explanation of the Inferences**
 

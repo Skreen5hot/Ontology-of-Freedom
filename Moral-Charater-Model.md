@@ -1,7 +1,5 @@
 # A Realist Ontological Model of Sincerity: A Prototype for Modeling Moral Character
 
-**Authors:**
-\[Author Name(s)]
 
 ## Abstract
 

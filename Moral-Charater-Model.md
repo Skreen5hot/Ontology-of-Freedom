@@ -128,7 +128,7 @@ sincerity -- dependent_on --> sinceritySubstrate
 
 ### 3.5 Illustrative Example
 
-**Example:** Alice is asked if she enjoyed a dinner her friend cooked. Internally, she believes the food was poorly made (belief). However, she smiles and says "It was great!" (assertion in expressive act). An observer or system compares her assertion to her belief (sincerity identification). The result is an **insincere** judgment (sincerity expression) — this does not imply that Alice possesses a separate `insincerity` disposition.
+**Example:** Alice is asked if she enjoyed a dinner her friend cooked. Internally, she believes the food was not of her liking, meatloaf which she has stated her dislike in the past (belief). However, she smiles and says "It was great!" (assertion in expressive act). An observer or system compares her assertion to her belief (sincerity identification). The result is an **insincere** judgment (sincerity expression) — this does not imply that Alice possesses a separate `insincerity` disposition.
 
 ---
 

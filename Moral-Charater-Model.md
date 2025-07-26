@@ -1,9 +1,6 @@
 **Title:**
 A Realist Ontological Model of Sincerity: A Prototype for Modeling Moral Character
 
-**Authors:**
-\[Author Name(s)]
-
 **Abstract:**
 This whitepaper presents an ontological model of "Sincerity" grounded in the Basic Formal Ontology (BFO) and Common Core Ontologies (CCO). It serves as a prototype for representing moral character within realist ontology frameworks. Sincerity, as a disposition realized in expressive acts and evaluable via information processing, is explored in detail. The model is then generalized into a blueprint for modeling other moral character traits, offering a philosophically grounded, interoperable structure for ethical discourse across belief systems. Illustrative examples and a mermaid diagram are included.
 

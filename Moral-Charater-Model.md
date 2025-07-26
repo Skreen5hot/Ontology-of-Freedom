@@ -180,7 +180,3 @@ The Sincerity model provides a formally grounded, realist ontology for character
 * Aristotle. *Nicomachean Ethics.*
 * Common Core Ontologies: [https://www.commoncoreontology.org](https://www.commoncoreontology.org)
 * BFO 2020 Specification: [https://basic-formal-ontology.org](https://basic-formal-ontology.org)
-
----
-
-*Contact: \[Your Name, Institution, Contact Info]*

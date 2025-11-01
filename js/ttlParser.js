@@ -1,99 +1,116 @@
-class TTLParser {
-    constructor() {
-        console.log('Initializing TTLParser');
+// TTL parser (ES5-compatible)
+// Exposes `TTLParser` on the global window object
+(function(window) {
+    'use strict';
+
+    function TTLParser() {
         if (typeof N3 === 'undefined') {
-            console.error('N3 is not defined in TTLParser');
+            console.error('N3 library not loaded');
             throw new Error('N3 library not loaded');
         }
         this.parser = new N3.Parser();
         this.store = new N3.Store();
-        console.log('TTLParser initialized successfully');
+        console.log('TTLParser initialized (ES5)');
     }
 
-    async parse(ttlContent) {
-        console.log('Starting to parse TTL content');
+    TTLParser.prototype.parse = function(ttlContent) {
+        var self = this;
+        console.log('TTLParser.parse called');
         if (!ttlContent) {
-            console.error('No TTL content provided');
-            throw new Error('No TTL content provided');
+            return Promise.reject(new Error('No TTL content provided'));
         }
-        return new Promise((resolve, reject) => {
-            console.log('Parsing TTL with N3...');
-            this.parser.parse(ttlContent, (error, quad, prefixes) => {
-                if (error) {
-                    console.error('Error parsing TTL:', error);
-                    reject(error);
-                    return;
-                }
-                
-                if (quad) {
-                    this.store.add(quad);
-                } else {
-                    // Parsing complete, organize knowledge
-                    resolve(this.organizeKnowledge(prefixes));
-                }
-            });
-        });
-    }
 
-    organizeKnowledge(prefixes) {
-        const knowledge = {
+        return new Promise(function(resolve, reject) {
+            try {
+                self.parser.parse(ttlContent, function(error, quad, prefixes) {
+                    if (error) {
+                        console.error('Error while parsing TTL:', error);
+                        reject(error);
+                        return;
+                    }
+
+                    if (quad) {
+                        self.store.add(quad);
+                    } else {
+                        try {
+                            var knowledge = self.organizeKnowledge(prefixes);
+                            resolve(knowledge);
+                        } catch (err) {
+                            reject(err);
+                        }
+                    }
+                });
+            } catch (err) {
+                reject(err);
+            }
+        });
+    };
+
+    TTLParser.prototype.organizeKnowledge = function(prefixes) {
+        var self = this;
+        console.log('Organizing knowledge from parsed TTL');
+
+        var knowledge = {
             agents: [],
             artifacts: [],
             actions: [],
             intents: [],
-            moralValues: []
+            moralValues: [],
+            evaluations: [],
+            store: this.store,
+            prefixes: prefixes || {}
         };
 
-        // Helper to get label from entity
-        const getLabel = (subject) => {
-            const labelQuads = this.store.getQuads(subject, 'http://www.w3.org/2000/01/rdf-schema#label', null);
-            return labelQuads.length > 0 ? labelQuads[0].object.value : null;
-        };
+        function getLabel(subject) {
+            var labelQuads = self.store.getQuads(subject, 'http://www.w3.org/2000/01/rdf-schema#label', null);
+            return labelQuads && labelQuads.length > 0 ? labelQuads[0].object.value : null;
+        }
 
-        // Process each quad in the store
-        for (const quad of this.store.getQuads(null, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', null)) {
-            const subject = quad.subject.value;
-            const type = quad.object.value;
+        function getJustification(subject) {
+            var exPrefix = (prefixes && prefixes.ex) ? prefixes.ex : 'http://example.org/moral_sandbox#';
+            var justQuads = self.store.getQuads(subject, exPrefix + 'justificationText', null);
+            return justQuads && justQuads.length > 0 ? justQuads[0].object.value : null;
+        }
 
-            if (type.endsWith('Agent')) {
-                knowledge.agents.push({
-                    id: subject,
-                    label: getLabel(subject)
-                });
-            } else if (type.endsWith('Artifact')) {
-                const ownedByQuads = this.store.getQuads(subject, prefixes.ex + 'ownedBy', null);
-                knowledge.artifacts.push({
-                    id: subject,
-                    label: getLabel(subject),
-                    ownedBy: ownedByQuads.length > 0 ? ownedByQuads[0].object.value : null
-                });
-            } else if (type.endsWith('Action')) {
-                const action = {
-                    id: subject,
-                    performedBy: null,
-                    actsOn: null,
-                    realizesIntent: null
-                };
+        var typeQuads = this.store.getQuads(null, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', null) || [];
+        for (var i = 0; i < typeQuads.length; i++) {
+            var quad = typeQuads[i];
+            var subject = quad.subject.value;
+            var type = quad.object.value;
 
-                const performedByQuads = this.store.getQuads(subject, prefixes.ex + 'performedBy', null);
-                const actsOnQuads = this.store.getQuads(subject, prefixes.ex + 'actsOn', null);
-                const intentQuads = this.store.getQuads(subject, prefixes.ex + 'realizesIntent', null);
-
-                if (performedByQuads.length > 0) action.performedBy = performedByQuads[0].object.value;
-                if (actsOnQuads.length > 0) action.actsOn = actsOnQuads[0].object.value;
-                if (intentQuads.length > 0) action.realizesIntent = intentQuads[0].object.value;
-
+            if (type.indexOf('Agent', type.length - 'Agent'.length) !== -1) {
+                knowledge.agents.push({ id: subject, label: getLabel(subject) });
+            } else if (type.indexOf('Artifact', type.length - 'Artifact'.length) !== -1) {
+                var ownedBy = self.store.getQuads(subject, (prefixes && prefixes.ex ? prefixes.ex : 'http://example.org/moral_sandbox#') + 'ownedBy', null) || [];
+                knowledge.artifacts.push({ id: subject, label: getLabel(subject), ownedBy: ownedBy.length > 0 ? ownedBy[0].object.value : null });
+            } else if (type.indexOf('Action', type.length - 'Action'.length) !== -1) {
+                var action = { id: subject, performedBy: null, actsOn: null, realizesIntent: null };
+                var pb = self.store.getQuads(subject, (prefixes && prefixes.ex ? prefixes.ex : 'http://example.org/moral_sandbox#') + 'performedBy', null) || [];
+                var ao = self.store.getQuads(subject, (prefixes && prefixes.ex ? prefixes.ex : 'http://example.org/moral_sandbox#') + 'actsOn', null) || [];
+                var ri = self.store.getQuads(subject, (prefixes && prefixes.ex ? prefixes.ex : 'http://example.org/moral_sandbox#') + 'realizesIntent', null) || [];
+                if (pb.length > 0) action.performedBy = pb[0].object.value;
+                if (ao.length > 0) action.actsOn = ao[0].object.value;
+                if (ri.length > 0) action.realizesIntent = ri[0].object.value;
                 knowledge.actions.push(action);
-            } else if (type.endsWith('Intent')) {
-                knowledge.intents.push({
-                    id: subject,
-                    label: getLabel(subject)
-                });
-            } else if (type.endsWith('MoralValue')) {
-                knowledge.moralValues.push(subject.split('#')[1]);
+            } else if (type.indexOf('Intent', type.length - 'Intent'.length) !== -1) {
+                knowledge.intents.push({ id: subject, label: getLabel(subject) });
+            } else if (type.indexOf('Value', type.length - 'Value'.length) !== -1) {
+                knowledge.moralValues.push({ id: subject, label: getLabel(subject) });
+            } else if (type.indexOf('MoralEvaluation', type.length - 'MoralEvaluation'.length) !== -1) {
+                var evalObj = { id: subject, label: getLabel(subject), justification: getJustification(subject), values: [], action: null };
+                var actQ = self.store.getQuads(subject, (prefixes && prefixes.ex ? prefixes.ex : 'http://example.org/moral_sandbox#') + 'evaluatesAction', null) || [];
+                if (actQ.length > 0) evalObj.action = actQ[0].object.value;
+                var valQ = self.store.getQuads(subject, (prefixes && prefixes.ex ? prefixes.ex : 'http://example.org/moral_sandbox#') + 'assignsValue', null) || [];
+                for (var j = 0; j < valQ.length; j++) { evalObj.values.push(valQ[j].object.value); }
+                knowledge.evaluations.push(evalObj);
             }
         }
 
+        // already attached store & prefixes above
         return knowledge;
-    }
-}
+    };
+
+    // expose
+    window.TTLParser = TTLParser;
+
+})(window);

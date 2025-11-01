@@ -74,19 +74,47 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Evaluate button handler
     evaluateBtn.addEventListener('click', () => {
-        if (!reasoner) return;
+        console.log('Evaluate button clicked');
+        if (!reasoner) {
+            console.error('Reasoner not initialized');
+            return;
+        }
 
         const instruction = userInstruction.value;
+        console.log('Processing instruction:', instruction);
+        
         const matchedAction = reasoner.matchInstruction(instruction);
+        console.log('Matched action:', matchedAction);
+        
         const evaluation = reasoner.evaluateAction(matchedAction);
 
         if (evaluation) {
-            // Display moral scores
+            // Display moral evaluation
             moralScores.innerHTML = `
-                <h3>Values Promoted:</h3>
-                <ul>
-                    ${evaluation.values.map(value => `<li>${value}</li>`).join('')}
-                </ul>
+                <div class="moral-score ${evaluation.moralScore || (evaluation.violatedValues && evaluation.violatedValues.length > 0 ? 'negative' : 'positive')}">
+                    <strong>Moral Evaluation: ${evaluation.violatedValues && evaluation.violatedValues.length > 0 ? 'NEGATIVE' : 'POSITIVE'}</strong>
+                </div>
+                
+                <div class="moral-values">
+                    ${evaluation.promotedValues && evaluation.promotedValues.length > 0 ? `
+                        <h3>Values Promoted:</h3>
+                        <div>
+                            ${evaluation.promotedValues.map(value => 
+                                `<span class="moral-value promoted">${value}</span>`
+                            ).join('')}
+                        </div>
+                    ` : ''}
+                    
+                    ${evaluation.violatedValues && evaluation.violatedValues.length > 0 ? `
+                        <h3>Values Violated:</h3>
+                        <div>
+                            ${evaluation.violatedValues.map(value => 
+                                `<span class="moral-value violated">${value}</span>`
+                            ).join('')}
+                        </div>
+                    ` : ''}
+                </div>
+
                 <p><strong>Justification:</strong> ${evaluation.justification}</p>
             `;
 

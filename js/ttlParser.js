@@ -84,7 +84,7 @@
                 var ownedBy = self.store.getQuads(subject, (prefixes && prefixes.ex ? prefixes.ex : 'http://example.org/moral_sandbox#') + 'ownedBy', null) || [];
                 knowledge.artifacts.push({ id: subject, label: getLabel(subject), ownedBy: ownedBy.length > 0 ? ownedBy[0].object.value : null });
             } else if (type.indexOf('Action', type.length - 'Action'.length) !== -1) {
-                var action = { id: subject, performedBy: null, actsOn: null, realizesIntent: null };
+                var action = { id: subject, label: getLabel(subject), performedBy: null, actsOn: null, realizesIntent: null };
                 var pb = self.store.getQuads(subject, (prefixes && prefixes.ex ? prefixes.ex : 'http://example.org/moral_sandbox#') + 'performedBy', null) || [];
                 var ao = self.store.getQuads(subject, (prefixes && prefixes.ex ? prefixes.ex : 'http://example.org/moral_sandbox#') + 'actsOn', null) || [];
                 var ri = self.store.getQuads(subject, (prefixes && prefixes.ex ? prefixes.ex : 'http://example.org/moral_sandbox#') + 'realizesIntent', null) || [];

@@ -6,27 +6,72 @@ class MoralReasoner {
     matchInstruction(instruction) {
         console.log('Matching instruction:', instruction);
         instruction = instruction.toLowerCase();
-        
+
         // Add debugging for available actions and intents
         console.log('Available actions:', this.knowledge.actions);
         console.log('Available intents:', this.knowledge.intents);
-        
+
+        function localName(uri) {
+            if (!uri) return '';
+            var idx = uri.lastIndexOf('#');
+            if (idx >= 0) return uri.substring(idx + 1);
+            idx = uri.lastIndexOf('/');
+            return idx >= 0 ? uri.substring(idx + 1) : uri;
+        }
+
+        // common verbs/keywords
+        var verbs = ['return', 'keep', 'pick', 'pickup', 'pick up', 'give back'];
+
         for (const action of this.knowledge.actions) {
             console.log('Checking action:', action.id);
             const intent = this.knowledge.intents.find(i => i.id === action.realizesIntent);
             console.log('Associated intent:', intent);
-            
-            // Check for "keep" or "return" keywords
-            if (instruction.includes('keep') && action.id.includes('Keep')) {
-                console.log('Matched keep action');
-                return action;
+
+            // Gather matchable strings: agent, artifact, intent label, action label, id local names
+            var agent = this.knowledge.agents.find(a => a.id === action.performedBy);
+            var artifact = this.knowledge.artifacts.find(a => a.id === action.actsOn);
+
+            var agentLabels = [];
+            if (agent) {
+                if (agent.label) agentLabels.push(agent.label.toLowerCase());
+                agentLabels.push(localName(agent.id).toLowerCase());
             }
-            if (instruction.includes('return') && action.id.includes('Return')) {
-                console.log('Matched return action');
+
+            var artifactLabels = [];
+            if (artifact) {
+                if (artifact.label) artifactLabels.push(artifact.label.toLowerCase());
+                artifactLabels.push(localName(artifact.id).toLowerCase());
+            }
+
+            var intentLabels = [];
+            if (intent) {
+                if (intent.label) intentLabels.push(intent.label.toLowerCase());
+                intentLabels.push(localName(intent.id).toLowerCase());
+            }
+
+            var actionLabels = [];
+            if (action.label) actionLabels.push(action.label.toLowerCase());
+            actionLabels.push(localName(action.id).toLowerCase());
+
+            // check for agent match
+            var agentMatched = agentLabels.some(function(s) { return s && instruction.indexOf(s) !== -1; });
+            // check for artifact match
+            var artifactMatched = artifactLabels.some(function(s) { return s && instruction.indexOf(s) !== -1; });
+            // check for intent or verb match
+            var intentMatched = intentLabels.some(function(s) { return s && instruction.indexOf(s) !== -1; });
+            var verbMatched = verbs.some(function(v) { return instruction.indexOf(v) !== -1; });
+            // check action label/id
+            var actionMatched = actionLabels.some(function(s) { return s && instruction.indexOf(s) !== -1; });
+
+            console.log('agentMatched:', agentMatched, 'artifactMatched:', artifactMatched, 'intentMatched:', intentMatched, 'verbMatched:', verbMatched, 'actionMatched:', actionMatched);
+
+            // Accept when we see (agent or action) + (artifact or intent or verb)
+            if ((agentMatched || actionMatched) && (artifactMatched || intentMatched || verbMatched)) {
+                console.log('Instruction matches action:', action.id);
                 return action;
             }
         }
-        
+
         console.log('No matching action found');
         return null;
     }
@@ -46,51 +91,53 @@ class MoralReasoner {
         const agent = this.knowledge.agents.find(a => a.id === action.performedBy);
         const intent = this.knowledge.intents.find(i => i.id === action.realizesIntent);
         
-        // Map value IDs to their labels
-        const values = evaluation.values.map(valueId => {
-            const value = this.knowledge.moralValues.find(v => v.id === valueId);
-            return value ? value.label : valueId.split('#')[1];
-        });
+        // Map assigned value IDs from the evaluation to labels
+        var assignedLabels = (evaluation.values || []).map(function(valueId) {
+            var v = this.knowledge.moralValues.find(function(m) { return m.id === valueId; }.bind(this));
+            return v ? v.label : (valueId ? valueId.split('#')[1] : valueId);
+        }.bind(this));
 
-        console.log('Mapped values:', values);
+        console.log('Assigned values from evaluation (labels):', assignedLabels);
 
-        // Check for violations and promoted values
-        let violatedValues = [];
-        let promotedValues = [];
+        // Check for violations (explicit) and promoted values
+        var violatedValues = [];
+        var promotedValues = [];
+
+        var prefixes = (this.knowledge && this.knowledge.prefixes) ? this.knowledge.prefixes : {};
+        var exPrefix = prefixes.ex || 'http://example.org/moral_sandbox#';
 
         if (this.knowledge.store) {
-            console.log('Checking for violations and promoted values...');
-            const prefix = this.knowledge.prefixes.ex;
+            console.log('Checking store for explicit violatesValue / hasMoralValue triples');
 
-            // Check for violations
-            const violationQuads = this.knowledge.store.getQuads(
-                action.id, 
-                prefix + 'violatesValue', 
-                null
-            );
-            violatedValues = violationQuads.map(quad => {
-                const value = this.knowledge.moralValues.find(v => v.id === quad.object.value);
-                return value ? value.label : quad.object.value.split('#')[1];
-            });
+            // Violations declared on the action
+            var violationQuads = this.knowledge.store.getQuads(action.id, exPrefix + 'violatesValue', null) || [];
+            violatedValues = violationQuads.map(function(q) {
+                var v = this.knowledge.moralValues.find(function(m) { return m.id === q.object.value; }.bind(this));
+                return v ? v.label : (q.object.value ? q.object.value.split('#')[1] : q.object.value);
+            }.bind(this));
 
-            // Check for promoted values
-            const promotedQuads = this.knowledge.store.getQuads(
-                action.id, 
-                prefix + 'hasMoralValue', 
-                null
-            );
-            promotedValues = promotedQuads.map(quad => {
-                const value = this.knowledge.moralValues.find(v => v.id === quad.object.value);
-                return value ? value.label : quad.object.value.split('#')[1];
-            });
+            // Promoted values declared on the action via ex:hasMoralValue
+            var promotedQuads = this.knowledge.store.getQuads(action.id, exPrefix + 'hasMoralValue', null) || [];
+            promotedValues = promotedQuads.map(function(q) {
+                var v = this.knowledge.moralValues.find(function(m) { return m.id === q.object.value; }.bind(this));
+                return v ? v.label : (q.object.value ? q.object.value.split('#')[1] : q.object.value);
+            }.bind(this));
 
-            console.log('Violated values:', violatedValues);
-            console.log('Promoted values:', promotedValues);
+            // If the evaluation assigned values include items, use them to supplement promotedValues
+            // Assigned values may include both promoted and violated ones; compute promoted = assigned - violated
+            if (assignedLabels && assignedLabels.length > 0) {
+                // Merge assignedLabels into promotedCandidates
+                var promotedCandidates = assignedLabels.slice();
+                // Remove any that are also in violatedValues
+                promotedValues = promotedCandidates.filter(function(lbl) { return violatedValues.indexOf(lbl) === -1; });
+            }
+
+            console.log('Violated values (labels):', violatedValues);
+            console.log('Promoted values (labels):', promotedValues);
         } else {
-            console.log('No store available, using evaluation values');
-            // Fallback to using evaluation values
+            console.log('No store available, using evaluation assigned values as promoted');
             violatedValues = [];
-            promotedValues = evaluation.values;
+            promotedValues = assignedLabels;
         }
 
         const result = {

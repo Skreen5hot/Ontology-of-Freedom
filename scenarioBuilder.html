@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Scenario Builder — Moral Sandbox</title>
+  <link rel="stylesheet" href="./css/styles.css">
+  <style>
+    .builder-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .builder-panel { padding: 12px; background: #fff; border-radius:8px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+    .entity-list { max-height: 180px; overflow:auto; background:#f8f9fa; padding:8px; border-radius:6px; }
+    .ttl-output { height: 320px; width:100%; font-family: monospace; white-space: pre-wrap; padding:8px; background:#f4f4f4; border-radius:6px; }
+    .controls { margin-top:8px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header><h1>Scenario Builder</h1><p>Create .ttl scenarios for the Moral Reasoning POC and download them.</p></header>
+
+    <div class="builder-grid">
+      <div class="builder-panel">
+        <h3>1. Add Agents</h3>
+        <input id="agent-name" placeholder="Agent ID (e.g., RobotA)" />
+        <input id="agent-label" placeholder="Label (e.g., Robot A)" />
+        <div class="controls"><button id="add-agent">Add Agent</button></div>
+        <div class="entity-list" id="agents-list"></div>
+
+        <h3>2. Add Artifacts</h3>
+        <input id="artifact-id" placeholder="Artifact ID (e.g., Wallet1)" />
+        <input id="artifact-label" placeholder="Label (e.g., Alice's Wallet)" />
+        <input id="artifact-owner" placeholder="Owner ID (e.g., PersonX)" />
+        <div class="controls"><button id="add-artifact">Add Artifact</button></div>
+        <div class="entity-list" id="artifacts-list"></div>
+
+        <h3>3. Add Intents</h3>
+        <input id="intent-id" placeholder="Intent ID (e.g., Intent_Return)" />
+        <input id="intent-label" placeholder="Label (e.g., Intent: return object)" />
+        <div class="controls"><button id="add-intent">Add Intent</button></div>
+        <div class="entity-list" id="intents-list"></div>
+      </div>
+
+      <div class="builder-panel">
+        <h3>4. Add Actions</h3>
+        <input id="action-id" placeholder="Action ID (e.g., PickUpWallet_Return)" />
+        <input id="action-label" placeholder="Label (e.g., Pick up wallet (return))" />
+        <input id="action-performedBy" placeholder="performedBy (Agent ID)" />
+        <input id="action-actsOn" placeholder="actsOn (Artifact ID)" />
+        <input id="action-realizesIntent" placeholder="realizesIntent (Intent ID)" />
+        <div class="controls">
+          <button id="add-action">Add Action</button>
+        </div>
+        <div class="entity-list" id="actions-list"></div>
+
+        <h3>5. Values & Evaluations</h3>
+        <input id="value-id" placeholder="Value ID (e.g., Fairness)" />
+        <input id="value-label" placeholder="Label (e.g., Fairness)" />
+        <div class="controls"><button id="add-value">Add Value</button></div>
+        <div class="entity-list" id="values-list"></div>
+
+        <h4>Create Evaluation for an Action</h4>
+        <select id="eval-action-select"></select>
+        <input id="eval-id" placeholder="Eval ID (e.g., Eval_Return)" />
+        <input id="eval-label" placeholder="Evaluation label" />
+        <input id="eval-assigns" placeholder="assignsValue (comma separated IDs)" />
+        <input id="eval-justification" placeholder="Justification text" />
+        <div class="controls"><button id="add-evaluation">Attach Evaluation</button></div>
+      </div>
+    </div>
+
+    <section class="builder-panel" style="margin-top:16px;">
+      <h3>Generated Turtle (.ttl)</h3>
+      <textarea id="ttl-output" class="ttl-output" readonly></textarea>
+      <div style="margin-top:8px;">
+        <button id="generate-ttl">Generate TTL</button>
+        <button id="download-ttl">Download TTL</button>
+        <button id="clear-all">Clear</button>
+      </div>
+    </section>
+  </div>
+
+  <script src="./js/scenarioBuilder.js"></script>
+</body>
+</html>

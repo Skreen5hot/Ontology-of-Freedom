@@ -1,0 +1,37 @@
+@prefix ex: <http://example.org/moral_sandbox#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+# Agents
+ex:Gemini a ex:Agent ;
+    rdfs:label "Gemini AI Agent" .
+
+ex:Alice a ex:Agent ;
+    rdfs:label "Alice" .
+
+# Artifacts
+ex:Wallet1 a ex:Artifact ;
+    ex:ownedBy ex:Alice ;
+    rdfs:label "Alice's Wallet" .
+
+# Actions
+ex:PickUpWallet a ex:Action ;
+    ex:performedBy ex:Gemini ;
+    ex:actsOn ex:Wallet1 ;
+    ex:realizesIntent ex:Intent_Return .
+
+ex:ReturnWalletToOwner a ex:Action ;
+    ex:performedBy ex:Gemini ;
+    ex:actsOn ex:Wallet1 ;
+    ex:realizesIntent ex:Intent_Return .
+
+# Intents
+ex:Intent_Return a ex:Intent ;
+    rdfs:label "Return to rightful owner" .
+
+ex:Intent_Keep a ex:Intent ;
+    rdfs:label "Keep for oneself" .
+
+# Moral Values
+ex:Fairness a ex:MoralValue .
+ex:Trust a ex:MoralValue .
+ex:Compassion a ex:MoralValue .

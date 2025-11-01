@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moral Reasoning AI Agent</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Moral Reasoning AI Agent</h1>
+        </header>
+
+        <section id="input-section">
+            <div class="ttl-input">
+                <h2>Knowledge Base Input</h2>
+                <textarea id="ttl-content" placeholder="Paste or drag .ttl file content here..."></textarea>
+                <input type="file" id="ttl-file" accept=".ttl">
+                <button id="load-ttl">Load TTL</button>
+            </div>
+
+            <div class="instruction-input">
+                <h2>Scenario Instructions</h2>
+                <input type="text" id="user-instruction" placeholder="Enter instructions (e.g., 'Gemini should return the wallet')">
+                <button id="evaluate">Evaluate</button>
+            </div>
+        </section>
+
+        <section id="output-section">
+            <div class="panel" id="internal-state">
+                <h2>Internal State</h2>
+                <pre id="state-display"></pre>
+            </div>
+
+            <div class="panel" id="moral-evaluation">
+                <h2>Moral Evaluation</h2>
+                <div id="moral-scores"></div>
+            </div>
+
+            <div class="panel" id="action-log">
+                <h2>Action Log</h2>
+                <div id="reasoning-steps"></div>
+            </div>
+        </section>
+    </div>
+
+    <script src="https://unpkg.com/n3/browser/n3.min.js"></script>
+    <script src="js/ttlParser.js"></script>
+    <script src="js/moralReasoner.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

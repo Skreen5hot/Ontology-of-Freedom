@@ -1,7 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('Application initialized');
     let currentKnowledge = null;
     let reasoner = null;
     const parser = new TTLParser();
+    
+    // Debug: Check if N3 library is loaded
+    if (typeof N3 === 'undefined') {
+        console.error('N3 library not loaded!');
+        document.getElementById('state-display').textContent = 'Error: N3 library not loaded';
+        return;
+    }
+    console.log('N3 library loaded successfully');
 
     // DOM elements
     const ttlContent = document.getElementById('ttl-content');
@@ -15,8 +24,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Load TTL content
     async function loadTTL(content) {
+        console.log('Loading TTL content...');
+        document.getElementById('state-display').textContent = 'Loading TTL content...';
         try {
             currentKnowledge = await parser.parse(content);
+            console.log('TTL parsed:', currentKnowledge);
             reasoner = new MoralReasoner(currentKnowledge);
             
             // Display internal state
@@ -49,8 +61,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Load TTL button handler
     loadTTLBtn.addEventListener('click', () => {
+        console.log('Load TTL button clicked');
+        document.getElementById('state-display').textContent = 'Button clicked!';
         if (ttlContent.value) {
+            console.log('TTL content found:', ttlContent.value.substring(0, 100) + '...');
             loadTTL(ttlContent.value);
+        } else {
+            console.log('No TTL content found');
+            document.getElementById('state-display').textContent = 'Error: No TTL content provided';
         }
     });
 

@@ -1,13 +1,26 @@
 class TTLParser {
     constructor() {
+        console.log('Initializing TTLParser');
+        if (typeof N3 === 'undefined') {
+            console.error('N3 is not defined in TTLParser');
+            throw new Error('N3 library not loaded');
+        }
         this.parser = new N3.Parser();
         this.store = new N3.Store();
+        console.log('TTLParser initialized successfully');
     }
 
     async parse(ttlContent) {
+        console.log('Starting to parse TTL content');
+        if (!ttlContent) {
+            console.error('No TTL content provided');
+            throw new Error('No TTL content provided');
+        }
         return new Promise((resolve, reject) => {
+            console.log('Parsing TTL with N3...');
             this.parser.parse(ttlContent, (error, quad, prefixes) => {
                 if (error) {
+                    console.error('Error parsing TTL:', error);
                     reject(error);
                     return;
                 }

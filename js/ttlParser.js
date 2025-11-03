@@ -57,6 +57,10 @@
             intents: [],
             moralValues: [],
             evaluations: [],
+            actionClasses: [],
+            moralFrameworks: [],
+            classificationRules: [],
+            // moralRules will be nested under frameworks
             store: this.store,
             prefixes: prefixes || {}
         };
@@ -72,6 +76,18 @@
             return justQuads && justQuads.length > 0 ? justQuads[0].object.value : null;
         }
 
+        function getValues(subject, property) {
+            var quads = self.store.getQuads(subject, property, null) || [];
+            return quads.map(function(q) { return q.object.value; });
+        }
+
+        function getSingleValue(subject, property) {
+            var quads = self.store.getQuads(subject, property, null) || [];
+            return quads.length > 0 ? quads[0].object.value : null;
+        }
+
+        var exPrefix = (prefixes && prefixes.ex) ? prefixes.ex : 'http://example.org/moral_sandbox#';
+
         var typeQuads = this.store.getQuads(null, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', null) || [];
         for (var i = 0; i < typeQuads.length; i++) {
             var quad = typeQuads[i];
@@ -81,16 +97,14 @@
             if (type.indexOf('Agent', type.length - 'Agent'.length) !== -1) {
                 knowledge.agents.push({ id: subject, label: getLabel(subject) });
             } else if (type.indexOf('Artifact', type.length - 'Artifact'.length) !== -1) {
-                var ownedBy = self.store.getQuads(subject, (prefixes && prefixes.ex ? prefixes.ex : 'http://example.org/moral_sandbox#') + 'ownedBy', null) || [];
-                knowledge.artifacts.push({ id: subject, label: getLabel(subject), ownedBy: ownedBy.length > 0 ? ownedBy[0].object.value : null });
+                var ownedBy = getSingleValue(subject, exPrefix + 'ownedBy');
+                knowledge.artifacts.push({ id: subject, label: getLabel(subject), ownedBy: ownedBy });
             } else if (type.indexOf('Action', type.length - 'Action'.length) !== -1) {
+                // This handles action *instances*
                 var action = { id: subject, label: getLabel(subject), performedBy: null, actsOn: null, realizesIntent: null };
-                var pb = self.store.getQuads(subject, (prefixes && prefixes.ex ? prefixes.ex : 'http://example.org/moral_sandbox#') + 'performedBy', null) || [];
-                var ao = self.store.getQuads(subject, (prefixes && prefixes.ex ? prefixes.ex : 'http://example.org/moral_sandbox#') + 'actsOn', null) || [];
-                var ri = self.store.getQuads(subject, (prefixes && prefixes.ex ? prefixes.ex : 'http://example.org/moral_sandbox#') + 'realizesIntent', null) || [];
-                if (pb.length > 0) action.performedBy = pb[0].object.value;
-                if (ao.length > 0) action.actsOn = ao[0].object.value;
-                if (ri.length > 0) action.realizesIntent = ri[0].object.value;
+                action.performedBy = getSingleValue(subject, exPrefix + 'performedBy');
+                action.actsOn = getSingleValue(subject, exPrefix + 'actsOn');
+                action.realizesIntent = getSingleValue(subject, exPrefix + 'realizesIntent');
                 knowledge.actions.push(action);
             } else if (type.indexOf('Intent', type.length - 'Intent'.length) !== -1) {
                 knowledge.intents.push({ id: subject, label: getLabel(subject) });
@@ -98,11 +112,51 @@
                 knowledge.moralValues.push({ id: subject, label: getLabel(subject) });
             } else if (type.indexOf('MoralEvaluation', type.length - 'MoralEvaluation'.length) !== -1) {
                 var evalObj = { id: subject, label: getLabel(subject), justification: getJustification(subject), values: [], action: null };
-                var actQ = self.store.getQuads(subject, (prefixes && prefixes.ex ? prefixes.ex : 'http://example.org/moral_sandbox#') + 'evaluatesAction', null) || [];
-                if (actQ.length > 0) evalObj.action = actQ[0].object.value;
-                var valQ = self.store.getQuads(subject, (prefixes && prefixes.ex ? prefixes.ex : 'http://example.org/moral_sandbox#') + 'assignsValue', null) || [];
-                for (var j = 0; j < valQ.length; j++) { evalObj.values.push(valQ[j].object.value); }
+                evalObj.action = getSingleValue(subject, exPrefix + 'evaluatesAction');
+                evalObj.values = getValues(subject, exPrefix + 'assignsValue');
                 knowledge.evaluations.push(evalObj);
+            } else if (type.indexOf('MoralFramework', type.length - 'MoralFramework'.length) !== -1) {
+                knowledge.moralFrameworks.push({ id: subject, label: getLabel(subject), rules: [] });
+            } else if (type.indexOf('ClassificationRule', type.length - 'ClassificationRule'.length) !== -1) {
+                var rule = {
+                    id: subject,
+                    label: getLabel(subject),
+                    classToAssign: getSingleValue(subject, exPrefix + 'classToAssign'),
+                    requiresIntent: getSingleValue(subject, exPrefix + 'requiresIntent'),
+                    requiresPerformerIsNotOwner: getSingleValue(subject, exPrefix + 'requiresPerformerIsNotOwner') === 'true'
+                };
+                knowledge.classificationRules.push(rule);
+            }
+        }
+
+        // Separate pass to find action classes (e.g., ex:Theft)
+        var actionSubclassQuads = this.store.getQuads(null, 'http://www.w3.org/2000/01/rdf-schema#subClassOf', exPrefix + 'Action');
+        for (var j = 0; j < actionSubclassQuads.length; j++) {
+            var actionClassSubject = actionSubclassQuads[j].subject.value;
+            // Ensure it's not already in the list
+            if (!knowledge.actionClasses.some(ac => ac.id === actionClassSubject)) {
+                knowledge.actionClasses.push({ id: actionClassSubject, label: getLabel(actionClassSubject) });
+            }
+        }
+
+        // Second pass to connect rules to frameworks
+        var ruleQuads = this.store.getQuads(null, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', exPrefix + 'MoralRule') || [];
+        for (var k = 0; k < ruleQuads.length; k++) {
+            var ruleSubject = ruleQuads[k].subject.value;
+            var frameworkQuad = this.store.getQuads(null, exPrefix + 'hasRule', ruleSubject) || [];
+            if (frameworkQuad.length > 0) {
+                var frameworkId = frameworkQuad[0].subject.value;
+                var framework = knowledge.moralFrameworks.find(f => f.id === frameworkId);
+                if (framework) {
+                    var rule = {
+                        id: ruleSubject,
+                        appliesToClass: getSingleValue(ruleSubject, exPrefix + 'appliesToClass'),
+                        judgment: getSingleValue(ruleSubject, exPrefix + 'hasMoralJudgment'),
+                        values: getValues(ruleSubject, exPrefix + 'violatesValue').concat(getValues(ruleSubject, exPrefix + 'hasMoralValue')),
+                        justification: getJustification(ruleSubject)
+                    };
+                    framework.rules.push(rule);
+                }
             }
         }
 

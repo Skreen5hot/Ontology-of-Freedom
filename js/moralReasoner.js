@@ -6,11 +6,8 @@ class MoralReasoner {
     matchInstruction(instruction) {
         console.log('Matching instruction:', instruction);
         instruction = instruction.toLowerCase();
-
-        // Add debugging for available actions and intents
-        console.log('Available actions:', this.knowledge.actions);
-        console.log('Available intents:', this.knowledge.intents);
-
+        const instructionWords = instruction.split(/\s+/);
+ 
         function localName(uri) {
             if (!uri) return '';
             var idx = uri.lastIndexOf('#');
@@ -18,151 +15,165 @@ class MoralReasoner {
             idx = uri.lastIndexOf('/');
             return idx >= 0 ? uri.substring(idx + 1) : uri;
         }
-
-        // common verbs/keywords
-        var verbs = ['return', 'keep', 'pick', 'pickup', 'pick up', 'give back'];
-
+ 
+        let bestMatch = { action: null, score: 0 };
+ 
         for (const action of this.knowledge.actions) {
-            console.log('Checking action:', action.id);
             const intent = this.knowledge.intents.find(i => i.id === action.realizesIntent);
-            console.log('Associated intent:', intent);
-
-            // Gather matchable strings: agent, artifact, intent label, action label, id local names
-            var agent = this.knowledge.agents.find(a => a.id === action.performedBy);
-            var artifact = this.knowledge.artifacts.find(a => a.id === action.actsOn);
-
-            var agentLabels = [];
-            if (agent) {
-                if (agent.label) agentLabels.push.apply(agentLabels, agent.label.toLowerCase().split(/\s+/));
-                agentLabels.push(localName(agent.id).toLowerCase());
-            }
-
-            var artifactLabels = [];
-            if (artifact) {
-                if (artifact.label) artifactLabels.push.apply(artifactLabels, artifact.label.toLowerCase().split(/\s+/));
-                artifactLabels.push(localName(artifact.id).toLowerCase());
-            }
-
-            var intentLabels = [];
-            if (intent) {
-                if (intent.label) intentLabels.push.apply(intentLabels, intent.label.toLowerCase().split(/\s+/));
-                intentLabels.push(localName(intent.id).toLowerCase());
-            }
-
-            var actionLabels = [];
-            if (action.label) {
-                // Also split action labels for more flexible matching
-                var parts = action.label.toLowerCase().replace(/[()]/g, '').split(/\s+/);
-                actionLabels.push.apply(actionLabels, parts);
-            }
-            actionLabels.push(localName(action.id).toLowerCase());
-
-            // check for agent match
-            var agentMatched = agentLabels.some(function(s) { return s && instruction.indexOf(s) !== -1; });
-            // check for artifact match
-            var artifactMatched = artifactLabels.some(function(s) { return s && instruction.indexOf(s) !== -1; });
-            // check for intent or verb match
-            var intentMatched = intentLabels.some(function(s) { return s && instruction.indexOf(s) !== -1; });
-            var verbMatched = verbs.some(function(v) { return instruction.indexOf(v) !== -1; });
-            // check action label/id
-            var actionMatched = actionLabels.some(function(s) { return s && instruction.indexOf(s) !== -1; });
-
-            console.log('agentMatched:', agentMatched, 'artifactMatched:', artifactMatched, 'intentMatched:', intentMatched, 'verbMatched:', verbMatched, 'actionMatched:', actionMatched);
-
-            // --- REVISED MATCHING LOGIC ---
-            // Prioritize matching the specific intent if a verb is used.
-            // If the instruction has a verb, it MUST match the intent.
-            if (verbMatched && intentMatched) {
-                if (agentMatched || actionMatched) {
-                    console.log('Instruction matches action via prioritized intent:', action.id);
-                    return action;
+            const agent = this.knowledge.agents.find(a => a.id === action.performedBy);
+            const artifact = this.knowledge.artifacts.find(a => a.id === action.actsOn);
+ 
+            let keywords = [];
+            if (agent && agent.label) keywords = keywords.concat(agent.label.toLowerCase().split(/\s+/));
+            if (artifact && artifact.label) keywords = keywords.concat(artifact.label.toLowerCase().split(/\s+/));
+            if (intent && intent.label) keywords = keywords.concat(intent.label.toLowerCase().split(/\s+/));
+            if (action.label) keywords = keywords.concat(action.label.toLowerCase().split(/\s+/));
+            
+            // Add local names from IDs
+            keywords.push(localName(action.id).toLowerCase());
+            keywords.push(localName(agent.id).toLowerCase());
+            keywords.push(localName(artifact.id).toLowerCase());
+            keywords.push(localName(intent.id).toLowerCase());
+ 
+            // Clean up keywords (remove punctuation, etc.)
+            keywords = keywords.map(k => k.replace(/[(),:]/g, '')).filter(Boolean);
+ 
+            let currentScore = 0;
+            const matchedWords = new Set();
+ 
+            // Calculate score based on keyword matches
+            instructionWords.forEach(word => {
+                if (keywords.includes(word) && !matchedWords.has(word)) {
+                    currentScore++;
+                    matchedWords.add(word);
                 }
-            } else if (!verbMatched && (agentMatched || actionMatched) && (artifactMatched || intentMatched)) {
-                // Fallback for instructions without common verbs (e.g., "RobotA PickUpWallet_Keep")
-                console.log('Instruction matches action:', action.id);
-                return action;
+            });
+ 
+            console.log(`Action ${action.id} scored ${currentScore} with keywords:`, keywords);
+ 
+            if (currentScore > bestMatch.score) {
+                bestMatch = { action: action, score: currentScore };
+            }
+        }
+ 
+        if (bestMatch.score > 0) {
+            console.log(`Best match is ${bestMatch.action.id} with a score of ${bestMatch.score}`);
+            return bestMatch.action;
+        } else {
+            console.log('No matching action found');
+            return null;
+        }
+    }
+
+    /**
+     * Classifies an action instance into a moral category (e.g., Theft).
+     * This is a generic rule interpreter that uses ClassificationRules from the knowledge graph.
+     */
+    _classifyAction(action) {
+        const classifiedAs = [];
+        const classificationRules = this.knowledge.classificationRules || [];
+
+        for (const rule of classificationRules) {
+            let conditionsMet = true;
+
+            // Condition: requiresIntent
+            if (rule.requiresIntent && action.realizesIntent !== rule.requiresIntent) {
+                conditionsMet = false;
+            }
+
+            // Condition: requiresPerformerIsNotOwner
+            if (conditionsMet && rule.requiresPerformerIsNotOwner) {
+                const agent = this.knowledge.agents.find(a => a.id === action.performedBy);
+                const artifact = this.knowledge.artifacts.find(a => a.id === action.actsOn);
+                if (!agent || !artifact || !artifact.ownedBy || agent.id === artifact.ownedBy) {
+                    conditionsMet = false;
+                }
+            }
+
+            // --- Add other condition checks here as the system grows ---
+
+            if (conditionsMet) {
+                if (rule.classToAssign) {
+                    classifiedAs.push(rule.classToAssign);
+                }
             }
         }
 
-        console.log('No matching action found');
-        return null;
+        console.log(`Action ${action.id} classified as:`, classifiedAs);
+        return classifiedAs;
     }
 
     evaluateAction(action) {
         console.log('Evaluating action:', action);
         if (!action) return null;
 
-        // Find the corresponding moral evaluation from the TTL
-        const evaluation = this.knowledge.evaluations.find(e => e.action === action.id);
-        console.log('Found evaluation:', evaluation);
+        // --- NEW CLASS-BASED REASONING ---
 
-        // Find related entities
+        // 1. Classify the action instance
+        const actionClasses = this._classifyAction(action);
+        if (actionClasses.length === 0) {
+            return { // Return a neutral result if no classification applies
+                evaluations: [{
+                    framework: 'General',
+                    moralScore: 'neutral',
+                    promotedValues: [],
+                    violatedValues: [],
+                    justification: 'The action does not fit any known moral classification (e.g., Theft).'
+                }],
+                steps: [`Action ${action.id} did not match any specific moral classification.`]
+            };
+        }
+
+        // 2. Apply all moral frameworks to the classified action
+        const evaluations = [];
+        for (const framework of this.knowledge.moralFrameworks) {
+            for (const rule of framework.rules) {
+                // Check if the rule applies to any of the action's classes
+                if (actionClasses.includes(rule.appliesToClass)) {
+                    const moralValueLabels = (rule.values || []).map(vId => {
+                        const mv = this.knowledge.moralValues.find(v => v.id === vId);
+                        return mv ? mv.label : vId;
+                    });
+
+                    const evalResult = {
+                        framework: framework.label,
+                        moralScore: rule.judgment,
+                        promotedValues: rule.judgment === 'positive' ? moralValueLabels : [],
+                        violatedValues: rule.judgment === 'negative' ? moralValueLabels : [],
+                        justification: rule.justification
+                    };
+                    evaluations.push(evalResult);
+                    console.log(`Applied rule from ${framework.label} to action ${action.id}`, evalResult);
+                }
+            }
+        }
+
+        if (evaluations.length === 0) {
+             return {
+                evaluations: [{
+                    framework: 'General',
+                    moralScore: 'neutral',
+                    promotedValues: [],
+                    violatedValues: [],
+                    justification: `Action was classified as ${actionClasses.map(c => c.split('#')[1]).join(', ')}, but no moral framework has a rule for it.`
+                }],
+                steps: [`Action classified, but no rules found.`]
+            };
+        }
+
+        // --- Construct final result object ---
         const artifact = this.knowledge.artifacts.find(a => a.id === action.actsOn);
         const agent = this.knowledge.agents.find(a => a.id === action.performedBy);
         const intent = this.knowledge.intents.find(i => i.id === action.realizesIntent);
-        
-        // Map assigned value IDs from the evaluation to labels
-        var assignedLabels = [];
-        if (evaluation) {
-            assignedLabels = (evaluation.values || []).map(function(valueId) {
-                var v = this.knowledge.moralValues.find(function(m) { return m.id === valueId; }.bind(this));
-                return v ? v.label : (valueId ? valueId.split('#')[1] : valueId);
-            }.bind(this));
-        }
-        
-
-        console.log('Assigned values from evaluation (labels):', assignedLabels);
-
-        // Check for violations (explicit) and promoted values
-        var violatedValues = [];
-        var promotedValues = [];
-
-        var prefixes = (this.knowledge && this.knowledge.prefixes) ? this.knowledge.prefixes : {};
-        var exPrefix = prefixes.ex || 'http://example.org/moral_sandbox#';
-
-        if (this.knowledge.store) {
-            console.log('Checking store for explicit violatesValue / hasMoralValue triples');
-
-            // Violations declared on the action
-            var violationQuads = this.knowledge.store.getQuads(action.id, exPrefix + 'violatesValue', null) || [];
-            violatedValues = violationQuads.map(function(q) {
-                var v = this.knowledge.moralValues.find(function(m) { return m.id === q.object.value; }.bind(this));
-                return v ? v.label : (q.object.value ? q.object.value.split('#')[1] : q.object.value);
-            }.bind(this));
-
-            // Promoted values declared on the action via ex:hasMoralValue
-            var promotedQuads = this.knowledge.store.getQuads(action.id, exPrefix + 'hasMoralValue', null) || [];
-            promotedValues = promotedQuads.map(function(q) {
-                var v = this.knowledge.moralValues.find(function(m) { return m.id === q.object.value; }.bind(this));
-                return v ? v.label : (q.object.value ? q.object.value.split('#')[1] : q.object.value);
-            }.bind(this));
-
-            // If no values are explicitly promoted via ex:hasMoralValue,
-            // we can fall back to the logic of treating assigned values (minus violations) as promoted.
-            if (promotedValues.length === 0 && assignedLabels && assignedLabels.length > 0) {
-                promotedValues = assignedLabels.filter(function(lbl) { return violatedValues.indexOf(lbl) === -1; });
-            }
-            console.log('Violated values (labels):', violatedValues);
-            console.log('Promoted values (labels):', promotedValues);
-        } else {
-            console.log('No store available, using evaluation assigned values as promoted');
-            violatedValues = [];
-            promotedValues = assignedLabels;
-        }
 
         const result = {
-            actionId: action.id,
-            moralScore: violatedValues.length > 0 ? 'negative' : 'positive',
-            promotedValues: promotedValues,
-            violatedValues: violatedValues,
-            justification: evaluation ? evaluation.justification : 'No explicit justification found.',
+            evaluations: evaluations,
             steps: [
                 `Agent ${agent ? agent.label : action.performedBy} identified`,
                 `Artifact ${artifact ? artifact.label : action.actsOn} identified`,
                 `Intent: ${intent ? intent.label : action.realizesIntent}`,
-                violatedValues.length > 0 ? `Violated values: ${violatedValues.join(', ')}` : null,
-                promotedValues.length > 0 ? `Promoted values: ${promotedValues.join(', ')}` : null,
-                evaluation ? evaluation.justification : null
+                `Action classified as: ${actionClasses.map(c => c.split('#')[1]).join(', ')}`,
+                `Applied ${this.knowledge.moralFrameworks.length} moral framework(s).`
             ].filter(step => step !== null)
         };
 
@@ -171,8 +182,6 @@ class MoralReasoner {
     }
 
     getReasoningChain(action) {
-        if (!action) return [];
-        
         // Build a chain of related actions if they exist
         const chain = [action];
         const relatedActions = this.knowledge.actions.filter(a => 

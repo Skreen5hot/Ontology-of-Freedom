@@ -96,34 +96,37 @@ document.addEventListener('DOMContentLoaded', () => {
             const evaluation = reasoner.evaluateAction(matchedAction);
 
             if (evaluation) {
-                // Display moral evaluation
-                moralScores.innerHTML = `
-                    <div class="moral-score ${evaluation.moralScore || (evaluation.violatedValues && evaluation.violatedValues.length > 0 ? 'negative' : 'positive')}">
-                        <strong>Moral Evaluation: ${evaluation.violatedValues && evaluation.violatedValues.length > 0 ? 'NEGATIVE' : 'POSITIVE'}</strong>
-                    </div>
-                    
-                    <div class="moral-values">
-                        ${evaluation.promotedValues && evaluation.promotedValues.length > 0 ? `
-                            <h3>Values Promoted:</h3>
-                            <div>
-                                ${evaluation.promotedValues.map(value => 
-                                    `<span class="moral-value promoted">${value}</span>`
-                                ).join('')}
-                            </div>
-                        ` : ''}
+                // Display multiple moral evaluations from different frameworks
+                moralScores.innerHTML = evaluation.evaluations.map(evalResult => `
+                    <div class="evaluation-block">
+                        <h4>Framework: ${evalResult.framework}</h4>
+                        <div class="moral-score ${evalResult.moralScore}">
+                            <strong>Moral Evaluation: ${evalResult.moralScore.toUpperCase()}</strong>
+                        </div>
                         
-                        ${evaluation.violatedValues && evaluation.violatedValues.length > 0 ? `
-                            <h3>Values Violated:</h3>
-                            <div>
-                                ${evaluation.violatedValues.map(value => 
-                                    `<span class="moral-value violated">${value}</span>`
-                                ).join('')}
-                            </div>
-                        ` : ''}
-                    </div>
+                        <div class="moral-values">
+                            ${evalResult.promotedValues && evalResult.promotedValues.length > 0 ? `
+                                <h5>Values Promoted:</h5>
+                                <div>
+                                    ${evalResult.promotedValues.map(value => 
+                                        `<span class="moral-value promoted">${value}</span>`
+                                    ).join('')}
+                                </div>
+                            ` : ''}
+                            
+                            ${evalResult.violatedValues && evalResult.violatedValues.length > 0 ? `
+                                <h5>Values Violated:</h5>
+                                <div>
+                                    ${evalResult.violatedValues.map(value => 
+                                        `<span class="moral-value violated">${value}</span>`
+                                    ).join('')}
+                                </div>
+                            ` : ''}
+                        </div>
 
-                    <p><strong>Justification:</strong> ${evaluation.justification}</p>
-                `;
+                        <p><strong>Justification:</strong> ${evalResult.justification}</p>
+                    </div>
+                `).join('');
 
                 // Display reasoning steps
                 reasoningSteps.innerHTML = `

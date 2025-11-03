@@ -22,7 +22,8 @@ ex:PickUpWallet a ex:Action ;
 ex:ReturnWalletToOwner a ex:Action ;
     ex:performedBy ex:Gemini ;
     ex:actsOn ex:Wallet1 ;
-    ex:realizesIntent ex:Intent_Return .
+    ex:realizesIntent ex:Intent_Return ;
+    ex:hasMoralValue ex:Fairness, ex:Trust .
 
 # Intents
 ex:Intent_Return a ex:Intent ;
@@ -32,6 +33,16 @@ ex:Intent_Keep a ex:Intent ;
     rdfs:label "Keep for oneself" .
 
 # Moral Values
-ex:Fairness a ex:MoralValue .
-ex:Trust a ex:MoralValue .
-ex:Compassion a ex:MoralValue .
+ex:Fairness a ex:Value ; 
+    rdfs:label "Fairness" .
+ex:Trust a ex:Value ; 
+    rdfs:label "Trust" .
+ex:Compassion a ex:Value ;
+    rdfs:label "Compassion" .
+
+# Moral Evaluation for the "return" action
+ex:Eval_ReturnWallet a ex:MoralEvaluation ;
+    rdfs:label "Evaluation for returning the wallet" ;
+    ex:evaluatesAction ex:ReturnWalletToOwner ;
+    ex:assignsValue ex:Fairness, ex:Trust, ex:Compassion ;
+    ex:justificationText "Returning a lost item to its owner is an act that promotes fairness, builds trust, and shows compassion." .

@@ -33,24 +33,28 @@ class MoralReasoner {
 
             var agentLabels = [];
             if (agent) {
-                if (agent.label) agentLabels.push(agent.label.toLowerCase());
+                if (agent.label) agentLabels.push.apply(agentLabels, agent.label.toLowerCase().split(/\s+/));
                 agentLabels.push(localName(agent.id).toLowerCase());
             }
 
             var artifactLabels = [];
             if (artifact) {
-                if (artifact.label) artifactLabels.push(artifact.label.toLowerCase());
+                if (artifact.label) artifactLabels.push.apply(artifactLabels, artifact.label.toLowerCase().split(/\s+/));
                 artifactLabels.push(localName(artifact.id).toLowerCase());
             }
 
             var intentLabels = [];
             if (intent) {
-                if (intent.label) intentLabels.push(intent.label.toLowerCase());
+                if (intent.label) intentLabels.push.apply(intentLabels, intent.label.toLowerCase().split(/\s+/));
                 intentLabels.push(localName(intent.id).toLowerCase());
             }
 
             var actionLabels = [];
-            if (action.label) actionLabels.push(action.label.toLowerCase());
+            if (action.label) {
+                // Also split action labels for more flexible matching
+                var parts = action.label.toLowerCase().replace(/[()]/g, '').split(/\s+/);
+                actionLabels.push.apply(actionLabels, parts);
+            }
             actionLabels.push(localName(action.id).toLowerCase());
 
             // check for agent match
@@ -65,8 +69,16 @@ class MoralReasoner {
 
             console.log('agentMatched:', agentMatched, 'artifactMatched:', artifactMatched, 'intentMatched:', intentMatched, 'verbMatched:', verbMatched, 'actionMatched:', actionMatched);
 
-            // Accept when we see (agent or action) + (artifact or intent or verb)
-            if ((agentMatched || actionMatched) && (artifactMatched || intentMatched || verbMatched)) {
+            // --- REVISED MATCHING LOGIC ---
+            // Prioritize matching the specific intent if a verb is used.
+            // If the instruction has a verb, it MUST match the intent.
+            if (verbMatched && intentMatched) {
+                if (agentMatched || actionMatched) {
+                    console.log('Instruction matches action via prioritized intent:', action.id);
+                    return action;
+                }
+            } else if (!verbMatched && (agentMatched || actionMatched) && (artifactMatched || intentMatched)) {
+                // Fallback for instructions without common verbs (e.g., "RobotA PickUpWallet_Keep")
                 console.log('Instruction matches action:', action.id);
                 return action;
             }
@@ -84,18 +96,20 @@ class MoralReasoner {
         const evaluation = this.knowledge.evaluations.find(e => e.action === action.id);
         console.log('Found evaluation:', evaluation);
 
-        if (!evaluation) return null;
-
         // Find related entities
         const artifact = this.knowledge.artifacts.find(a => a.id === action.actsOn);
         const agent = this.knowledge.agents.find(a => a.id === action.performedBy);
         const intent = this.knowledge.intents.find(i => i.id === action.realizesIntent);
         
         // Map assigned value IDs from the evaluation to labels
-        var assignedLabels = (evaluation.values || []).map(function(valueId) {
-            var v = this.knowledge.moralValues.find(function(m) { return m.id === valueId; }.bind(this));
-            return v ? v.label : (valueId ? valueId.split('#')[1] : valueId);
-        }.bind(this));
+        var assignedLabels = [];
+        if (evaluation) {
+            assignedLabels = (evaluation.values || []).map(function(valueId) {
+                var v = this.knowledge.moralValues.find(function(m) { return m.id === valueId; }.bind(this));
+                return v ? v.label : (valueId ? valueId.split('#')[1] : valueId);
+            }.bind(this));
+        }
+        
 
         console.log('Assigned values from evaluation (labels):', assignedLabels);
 
@@ -123,15 +137,11 @@ class MoralReasoner {
                 return v ? v.label : (q.object.value ? q.object.value.split('#')[1] : q.object.value);
             }.bind(this));
 
-            // If the evaluation assigned values include items, use them to supplement promotedValues
-            // Assigned values may include both promoted and violated ones; compute promoted = assigned - violated
-            if (assignedLabels && assignedLabels.length > 0) {
-                // Merge assignedLabels into promotedCandidates
-                var promotedCandidates = assignedLabels.slice();
-                // Remove any that are also in violatedValues
-                promotedValues = promotedCandidates.filter(function(lbl) { return violatedValues.indexOf(lbl) === -1; });
+            // If no values are explicitly promoted via ex:hasMoralValue,
+            // we can fall back to the logic of treating assigned values (minus violations) as promoted.
+            if (promotedValues.length === 0 && assignedLabels && assignedLabels.length > 0) {
+                promotedValues = assignedLabels.filter(function(lbl) { return violatedValues.indexOf(lbl) === -1; });
             }
-
             console.log('Violated values (labels):', violatedValues);
             console.log('Promoted values (labels):', promotedValues);
         } else {
@@ -145,14 +155,14 @@ class MoralReasoner {
             moralScore: violatedValues.length > 0 ? 'negative' : 'positive',
             promotedValues: promotedValues,
             violatedValues: violatedValues,
-            justification: evaluation.justification,
+            justification: evaluation ? evaluation.justification : 'No explicit justification found.',
             steps: [
                 `Agent ${agent ? agent.label : action.performedBy} identified`,
                 `Artifact ${artifact ? artifact.label : action.actsOn} identified`,
                 `Intent: ${intent ? intent.label : action.realizesIntent}`,
                 violatedValues.length > 0 ? `Violated values: ${violatedValues.join(', ')}` : null,
                 promotedValues.length > 0 ? `Promoted values: ${promotedValues.join(', ')}` : null,
-                evaluation.justification
+                evaluation ? evaluation.justification : null
             ].filter(step => step !== null)
         };
 

@@ -50,11 +50,26 @@
   });
 
   $('add-action').addEventListener('click', function(){
-    var id=$('action-id').value.trim(); var label=$('action-label').value.trim(); var pb=$('action-performedBy').value.trim(); var ao=$('action-actsOn').value.trim(); var ri=$('action-realizesIntent').value.trim();
+    var id=$('action-id').value.trim(); 
+    var label=$('action-label').value.trim(); 
+    var pb=$('action-performedBy').value.trim(); 
+    var ao=$('action-actsOn').value.trim(); 
+    var ri=$('action-realizesIntent').value.trim();
+    var hasValue = $('action-hasValue').value.trim();
+    var violatesValue = $('action-violatesValue').value.trim();
+
     if(!id) return alert('Action ID required');
-    actions.push({id:'ex:'+id, label:label, performedBy: pb? 'ex:'+pb:null, actsOn: ao? 'ex:'+ao:null, realizesIntent: ri? 'ex:'+ri:null});
+
+    var hasValueArr = hasValue ? hasValue.split(',').map(function(s){ return 'ex:'+s.trim(); }) : [];
+    var violatesValueArr = violatesValue ? violatesValue.split(',').map(function(s){ return 'ex:'+s.trim(); }) : [];
+
+    actions.push({id:'ex:'+id, label:label, performedBy: pb? 'ex:'+pb:null, actsOn: ao? 'ex:'+ao:null, realizesIntent: ri? 'ex:'+ri:null, hasValue: hasValueArr, violatesValue: violatesValueArr});
     renderList('actions-list', actions, function(a){ return a.id + ' — ' + a.label; }); updateActionSelect();
-    $('action-id').value=''; $('action-label').value=''; $('action-performedBy').value=''; $('action-actsOn').value=''; $('action-realizesIntent').value='';
+    
+    // Clear all action fields
+    ['action-id', 'action-label', 'action-performedBy', 'action-actsOn', 'action-realizesIntent', 'action-hasValue', 'action-violatesValue'].forEach(function(fieldId){
+      $(fieldId).value = '';
+    });
   });
 
   $('add-value').addEventListener('click', function(){
@@ -82,7 +97,17 @@
     artifacts.forEach(function(a){ lines.push(a.id + ' a ex:Artifact ;'); if(a.ownedBy) lines.push('    ex:ownedBy ' + a.ownedBy + ' ;'); lines.push('    rdfs:label "' + (a.label||a.id) + '" .'); lines.push(''); });
     intents.forEach(function(i){ lines.push(i.id + ' a ex:Intent ;'); lines.push('    rdfs:label "' + (i.label||i.id) + '" .'); lines.push(''); });
     values.forEach(function(v){ lines.push(v.id + ' a ex:Value ;'); lines.push('    rdfs:label "' + (v.label||v.id) + '" .'); lines.push(''); });
-    actions.forEach(function(act){ lines.push(act.id + ' a ex:Action ;'); if(act.label) lines.push('    rdfs:label "' + act.label + '" ;'); if(act.performedBy) lines.push('    ex:performedBy ' + act.performedBy + ' ;'); if(act.actsOn) lines.push('    ex:actsOn ' + act.actsOn + ' ;'); if(act.realizesIntent) lines.push('    ex:realizesIntent ' + act.realizesIntent + ' .'); else lines.push('    .'); lines.push(''); });
+    actions.forEach(function(act){ 
+      var actLines = [act.id + ' a ex:Action ;'];
+      if(act.label) actLines.push('    rdfs:label "' + act.label + '" ;'); 
+      if(act.performedBy) actLines.push('    ex:performedBy ' + act.performedBy + ' ;'); 
+      if(act.actsOn) actLines.push('    ex:actsOn ' + act.actsOn + ' ;'); 
+      if(act.hasValue && act.hasValue.length > 0) actLines.push('    ex:hasMoralValue ' + act.hasValue.join(' , ') + ' ;');
+      if(act.violatesValue && act.violatesValue.length > 0) actLines.push('    ex:violatesValue ' + act.violatesValue.join(' , ') + ' ;');
+      if(act.realizesIntent) actLines.push('    ex:realizesIntent ' + act.realizesIntent + ' .'); 
+      else { actLines[actLines.length-1] = actLines[actLines.length-1].slice(0,-1) + '.'; } // replace last semicolon
+      lines.push(actLines.join('\n')); lines.push(''); 
+    });
     evaluations.forEach(function(ev){ lines.push(ev.id + ' a ex:MoralEvaluation ;'); if(ev.label) lines.push('    rdfs:label "' + ev.label + '" ;'); if(ev.action) lines.push('    ex:evaluatesAction ' + ev.action + ' ;'); if(ev.values && ev.values.length>0) lines.push('    ex:assignsValue ' + ev.values.join(' , ') + ' ;'); if(ev.justification) lines.push('    ex:justificationText "' + ev.justification + '" .'); else lines.push('    .'); lines.push(''); });
 
     return lines.join('\n');

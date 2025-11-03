@@ -73,73 +73,94 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Evaluate button handler
-    evaluateBtn.addEventListener('click', () => {
+    evaluateBtn.addEventListener('click', async () => {
         console.log('Evaluate button clicked');
         if (!reasoner) {
             console.error('Reasoner not initialized');
             return;
         }
 
+        // Provide immediate feedback
+        moralScores.innerHTML = '<p>Evaluating...</p>';
+        reasoningSteps.innerHTML = '';
+        evaluateBtn.disabled = true;
+
         const instruction = userInstruction.value;
         console.log('Processing instruction:', instruction);
         
+        // The core logic remains the same
         const matchedAction = reasoner.matchInstruction(instruction);
         console.log('Matched action:', matchedAction);
         
-        const evaluation = reasoner.evaluateAction(matchedAction);
+        if (matchedAction) {
+            const evaluation = reasoner.evaluateAction(matchedAction);
 
-        if (evaluation) {
-            // Display moral evaluation
-            moralScores.innerHTML = `
-                <div class="moral-score ${evaluation.moralScore || (evaluation.violatedValues && evaluation.violatedValues.length > 0 ? 'negative' : 'positive')}">
-                    <strong>Moral Evaluation: ${evaluation.violatedValues && evaluation.violatedValues.length > 0 ? 'NEGATIVE' : 'POSITIVE'}</strong>
-                </div>
-                
-                <div class="moral-values">
-                    ${evaluation.promotedValues && evaluation.promotedValues.length > 0 ? `
-                        <h3>Values Promoted:</h3>
-                        <div>
-                            ${evaluation.promotedValues.map(value => 
-                                `<span class="moral-value promoted">${value}</span>`
-                            ).join('')}
-                        </div>
-                    ` : ''}
+            if (evaluation) {
+                // Display moral evaluation
+                moralScores.innerHTML = `
+                    <div class="moral-score ${evaluation.moralScore || (evaluation.violatedValues && evaluation.violatedValues.length > 0 ? 'negative' : 'positive')}">
+                        <strong>Moral Evaluation: ${evaluation.violatedValues && evaluation.violatedValues.length > 0 ? 'NEGATIVE' : 'POSITIVE'}</strong>
+                    </div>
                     
-                    ${evaluation.violatedValues && evaluation.violatedValues.length > 0 ? `
-                        <h3>Values Violated:</h3>
-                        <div>
-                            ${evaluation.violatedValues.map(value => 
-                                `<span class="moral-value violated">${value}</span>`
-                            ).join('')}
-                        </div>
-                    ` : ''}
-                </div>
+                    <div class="moral-values">
+                        ${evaluation.promotedValues && evaluation.promotedValues.length > 0 ? `
+                            <h3>Values Promoted:</h3>
+                            <div>
+                                ${evaluation.promotedValues.map(value => 
+                                    `<span class="moral-value promoted">${value}</span>`
+                                ).join('')}
+                            </div>
+                        ` : ''}
+                        
+                        ${evaluation.violatedValues && evaluation.violatedValues.length > 0 ? `
+                            <h3>Values Violated:</h3>
+                            <div>
+                                ${evaluation.violatedValues.map(value => 
+                                    `<span class="moral-value violated">${value}</span>`
+                                ).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
 
-                <p><strong>Justification:</strong> ${evaluation.justification}</p>
-            `;
-
-            // Display reasoning steps
-            reasoningSteps.innerHTML = `
-                <h3>Reasoning Process:</h3>
-                <ol>
-                    ${evaluation.steps.map(step => `<li>${step}</li>`).join('')}
-                </ol>
-            `;
-
-            // Show action chain if available
-            const chain = reasoner.getReasoningChain(matchedAction);
-            if (chain.length > 1) {
-                reasoningSteps.innerHTML += `
-                    <h3>Related Actions:</h3>
-                    <ul>
-                        ${chain.map(action => `<li>${action.id}</li>`).join('')}
-                    </ul>
+                    <p><strong>Justification:</strong> ${evaluation.justification}</p>
                 `;
+
+                // Display reasoning steps
+                reasoningSteps.innerHTML = `
+                    <h3>Reasoning Process:</h3>
+                    <ol>
+                        ${evaluation.steps.map(step => `<li>${step}</li>`).join('')}
+                    </ol>
+                `;
+
+                // Show action chain if available
+                const chain = reasoner.getReasoningChain(matchedAction);
+                if (chain.length > 1) {
+                    reasoningSteps.innerHTML += `
+                        <h3>Related Actions:</h3>
+                        <ul>
+                            ${chain.map(action => `<li>${action.id}</li>`).join('')}
+                        </ul>
+                    `;
+                }
+            } else {
+                // Action was found, but no evaluation for it
+                moralScores.innerHTML = `
+                    <p>An action matching "<em>${instruction}</em>" was found (<code>${matchedAction.id}</code>), but no moral evaluation for it exists in the knowledge base.</p>
+                    <p class="suggestion">Ensure that a <code>ex:MoralEvaluation</code> instance points to this action via <code>ex:evaluatesAction</code>.</p>
+                `;
+                reasoningSteps.innerHTML = '';
             }
         } else {
-            moralScores.innerHTML = '<p>No matching action found for the given instruction.</p>';
+            // Display moral evaluation
+            moralScores.innerHTML = `
+                <p>No matching action found for the instruction: "<em>${instruction}</em>"</p>
+                <p class="suggestion">Try using keywords found in the action labels, such as "keep" or "return".</p>
+            `;
             reasoningSteps.innerHTML = '';
         }
+        
+        evaluateBtn.disabled = false; // Re-enable button
     });
 
     // Drag and drop handling

@@ -10,6 +10,9 @@ ex:Gemini a ex:Agent ; # The agent performing the action
 ex:Alice a ex:Agent ;
     rdfs:label "Alice" .
 
+ex:AgentA a ex:Agent ;
+    rdfs:label "Agent A" .
+
 ex:AgentCain a ex:Agent ;
     rdfs:label "Agent Cain" .
 
@@ -22,6 +25,9 @@ ex:PersonAbel a ex:Artifact, ex:Agent ;
 ex:Wallet1 a ex:Artifact ;
     ex:ownedBy ex:Alice ;
     rdfs:label "Alice's Wallet" .
+
+ex:CommunalLab a ex:Artifact ;
+    rdfs:label "The Communal Lab" .
 
 # Action Instances
 # -- Wallet Scenarios --
@@ -47,6 +53,19 @@ ex:LawfulKillingOfAbel a ex:Action ;
     ex:performedBy ex:AgentCain ;
     ex:actsOn ex:PersonAbel ;
     ex:realizesIntent ex:Intent_Kill_Lawful .
+
+# -- Unfinished Task Scenario --
+ex:LockLab a ex:Action ;
+    rdfs:label "Lock the communal lab" ;
+    ex:performedBy ex:AgentA ;
+    ex:actsOn ex:CommunalLab ;
+    ex:negationOf ex:LeaveLabUnlocked .
+
+ex:LeaveLabUnlocked a ex:Action ;
+    rdfs:label "Leave the communal lab unlocked" ;
+    ex:performedBy ex:AgentA ;
+    ex:actsOn ex:CommunalLab ;
+    ex:negationOf ex:LockLab .
 
 # Intents
 ex:Intent_Return a ex:Intent ;
@@ -93,10 +112,27 @@ ex:Killing a owl:Class ;
 ex:Murder rdfs:subClassOf ex:Killing .
 ex:StateExecution rdfs:subClassOf ex:Killing .
 
+ex:PreserveSharedResources a owl:Class ;
+    rdfs:subClassOf ex:LabSecurityAction . # More specific class
+
+ex:LabSecurityAction a owl:Class ;
+    rdfs:subClassOf ex:Action ;
+    rdfs:label "Preserve Shared Resources" .
+
 # Moral Frameworks and Rules
 ex:USLaw a ex:MoralFramework ;
     rdfs:label "U.S. Law" ;
     ex:hasRule ex:USLaw_Rule_Theft, ex:USLaw_Rule_Murder .
+
+ex:LabPolicy a ex:MoralFramework ;
+    rdfs:label "Lab Policy" ;
+    ex:hasRule ex:LabPolicy_Rule_Locking .
+
+ex:LabPolicy_Rule_Locking a ex:MoralRule ;
+    ex:appliesToClass ex:PreserveSharedResources ;
+    ex:hasDeonticStatus "Obligatory" ;
+    ex:justificationText "Preserving shared group resources is a high-priority obligation." .
+
 
 ex:USLaw_Rule_Theft a ex:MoralRule ;
     ex:appliesToClass ex:Theft ;
@@ -195,3 +231,13 @@ ex:LawfulKillingClassificationRule a ex:ClassificationRule ;
     rdfs:label "Rule to classify Lawful Killing" ;
     ex:classToAssign ex:StateExecution ; # Assign the other specific subclass
     ex:requiresIntent ex:Intent_Kill_Lawful .
+
+ex:LockingClassificationRule a ex:ClassificationRule ;
+    rdfs:label "Rule to classify locking as resource preservation" ;
+    ex:classToAssign ex:LabSecurityAction ; # Assign the general class
+    ex:requiresArtifact ex:CommunalLab . # New condition type: if it acts on the lab, it's a lab security action.
+
+ex:PreservationClassificationRule a ex:ClassificationRule ;
+    rdfs:label "Rule to further classify locking as resource preservation" ;
+    ex:classToAssign ex:PreserveSharedResources ; # Assign the specific class
+    ex:requiresAction ex:LockLab .

@@ -101,10 +101,11 @@
                 knowledge.artifacts.push({ id: subject, label: getLabel(subject), ownedBy: ownedBy });
             } else if (type.indexOf('Action', type.length - 'Action'.length) !== -1) {
                 // This handles action *instances*
-                var action = { id: subject, label: getLabel(subject), performedBy: null, actsOn: null, realizesIntent: null };
+                var action = { id: subject, label: getLabel(subject), performedBy: null, actsOn: null, realizesIntent: null, negationOf: null };
                 action.performedBy = getSingleValue(subject, exPrefix + 'performedBy');
                 action.actsOn = getSingleValue(subject, exPrefix + 'actsOn');
                 action.realizesIntent = getSingleValue(subject, exPrefix + 'realizesIntent');
+                action.negationOf = getSingleValue(subject, exPrefix + 'negationOf');
                 knowledge.actions.push(action);
             } else if (type.indexOf('Intent', type.length - 'Intent'.length) !== -1) {
                 knowledge.intents.push({ id: subject, label: getLabel(subject) });
@@ -123,19 +124,38 @@
                     label: getLabel(subject),
                     classToAssign: getSingleValue(subject, exPrefix + 'classToAssign'),
                     requiresIntent: getSingleValue(subject, exPrefix + 'requiresIntent'),
-                    requiresPerformerIsNotOwner: getSingleValue(subject, exPrefix + 'requiresPerformerIsNotOwner') === 'true'
+                    requiresPerformerIsNotOwner: getSingleValue(subject, exPrefix + 'requiresPerformerIsNotOwner') === 'true',
+                    requiresAction: getSingleValue(subject, exPrefix + 'requiresAction'),
+                    requiresArtifact: getSingleValue(subject, exPrefix + 'requiresArtifact')
                 };
                 knowledge.classificationRules.push(rule);
             }
         }
 
-        // Separate pass to find action classes (e.g., ex:Theft)
-        var actionSubclassQuads = this.store.getQuads(null, 'http://www.w3.org/2000/01/rdf-schema#subClassOf', exPrefix + 'Action');
-        for (var j = 0; j < actionSubclassQuads.length; j++) {
-            var actionClassSubject = actionSubclassQuads[j].subject.value;
-            // Ensure it's not already in the list
-            if (!knowledge.actionClasses.some(ac => ac.id === actionClassSubject)) {
-                knowledge.actionClasses.push({ id: actionClassSubject, label: getLabel(actionClassSubject) });
+        // New, hierarchy-aware pass to find all action classes
+        function findAllSubclasses(classUri, store) {
+            const directSubclasses = store.getQuads(null, 'http://www.w3.org/2000/01/rdf-schema#subClassOf', classUri).map(q => q.subject.value);
+            let allSubclasses = [...directSubclasses];
+            for (const sub of directSubclasses) {
+                allSubclasses = allSubclasses.concat(findAllSubclasses(sub, store));
+            }
+            return allSubclasses;
+        }
+
+        const allActionSubclassUris = findAllSubclasses(exPrefix + 'Action', self.store);
+        const uniqueActionClasses = [...new Set(allActionSubclassUris)];
+
+        // Also find any classes that are just defined as owl:Class and have a rule applying to them
+        var owlClassQuads = this.store.getQuads(null, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'http://www.w3.org/2002/07/owl#Class');
+        for(const quad of owlClassQuads) {
+            if(!uniqueActionClasses.includes(quad.subject.value)) {
+                 uniqueActionClasses.push(quad.subject.value);
+            }
+        }
+
+        for (const classUri of uniqueActionClasses) {
+            if (!knowledge.actionClasses.some(ac => ac.id === classUri)) {
+                knowledge.actionClasses.push({ id: classUri, label: getLabel(classUri) });
             }
         }
 
@@ -152,6 +172,7 @@
                         id: ruleSubject,
                         appliesToClass: getSingleValue(ruleSubject, exPrefix + 'appliesToClass'),
                         judgment: getSingleValue(ruleSubject, exPrefix + 'hasMoralJudgment'),
+                        deontic: getSingleValue(ruleSubject, exPrefix + 'hasDeonticStatus'),
                         values: getValues(ruleSubject, exPrefix + 'violatesValue').concat(getValues(ruleSubject, exPrefix + 'hasMoralValue')),
                         justification: getJustification(ruleSubject)
                     };

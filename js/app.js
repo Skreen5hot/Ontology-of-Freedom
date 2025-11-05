@@ -92,38 +92,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const matchedAction = reasoner.matchInstruction(instruction);
         console.log('Matched action:', matchedAction);
         
-        if (matchedAction) {
-            const evaluation = reasoner.evaluateAction(matchedAction);
+        if (matchedAction) { // Pass all actions to the reasoner for negation lookup
+            const evaluation = reasoner.evaluateAction(matchedAction, currentKnowledge.actions);
 
             if (evaluation) {
-                // Display multiple moral evaluations from different frameworks
+                // Display deontic evaluations
                 moralScores.innerHTML = evaluation.evaluations.map(evalResult => `
                     <div class="evaluation-block">
                         <h4>Framework: ${evalResult.framework}</h4>
-                        <div class="moral-score ${evalResult.moralScore}">
-                            <strong>Moral Evaluation: ${evalResult.moralScore.toUpperCase()}</strong>
+                        <p><strong>Action:</strong> ${evalResult.actionLabel}</p>
+                        <div class="moral-score ${evalResult.deonticStatus.toLowerCase()}">
+                            <strong>Deontic Status: ${evalResult.deonticStatus.toUpperCase()}</strong>
                         </div>
-                        
-                        <div class="moral-values">
-                            ${evalResult.promotedValues && evalResult.promotedValues.length > 0 ? `
-                                <h5>Values Promoted:</h5>
-                                <div>
-                                    ${evalResult.promotedValues.map(value => 
-                                        `<span class="moral-value promoted">${value}</span>`
-                                    ).join('')}
-                                </div>
-                            ` : ''}
-                            
-                            ${evalResult.violatedValues && evalResult.violatedValues.length > 0 ? `
-                                <h5>Values Violated:</h5>
-                                <div>
-                                    ${evalResult.violatedValues.map(value => 
-                                        `<span class="moral-value violated">${value}</span>`
-                                    ).join('')}
-                                </div>
-                            ` : ''}
-                        </div>
-
                         <p><strong>Justification:</strong> ${evalResult.justification}</p>
                     </div>
                 `).join('');

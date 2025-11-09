@@ -65,6 +65,14 @@ The project includes a browser-based implementation that demonstrates moral reas
 2. Load TTL knowledge base
 3. Enter natural language instructions
 4. Review moral evaluations and reasoning
+5. 
+EXAMPLE Senarios to INPUT:
+"Gemini should keep the wallet"
+"Gemini should return the wallet"
+"Agent A should lock the lab"
+"Agent A should leave the lab unlocked"
+"Agent Cain should unlawfully kill Abel"
+"Agent Cain should lawfully kill Abel"
 
 ## Contributing
 

@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentKnowledge = null;
     let reasoner = null;
     const parser = new TTLParser();
+    const analyzer = new Analyzer(window.POSTAGGER_LEXICON, { debug: false }); // Create the full analyzer
+    const nlpService = new NLPIntentService(analyzer); // Create the intent service
     
     // Debug: Check if N3 library is loaded
     if (typeof N3 === 'undefined') {
@@ -29,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             currentKnowledge = await parser.parse(content);
             console.log('TTL parsed:', currentKnowledge);
-            reasoner = new MoralReasoner(currentKnowledge);
+            reasoner = new MoralReasoner(currentKnowledge, nlpService); // Pass the NLP service to the reasoner
             
             // Display internal state
             stateDisplay.textContent = JSON.stringify(currentKnowledge, null, 2);
@@ -89,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('Processing instruction:', instruction);
         
         // The core logic remains the same
-        const matchedAction = reasoner.matchInstruction(instruction);
+        const matchedAction = reasoner.findActionFromInstruction(instruction);
         console.log('Matched action:', matchedAction);
         
         if (matchedAction) { // Pass all actions to the reasoner for negation lookup

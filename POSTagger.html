@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Language Analyzer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f9f9f9;
+    }
+
+    h1,
+    h2 {
+      color: #333;
+    }
+
+    textarea {
+      width: 100%;
+      height: 100px;
+      box-sizing: border-box;
+      /* Ensures padding doesn't affect width */
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 8px;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    table {
+      border-collapse: collapse;
+      margin-top: 20px;
+      width: 100%;
+    }
+
+    th,
+    td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background: #f0f0f0;
+    }
+
+    /* */
+    #outputText {
+      margin-top: 10px;
+      background-color: #e9ecef;
+      /* Light grey to indicate it's read-only */
+      color: #495057;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Client-Side Language Analyzer</h1>
+  <p>Enter text below:</p>
+  <textarea id="inputText">This set of scripts jointly support the capability of generating a Word document.</textarea><br>
+  <button id="analyzeBtn">Analyze</button>
+
+  <hr style="margin: 2em 0;">
+
+  <h2>Stage 1: Individual Word POS</h2>
+  <table id="posTable">
+    <thead>
+      <tr>
+        <th>Word</th>
+        <th>Tag</th>
+      </tr>
+    </thead>
+    <tbody id="posTableBody"></tbody>
+  </table>
+
+  <h2>Stage 2: Grammatical Chunks</h2>
+  <table id="chunksTable">
+        <thead>
+            <tr>
+                <th>Original Phrase</th>
+        <th>Lemmatized Phrase</th>
+                <th>Chunk Type</th>
+             
+      </tr>
+    </thead>
+    <tbody id="chunksTableBody"></tbody>
+  </table>
+
+  <h2>Stage 3: Final Graph</h2>
+  <textarea id="finalGraphOutput" readonly placeholder="Final graph will appear here..."></textarea>
+
+
+  <script src="./js/lexicon.js"></script>
+  <script src="./js/POSTagger.js"></script>
+  <script>
+    // --- UI Element References ---
+    const inputText = document.getElementById('inputText');
+    const analyzeBtn = document.getElementById('analyzeBtn');
+    const posTableBody = document.getElementById('posTableBody');
+    const chunksTableBody = document.getElementById('chunksTableBody');
+    const outputText = document.getElementById('finalGraphOutput'); // Assuming you renamed this ID as suggested
+
+    // --- Display Helper Functions ---
+    function displayTaggedWords(taggedWords) {
+        posTableBody.innerHTML = '';
+        taggedWords.forEach(({ word, tag }) => {
+            const row = posTableBody.insertRow();
+            row.insertCell(0).textContent = word;
+            row.insertCell(1).textContent = tag;
+        });
+    }
+
+function displayChunks(chunks) {
+      chunksTableBody.innerHTML = '';
+      chunks.forEach(({ taggedWords, type, lemmatizedText }) => { // <-- Added lemmatizedText
+          const row = chunksTableBody.insertRow();
+          const originalPhrase = taggedWords.map(tw => tw.word).join(' ');
+          
+          row.insertCell(0).textContent = originalPhrase;
+          row.insertCell(1).textContent = lemmatizedText; // <-- Display the new property
+          row.insertCell(2).textContent = type;
+      });
+  }
+  // Create ONE analyzer instance and reuse it.
+  const analyzer = new Analyzer(window.POSTAGGER_LEXICON, { debug: true });
+
+    // --- Main Analysis Function ---
+ function runAnalysis() {
+      const text = inputText.value.trim();
+      if (!text) return;
+
+      // 1. tagging -----------------------------------------------------------
+      const taggedWords = analyzer.tagger.tagSentence(text);
+      displayTaggedWords(taggedWords);
+
+      // 2. chunking ----------------------------------------------------------
+      const chunks = analyzer.tagger.chunk(taggedWords);
+      displayChunks(chunks);
+
+      // 3. dependency parsing ------------------------------------------------->
+      const deps   = analyzer.parser.parse(chunks);
+
+      // 4. build simplified graph  -------------------------------------------->
+      const finalGraph = analyzer.getGraph(text, chunks, deps);
+
+      // 5. show result -------------------------------------------------------
+      outputText.value = finalGraph;
+  }
+    // --- Event Listener ---
+    analyzeBtn.addEventListener('click', runAnalysis);
+  window.addEventListener('load',  runAnalysis);
+  </script>
+</body>
+
+</html>

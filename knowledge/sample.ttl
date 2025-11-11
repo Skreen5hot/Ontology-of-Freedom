@@ -136,12 +136,14 @@ ex:LabPolicy_Rule_Locking a ex:MoralRule ;
 
 ex:USLaw_Rule_Theft a ex:MoralRule ;
     ex:appliesToClass ex:Theft ;
+    ex:hasDeonticStatus "Prohibited" ;
     ex:hasMoralJudgment "negative" ;
     ex:violatesValue ex:RespectForProperty ;
     ex:justificationText "Theft is the unlawful taking of property belonging to another." .
 
 ex:USLaw_Rule_Murder a ex:MoralRule ;
     ex:appliesToClass ex:Murder ;
+    ex:hasDeonticStatus "Prohibited" ;
     ex:hasMoralJudgment "negative" ;
     ex:violatesValue ex:RespectForLife ;
     ex:justificationText "Murder is the unlawful killing of a human being with malice aforethought." .
@@ -152,6 +154,7 @@ ex:TexasLaw a ex:MoralFramework ;
 
 ex:TexasLaw_Rule_Execution a ex:MoralRule ;
     ex:appliesToClass ex:StateExecution ;
+    ex:hasDeonticStatus "Permissible" ;
     ex:hasMoralJudgment "positive" ;
     ex:hasMoralValue ex:Justice ;
     ex:justificationText "State execution is a legal and just consequence for capital crimes under Texas law." .
@@ -168,12 +171,14 @@ ex:ChristianValues a ex:MoralFramework ;
 
 ex:ChristianValues_Rule_Theft a ex:MoralRule ;
     ex:appliesToClass ex:Theft ;
+    ex:hasDeonticStatus "Prohibited" ;
     ex:hasMoralJudgment "negative" ;
     ex:violatesValue ex:Honesty, ex:RespectForProperty ;
     ex:justificationText "This action violates the commandment 'Thou shalt not steal'." .
 
 ex:ChristianValues_Rule_Execution a ex:MoralRule ;
     ex:appliesToClass ex:StateExecution ;
+    ex:hasDeonticStatus "Prohibited" ;
     ex:hasMoralJudgment "negative" ;
     ex:violatesValue ex:RespectForLife ;
     ex:justificationText "This action violates the principle of 'Thou shalt not kill' and the sanctity of life." .
@@ -184,6 +189,7 @@ ex:AmnestyInternationalValues a ex:MoralFramework ;
 
 ex:Amnesty_Rule_StateExecution a ex:MoralRule ;
     ex:appliesToClass ex:StateExecution ;
+    ex:hasDeonticStatus "Prohibited" ;
     ex:hasMoralJudgment "negative" ;
     ex:violatesValue ex:RespectForLife ;
     ex:justificationText "The death penalty is the ultimate cruel, inhuman and degrading punishment." .
@@ -194,6 +200,7 @@ ex:CommonDecency a ex:MoralFramework ;
 
 ex:CommonDecency_Rule_Restitution a ex:MoralRule ;
     ex:appliesToClass ex:ActOfRestitution ;
+    ex:hasDeonticStatus "Permissible" ; # Or could be Obligatory depending on the view
     ex:hasMoralJudgment "positive" ;
     ex:hasMoralValue ex:Fairness, ex:Trust ;
     ex:justificationText "Returning a lost item to its owner is a fair and trustworthy action." .

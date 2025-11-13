@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let reasoner = null;
     const parser = new TTLParser();
     const analyzer = new Analyzer(window.POSTAGGER_LEXICON, { debug: false }); // Create the full analyzer
-    const nlpService = new NLPIntentService(analyzer); // Create the intent service
     
     // Debug: Check if N3 library is loaded
     if (typeof N3 === 'undefined') {
@@ -31,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             currentKnowledge = await parser.parse(content);
             console.log('TTL parsed:', currentKnowledge);
-            reasoner = new MoralReasoner(currentKnowledge, nlpService); // Pass the NLP service to the reasoner
+            reasoner = new MoralReasoner(currentKnowledge, new NLPIntentService(analyzer)); // Pass a new NLP service to the reasoner
             
             // Display internal state
             stateDisplay.textContent = JSON.stringify(currentKnowledge, null, 2);
@@ -88,87 +87,32 @@ document.addEventListener('DOMContentLoaded', () => {
         evaluateBtn.disabled = true;
 
         const instruction = userInstruction.value;
-        console.log('Processing instruction:', instruction);
-        
-        // The core logic remains the same
-        const matchedAction = reasoner.findActionFromInstruction(instruction);
-        console.log('Matched action:', matchedAction);
-        
-        if (matchedAction) { // Pass all actions to the reasoner for negation lookup
-            const evaluation = reasoner.evaluateAction(matchedAction, currentKnowledge.actions);
+        const result = reasoner.evaluateAction(instruction);
 
-            if (evaluation) {
-                // Display deontic evaluations
-                moralScores.innerHTML = evaluation.evaluations.map(evalResult => `
-                    <div class="evaluation-block">
-                        <h4>Framework: ${evalResult.framework}</h4>
-                        <p><strong>Action:</strong> ${evalResult.actionLabel}</p>
-                        <div class="moral-score ${evalResult.deonticStatus.toLowerCase()}">
-                            <strong>Deontic Status: ${evalResult.deonticStatus.toUpperCase()}</strong>
-                        </div>
-                        <p><strong>Justification:</strong> ${evalResult.justification}</p>
+        if (result) {
+            // NEW: Display multiple evaluation blocks
+            moralScores.innerHTML = result.evaluations.map(evalResult => `
+                <div class="evaluation-block">
+                    <h4>Framework: ${evalResult.framework}</h4>
+                    <p><strong>Action:</strong> ${evalResult.actionLabel}</p>
+                    <div class="moral-score ${evalResult.deonticStatus.toLowerCase()}">
+                        <strong>Deontic Status: ${evalResult.deonticStatus.toUpperCase()}</strong>
                     </div>
-                `).join('');
+                    <p><strong>Justification:</strong> ${evalResult.justification}</p>
+                </div>
+            `).join('');
 
-                // Display reasoning steps
-                reasoningSteps.innerHTML = `
-                    <h3>Reasoning Process:</h3>
-                    <ol>
-                        ${evaluation.steps.map(step => `<li>${step}</li>`).join('')}
-                    </ol>
-                `;
-
-                // Show action chain if available
-                const chain = reasoner.getReasoningChain(matchedAction);
-                if (chain.length > 1) {
-                    reasoningSteps.innerHTML += `
-                        <h3>Related Actions:</h3>
-                        <ul>
-                            ${chain.map(action => `<li>${action.id}</li>`).join('')}
-                        </ul>
-                    `;
-                }
-            } else {
-                // Action was found, but no evaluation for it
-                moralScores.innerHTML = `
-                    <p>An action matching "<em>${instruction}</em>" was found (<code>${matchedAction.id}</code>), but no moral evaluation for it exists in the knowledge base.</p>
-                    <p class="suggestion">Ensure that a <code>ex:MoralEvaluation</code> instance points to this action via <code>ex:evaluatesAction</code>.</p>
-                `;
-                reasoningSteps.innerHTML = '';
+            if (result.actionId) {
+                reasoningSteps.innerHTML = `<p>Successfully evaluated action: <strong>${result.actionId.split('#').pop()}</strong></p>`;
             }
         } else {
-            // Display moral evaluation
             moralScores.innerHTML = `
-                <p>No matching action found for the instruction: "<em>${instruction}</em>"</p>
-                <p class="suggestion">Try using keywords found in the action labels, such as "keep" or "return".</p>
+                <p>No matching action or evaluation found for the instruction: "<em>${instruction}</em>"</p>
+                <p class="suggestion">Try using keywords found in the action labels, such as "keep" or "return", or check the console for reasoning details.</p>
             `;
             reasoningSteps.innerHTML = '';
         }
-        
         evaluateBtn.disabled = false; // Re-enable button
     });
 
-    // Drag and drop handling
-    ttlContent.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        ttlContent.classList.add('dragover');
-    });
-
-    ttlContent.addEventListener('dragleave', () => {
-        ttlContent.classList.remove('dragover');
-    });
-
-    ttlContent.addEventListener('drop', (e) => {
-        e.preventDefault();
-        ttlContent.classList.remove('dragover');
-        
-        const file = e.dataTransfer.files[0];
-        if (file && file.name.endsWith('.ttl')) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                ttlContent.value = e.target.result;
-            };
-            reader.readAsText(file);
-        }
-    });
 });

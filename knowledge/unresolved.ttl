@@ -3,122 +3,103 @@
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-# Agents
-ex:Gemini a ex:Agent ; # The agent performing the action
-    rdfs:label "Gemini" .
-
-ex:Alice a ex:Agent ;
-    rdfs:label "Alice" .
-
-ex:AgentA a ex:Agent ;
-    rdfs:label "Agent A" .
-
-ex:AgentCain a ex:Agent ;
-    rdfs:label "Agent Cain" .
-
-# For this example, we model the victim as an Artifact to fit the current model.
-# A more advanced ontology would have a common superclass for Agent and Artifact.
-ex:PersonAbel a ex:Artifact, ex:Agent ;
-    rdfs:label "Person Abel" .
-
-# Artifacts
-ex:Wallet1 a ex:Artifact ;
-    ex:ownedBy ex:Alice ;
-    rdfs:label "Alice's Wallet" .
-
-ex:CommunalLab a ex:Artifact ;
-    rdfs:label "The Communal Lab" .
-
-# Action Instances
-# -- Wallet Scenarios --
-ex:TakeWallet_Keep a ex:Action ;
-    rdfs:label "keep the wallet" ;
-    ex:performedBy ex:Gemini ;
-    ex:actsOn ex:Wallet1 ;
-    ex:realizesIntent ex:Intent_Keep .
-
-ex:TakeWallet_Return a ex:Action ;
-    rdfs:label "return the wallet" ;
-    ex:performedBy ex:Gemini ;
-    ex:actsOn ex:Wallet1 ;
-    ex:realizesIntent ex:Intent_Return .
-
-# -- Killing Scenarios --
-ex:UnlawfulKillingOfAbel a ex:Action ;
-    rdfs:label "Unlawful killing of Abel" ;
-    ex:performedBy ex:AgentCain ;
-    ex:actsOn ex:PersonAbel ;
-    ex:realizesIntent ex:Intent_Kill_Unlawful .
-
-ex:LawfulKillingOfAbel a ex:Action ;
-    rdfs:label "Lawful killing of Abel" ;
-    ex:performedBy ex:AgentCain ;
-    ex:actsOn ex:PersonAbel ;
-    ex:realizesIntent ex:Intent_Kill_Lawful .
-
-# -- Unfinished Task Scenario --
-ex:LockLab a ex:Action ;
-    rdfs:label "Lock the communal lab" ;
-    ex:performedBy ex:AgentA ;
-    ex:actsOn ex:CommunalLab ;
-    ex:negationOf ex:LeaveLabUnlocked .
-
-ex:LeaveLabUnlocked a ex:Action ;
-    rdfs:label "Leave the communal lab unlocked" ;
-    ex:performedBy ex:AgentA ;
-    ex:actsOn ex:CommunalLab ;
-    ex:negationOf ex:LockLab .
-
-# Intents
-ex:Intent_Return a ex:Intent ;
-    rdfs:label "Return to rightful owner" .
-
-ex:Intent_Keep a ex:Intent ;
-    rdfs:label "Keep for oneself" .
-
-ex:Intent_Kill_Unlawful a ex:Intent ;
-    rdfs:label "Intent to kill unlawfully" .
-
-ex:Intent_Kill_Lawful a ex:Intent ;
-    rdfs:label "Intent to kill lawfully" .
-
-# Moral Values
-ex:Fairness a ex:Value ; 
-    rdfs:label "Fairness" .
-ex:Trust a ex:Value ; 
-    rdfs:label "Trust" .
-ex:RespectForProperty a ex:Value ;
-    rdfs:label "Respect for Property" .
-ex:Honesty a ex:Value ;
-    rdfs:label "Honesty" .
-
 #################################################################
-# NEW JUDGMENT NODES
-# These are pre-computed or human-annotated judgments that the reasoner can find.
+# NEW "UNRESOLVED" SCENARIOS
 #################################################################
 
-ex:Judgment_KeepWallet a ex:Judgment ;
-    ex:createdBy "HumanAnnotator" ;
-    ex:judgesAction ex:TakeWallet_Keep ;
-    ex:appliesRule ex:USLaw_Rule_Theft ;
-    ex:hasConclusion "Rule Violation Detected" .
+# --- New Agents ---
+ex:AgentBob a ex:Agent ;
+    rdfs:label "Bob" .
+
+ex:AgentCharlie a ex:Agent ;
+    rdfs:label "Charlie" .
+
+ex:SecurityGuardSarah a ex:Agent ;
+    rdfs:label "Sarah the Security Guard" .
+
+ex:OwnerDave a ex:Agent ;
+    rdfs:label "Dave" .
+
+# --- New Artifacts ---
+ex:DavesBicycle a ex:Artifact ;
+    ex:ownedBy ex:OwnerDave ;
+    rdfs:label "Dave's Bicycle" .
+
+ex:BankVault a ex:Artifact ;
+    rdfs:label "The Bank Vault" .
+
+# --- New Intents ---
+ex:Intent_ToSteal a ex:Intent ;
+    rdfs:label "Intent to steal" .
+
+ex:Intent_ToBorrow a ex:Intent ;
+    rdfs:label "Intent to borrow" .
+
+ex:Intent_ToSecure a ex:Intent ;
+    rdfs:label "Intent to secure" .
+
+# --- New Action Instances (Unevaluated) ---
+
+# Scenario 1: An action that SHOULD be classified as Theft.
+# It has the right intent and the performer is not the owner.
+ex:Action_TakeBike_Steal a ex:Action ;
+    rdfs:label "Bob takes Dave's bicycle to keep" ;
+    ex:performedBy ex:AgentBob ;
+    ex:actsOn ex:DavesBicycle ;
+    ex:realizesIntent ex:Intent_ToSteal .
+
+# Scenario 2: An action that should NOT be classified as Theft.
+# The intent is different.
+ex:Action_TakeBike_Borrow a ex:Action ;
+    rdfs:label "Charlie takes Dave's bicycle to borrow" ;
+    ex:performedBy ex:AgentCharlie ;
+    ex:actsOn ex:DavesBicycle ;
+    ex:realizesIntent ex:Intent_ToBorrow .
+
+# Scenario 3: An action that SHOULD be classified as fulfilling an obligation.
+ex:Action_SecureVault a ex:Action ;
+    rdfs:label "Sarah locks the bank vault" ;
+    ex:performedBy ex:SecurityGuardSarah ;
+    ex:actsOn ex:BankVault ;
+    ex:realizesIntent ex:Intent_ToSecure .
+
+
+#################################################################
+# COPIED RULES & DEFINITIONS (The "Laws of the World")
+#################################################################
+
+# --- Moral Values ---
+ex:Fairness a ex:Value ; rdfs:label "Fairness" .
+ex:Trust a ex:Value ; rdfs:label "Trust" .
+ex:RespectForProperty a ex:Value ; rdfs:label "Respect for Property" .
+ex:Honesty a ex:Value ; rdfs:label "Honesty" .
+ex:RespectForLife a ex:Value ; rdfs:label "Respect for Life" .
+ex:Justice a ex:Value ; rdfs:label "Justice" .
+
+# --- Action Classes ---
+ex:Theft a owl:Class ;
+    rdfs:subClassOf ex:Action ;
+    rdfs:label "Theft" .
+
+ex:ActOfRestitution a owl:Class ;
+    rdfs:subClassOf ex:Action ;
+    rdfs:label "Act of Restitution" .
 
 ex:Killing a owl:Class ;
     rdfs:subClassOf ex:Action ;
     rdfs:label "Killing" .
 
-# We can define subclasses for more specific reasoning
 ex:Murder rdfs:subClassOf ex:Killing .
 ex:StateExecution rdfs:subClassOf ex:Killing .
 
 ex:PreserveSharedResources a owl:Class ;
-    rdfs:subClassOf ex:LabSecurityAction . # More specific class
+    rdfs:subClassOf ex:LabSecurityAction .
 
 ex:LabSecurityAction a owl:Class ;
     rdfs:subClassOf ex:Action ;
     rdfs:label "Preserve Shared Resources" .
 
-# Moral Frameworks and Rules
+# --- Moral Frameworks and Rules ---
 ex:USLaw a ex:MoralFramework ;
     rdfs:label "U.S. Law" ;
     ex:hasRule ex:USLaw_Rule_Theft, ex:USLaw_Rule_Murder .
@@ -132,12 +113,11 @@ ex:LabPolicy_Rule_Locking a ex:MoralRule ;
     ex:hasDeonticStatus "Obligatory" ;
     ex:justificationText "Preserving shared group resources is a high-priority obligation." .
 
-
 ex:USLaw_Rule_Theft a ex:MoralRule ;
     ex:appliesToClass ex:Theft ;
     ex:hasDeonticStatus "Prohibited" ;
     ex:hasMoralJudgment "negative" ;
-    ex:violatesValue ex:RespectForProperty ;
+    ex:violatesValue ex:RespectForProperty, ex:Fairness ;
     ex:justificationText "Theft is the unlawful taking of property belonging to another." .
 
 ex:USLaw_Rule_Murder a ex:MoralRule ;
@@ -199,51 +179,53 @@ ex:CommonDecency a ex:MoralFramework ;
 
 ex:CommonDecency_Rule_Restitution a ex:MoralRule ;
     ex:appliesToClass ex:ActOfRestitution ;
-    ex:hasDeonticStatus "Permissible" ; # Or could be Obligatory depending on the view
+    ex:hasDeonticStatus "Permissible" ;
     ex:hasMoralJudgment "positive" ;
     ex:hasMoralValue ex:Fairness, ex:Trust ;
     ex:justificationText "Returning a lost item to its owner is a fair and trustworthy action." .
 
-# Add a new value used in the killing rules
-ex:RespectForLife a ex:Value ; rdfs:label "Respect for Life" .
-ex:Justice a ex:Value ; rdfs:label "Justice" .
-
 #################################################################
-# CLASSIFICATION RULES (for the hybrid reasoner)
+# CLASSIFICATION RULES (The "Hybrid" part of the reasoner)
 #################################################################
 
 # Rule to classify an action as Theft
 ex:TheftClassificationRule a ex:ClassificationRule ;
     rdfs:label "Rule to classify Theft" ;
     ex:classToAssign ex:Theft ;
-    ex:requiresIntent ex:Intent_Keep ;
+    ex:requiresIntent ex:Intent_ToSteal ; # Changed to match new intent
     ex:requiresPerformerIsNotOwner "true"^^xsd:boolean .
 
 # Rule to classify an action as an Act of Restitution
 ex:RestitutionClassificationRule a ex:ClassificationRule ;
     rdfs:label "Rule to classify Act of Restitution" ;
     ex:classToAssign ex:ActOfRestitution ;
-    ex:requiresIntent ex:Intent_Return ;
+    ex:requiresIntent ex:Intent_Return ; # Kept old intent for reference
     ex:requiresPerformerIsNotOwner "true"^^xsd:boolean .
 
 # Rule to classify an action as Killing (unlawful)
 ex:UnlawfulKillingClassificationRule a ex:ClassificationRule ;
     rdfs:label "Rule to classify Unlawful Killing" ;
-    ex:classToAssign ex:Murder ; # Assign the specific subclass
+    ex:classToAssign ex:Murder ;
     ex:requiresIntent ex:Intent_Kill_Unlawful .
 
 # Rule to classify an action as Killing (lawful)
 ex:LawfulKillingClassificationRule a ex:ClassificationRule ;
     rdfs:label "Rule to classify Lawful Killing" ;
-    ex:classToAssign ex:StateExecution ; # Assign the other specific subclass
+    ex:classToAssign ex:StateExecution ;
     ex:requiresIntent ex:Intent_Kill_Lawful .
 
 ex:LockingClassificationRule a ex:ClassificationRule ;
     rdfs:label "Rule to classify locking as resource preservation" ;
-    ex:classToAssign ex:LabSecurityAction ; # Assign the general class
-    ex:requiresArtifact ex:CommunalLab . # New condition type: if it acts on the lab, it's a lab security action.
+    ex:classToAssign ex:LabSecurityAction ;
+    ex:requiresArtifact ex:CommunalLab .
 
 ex:PreservationClassificationRule a ex:ClassificationRule ;
     rdfs:label "Rule to further classify locking as resource preservation" ;
-    ex:classToAssign ex:PreserveSharedResources ; # Assign the specific class
+    ex:classToAssign ex:PreserveSharedResources ;
     ex:requiresAction ex:LockLab .
+
+# A new classification rule for the bank vault scenario
+ex:VaultSecurityClassificationRule a ex:ClassificationRule ;
+    rdfs:label "Rule to classify vault locking as resource preservation" ;
+    ex:classToAssign ex:PreserveSharedResources ;
+    ex:requiresArtifact ex:BankVault .

@@ -1,3 +1,29 @@
+/**
+ * A standalone TTL parsing function that returns a promise resolving to an N3.Store.
+ * This is a simplified parser for tools that only need the raw store.
+ * @param {string} ttlContent The string content of the TTL file.
+ * @returns {Promise<N3.Store>} A promise that resolves with the populated N3 store.
+ */
+function parseTTL(ttlContent) {
+    return new Promise((resolve, reject) => {
+        if (typeof N3 === 'undefined') {
+            return reject(new Error('N3 library not loaded'));
+        }
+        const store = new N3.Store();
+        const parser = new N3.Parser();
+        parser.parse(ttlContent, (error, quad) => {
+            if (error) {
+                return reject(error);
+            }
+            if (quad) {
+                store.addQuad(quad);
+            } else {
+                resolve(store);
+            }
+        });
+    });
+}
+
 // TTL parser (ES5-compatible)
 // Exposes `TTLParser` on the global window object
 (function(window) {

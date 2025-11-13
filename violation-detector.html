@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Violation Detection Service</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Violation Detection Service</h1>
+        <p>
+            This tool allows you to check if a specific action violates a specific moral rule
+            based on the loaded knowledge base. It will output the result and the evidentiary subgraph.
+        </p>
+
+        <div class="section">
+            <h2>1. Load Knowledge Base</h2>
+            <p>Load a TTL file (e.g., <code>knowledge/sample.ttl</code>) to populate the dropdowns.</p>
+            <input type="file" id="ttlFileInput" accept=".ttl">
+        </div>
+
+        <div class="section" id="selectionSection" style="display: none;">
+            <h2>2. Configure Judgment</h2>
+            <div class="form-group">
+                <label>Select Judgment Type:</label>
+                <input type="radio" id="judgeRuleRadio" name="judgmentType" value="rule" checked>
+                <label for="judgeRuleRadio">Rule Judgment</label>
+                <input type="radio" id="judgeValueRadio" name="judgmentType" value="value">
+                <label for="judgeValueRadio">Value Judgment</label>
+            </div>
+            <div class="form-group">
+                <label for="actionSelect">Select Action to Evaluate:</label>
+                <select id="actionSelect"></select>
+            </div>
+            <div class="form-group">
+                <label for="checkAgainstSelect" id="checkAgainstLabel">Select Rule to Check Against:</label>
+                <select id="checkAgainstSelect"></select>
+            </div>
+            <button id="checkViolationBtn">Generate Judgment</button>
+        </div>
+
+        <div class="section" id="resultsSection" style="display: none;">
+            <h2>3. Results</h2>
+            <div id="evaluationResult">
+                <!-- Result will be injected here -->
+            </div>
+            <h3>Evidentiary Subgraph</h3>
+            <pre><code id="subgraphOutput"></code></pre>
+        </div>
+    </div>
+
+    <!-- Dependencies -->
+    <script src="https://unpkg.com/n3/browser/n3.min.js"></script>
+    
+    <!-- App Logic -->
+    <script src="js/ttlParser.js"></script>
+    <script src="js/judgmentService.js"></script>
+</body>
+</html>

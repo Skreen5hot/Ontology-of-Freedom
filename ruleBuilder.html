@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Rule Builder — Moral Sandbox</title>
+  <link rel="stylesheet" href="./css/styles.css">
+  <style>
+    .builder-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .builder-panel { padding: 16px; background: #fff; border-radius:8px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); margin-bottom: 16px; }
+    .builder-panel h3 { margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 8px; margin-bottom: 16px; }
+    .form-group { margin-bottom: 12px; }
+    .form-group label { display: block; margin-bottom: 4px; font-weight: bold; }
+    .form-group input[type="text"], .form-group textarea, .form-group select {
+      width: calc(100% - 18px); /* Adjust for padding/border */
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1em;
+    }
+    .form-group select[multiple] { height: 100px; }
+    .form-group input[type="checkbox"] { margin-right: 8px; }
+    .controls { margin-top: 16px; text-align: right; }
+    .controls button { margin-left: 8px; }
+    .ttl-output { height: 300px; width:100%; font-family: monospace; white-space: pre-wrap; padding:8px; background:#f4f4f4; border-radius:6px; resize: vertical; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header><h1>Rule Builder</h1><p>Create and download new Moral Rules and Classification Rules in TTL format.</p></header>
+
+    <div class="builder-panel">
+      <h3>1. Load Existing Knowledge (Optional)</h3>
+      <p>Load a TTL file (e.g., <code>knowledge/sample.ttl</code>) to populate dropdowns with existing classes, values, intents, actions, and artifacts.</p>
+      <input type="file" id="knowledgeFileInput" accept=".ttl">
+    </div>
+
+    <div class="builder-grid">
+      <div class="builder-panel">
+        <h3>2. Build Moral Rule</h3>
+        <div class="form-group"><label for="moralRuleId">Rule ID:</label><input type="text" id="moralRuleId" placeholder="e.g., MyFramework_Rule_New" /></div>
+        <div class="form-group"><label for="moralRuleLabel">Label:</label><input type="text" id="moralRuleLabel" placeholder="e.g., My New Moral Rule" /></div>
+        <div class="form-group"><label for="moralRuleAppliesToClass">Applies To Class:</label><select id="moralRuleAppliesToClass"></select></div>
+        <div class="form-group"><label for="moralRuleDeonticStatus">Deontic Status:</label>
+          <select id="moralRuleDeonticStatus">
+            <option value="">-- Select --</option>
+            <option value="Prohibited">Prohibited</option>
+            <option value="Obligatory">Obligatory</option>
+            <option value="Permissible">Permissible</option>
+          </select>
+        </div>
+        <div class="form-group"><label for="moralRuleMoralJudgment">Moral Judgment:</label>
+          <select id="moralRuleMoralJudgment">
+            <option value="">-- Select --</option>
+            <option value="positive">positive</option>
+            <option value="negative">negative</option>
+            <option value="neutral">neutral</option>
+          </select>
+        </div>
+        <div class="form-group"><label for="moralRuleViolatesValue">Violates Value (select multiple):</label><select id="moralRuleViolatesValue" multiple></select></div>
+        <div class="form-group"><label for="moralRuleHasMoralValue">Has Moral Value (select multiple):</label><select id="moralRuleHasMoralValue" multiple></select></div>
+        <div class="form-group"><label for="moralRuleJustification">Justification Text:</label><textarea id="moralRuleJustification" rows="3"></textarea></div>
+        <div class="controls"><button id="addMoralRule">Add Moral Rule</button></div>
+      </div>
+
+      <div class="builder-panel">
+        <h3>3. Build Classification Rule</h3>
+        <div class="form-group"><label for="classificationRuleId">Rule ID:</label><input type="text" id="classificationRuleId" placeholder="e.g., MyClassification_Rule_New" /></div>
+        <div class="form-group"><label for="classificationRuleLabel">Label:</label><input type="text" id="classificationRuleLabel" placeholder="e.g., My New Classification Rule" /></div>
+        <div class="form-group"><label for="classificationRuleClassToAssign">Class To Assign:</label><select id="classificationRuleClassToAssign"></select></div>
+        <div class="form-group"><label for="classificationRuleRequiresIntent">Requires Intent:</label><select id="classificationRuleRequiresIntent"></select></div>
+        <div class="form-group"><label for="classificationRuleRequiresPerformerIsNotOwner">Requires Performer Is Not Owner:</label><input type="checkbox" id="classificationRuleRequiresPerformerIsNotOwner" /></div>
+        <div class="form-group"><label for="classificationRuleRequiresAction">Requires Action:</label><select id="classificationRuleRequiresAction"></select></div>
+        <div class="form-group"><label for="classificationRuleRequiresArtifact">Requires Artifact:</label><select id="classificationRuleRequiresArtifact"></select></div>
+        <div class="controls"><button id="addClassificationRule">Add Classification Rule</button></div>
+      </div>
+    </div>
+
+    <section class="builder-panel">
+      <h3>4. Generated TTL Output</h3>
+      <textarea id="ttlOutput" class="ttl-output" readonly></textarea>
+      <div class="controls">
+        <button id="generateTtl">Generate Full TTL</button>
+        <button id="downloadTtl">Download TTL</button>
+        <button id="clearOutput">Clear Output</button>
+        <button id="clearForm">Clear All Forms</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- Dependencies -->
+  <script src="https://unpkg.com/n3/browser/n3.min.js"></script>
+  
+  <!-- App Logic -->
+  <script src="./js/ruleBuilder.js"></script>
+</body>
+</html>

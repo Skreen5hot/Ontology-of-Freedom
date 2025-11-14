@@ -1,0 +1,62 @@
+@prefix : <https://fandaws.com/ontology/bfo/valuenet-moral-foundations#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vn-core: <https://fandaws.com/ontology/bfo/valuenet-core#> .
+@prefix vn-mf: <https://fandaws.com/ontology/bfo/valuenet-moral-foundations#> .
+
+@base <https://fandaws.com/ontology/bfo/valuenet-moral-foundations> .
+
+<https://fandaws.com/ontology/bfo/valuenet-moral-foundations.owl> rdf:type owl:Ontology ;
+    owl:versionIRI <https://fandaws.com/ontology/bfo/1.0/valuenet-moral-foundations.owl> ;
+    owl:imports <https://fandaws.com/ontology/bfo/1.0/valuenet-core.owl> ;
+    dc:title "ValueNet Moral Foundations Module"@en ;
+    dc:description "An ontology of Haidt's Moral Foundations (Care, Fairness, Loyalty, Authority, Sanctity) modeled as BFO dispositions."@en .
+
+#################################################################
+#    Classes for Moral Foundation Dispositions
+#################################################################
+
+### https://fandaws.com/ontology/bfo/valuenet-moral-foundations#CareDisposition
+vn-mf:CareDisposition rdf:type owl:Class ;
+    rdfs:subClassOf vn-core:MoralValueDisposition ;
+    rdfs:label "care Disposition"@en ;
+    skos:altLabel "care"@en ;
+    skos:definition "A disposition to protect others from harm and to act with compassion."@en .
+
+### https://fandaws.com/ontology/bfo/valuenet-moral-foundations#FairnessDisposition
+vn-mf:FairnessDisposition rdf:type owl:Class ;
+    rdfs:subClassOf vn-core:MoralValueDisposition ;
+    rdfs:label "fairness Disposition"@en ;
+    skos:altLabel "fairness"@en ;
+    skos:definition "A disposition to uphold principles of justice, reciprocity, and equality."@en .
+
+### https://fandaws.com/ontology/bfo/valuenet-moral-foundations#LoyaltyDisposition
+vn-mf:LoyaltyDisposition rdf:type owl:Class ;
+    rdfs:subClassOf vn-core:MoralValueDisposition ;
+    rdfs:label "loyalty Disposition"@en ;
+    skos:altLabel "loyalty"@en ;
+    skos:definition "A disposition to be loyal to one's ingroup, family, or nation."@en .
+
+### https://fandaws.com/ontology/bfo/valuenet-moral-foundations#AuthorityDisposition
+vn-mf:AuthorityDisposition rdf:type owl:Class ;
+    rdfs:subClassOf vn-core:MoralValueDisposition ;
+    rdfs:label "authority Disposition"@en ;
+    skos:altLabel "authority"@en ;
+    skos:definition "A disposition to respect tradition, hierarchy, and legitimate authority."@en .
+
+### https://fandaws.com/ontology/bfo/valuenet-moral-foundations#SanctityDisposition
+vn-mf:SanctityDisposition rdf:type owl:Class ;
+    rdfs:subClassOf vn-core:MoralValueDisposition ;
+    rdfs:label "sanctity Disposition"@en ;
+    skos:altLabel "sanctity"@en ;
+    skos:definition "A disposition to value purity, avoid degradation, and treat certain things as sacred."@en .
+
+### https://fandaws.com/ontology/bfo/valuenet-moral-foundations#LibertyDisposition
+vn-mf:LibertyDisposition rdf:type owl:Class ;
+    rdfs:subClassOf vn-core:MoralValueDisposition ;
+    rdfs:label "liberty Disposition"@en ;
+    skos:altLabel "liberty"@en ;
+    skos:definition "A disposition to resist domination and oppression, and to value freedom."@en .

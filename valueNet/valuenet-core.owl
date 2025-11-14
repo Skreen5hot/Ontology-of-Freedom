@@ -1,0 +1,70 @@
+@prefix : <https://fandaws.com/ontology/bfo/valuenet-core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix bfo: <http://purl.obolibrary.org/obo/BFO_> .
+@prefix vn-core: <https://fandaws.com/ontology/bfo/valuenet-core#> .
+
+@base <https://fandaws.com/ontology/bfo/valuenet-core> .
+
+<https://fandaws.com/ontology/bfo/valuenet-core.owl> rdf:type owl:Ontology ;
+    owl:versionIRI <https://fandaws.com/ontology/bfo/1.0/valuenet-core.owl> ;
+    owl:imports <http://purl.obolibrary.org/obo/bfo/2020/bfo-core.ttl> ;
+    dc:title "ValueNet Core Ontology (BFO-Aligned)"@en ;
+    dc:description "The core module of the BFO-aligned ValueNet suite. It defines the top-level entities for modeling human values as BFO realizable entities."@en ;
+    rdfs:comment "This ontology refactors the original ValueNet (which used DUL) into a realist framework based on BFO 2020."@en .
+
+#################################################################
+#    Classes
+#################################################################
+
+### https://fandaws.com/ontology/bfo/valuenet-core#ValueReleatedRealizableEntity
+vn-core:ValueRelatedRealizableEntity rdf:type owl:Class ;
+    rdfs:subClassOf bfo:0000017 ; # bfo:realizable entity
+    rdfs:label "value-related realizable entity"@en ;
+    skos:definition "A realizable entity that corresponds to a human value, which can be realized in processes of cognition, emotion, or behavior."@en .
+
+### https://fandaws.com/ontology/bfo/valuenet-core#ValueDisposition
+vn-core:ValueDisposition rdf:type owl:Class ;
+    rdfs:subClassOf vn-core:ValueRelatedRealizableEntity ,
+    bfo:0000016 ; # bfo:disposition
+    rdfs:label "value Disposition"@en ;
+    skos:altLabel "value"@en ;
+    skos:definition "A disposition that is a value. It is an internally-grounded realizable entity inhering in an agent that tends to be realized in characteristic value-related processes."@en ;
+    skos:example "A disposition towards benevolence, a disposition to seek security."@en .
+
+### https://fandaws.com/ontology/bfo/valuenet-core#ValueRole
+vn-core:ValueRole rdf:type owl:Class ;
+    rdfs:subClassOf vn-core:ValueRelatedRealizableEntity ,
+    bfo:0000023 ; # bfo:role
+    rdfs:label "value role"@en ;
+    skos:definition "A role that is a value. It is an externally-grounded realizable entity that an agent bears in a social or institutional context, which is realized in normative or expected behaviors."@en ;
+    skos:example "The role of being a 'loyal employee', the role of a 'good citizen'."@en .
+
+### https://fandaws.com/ontology/bfo/valuenet-core#MoralValueDisposition
+vn-core:MoralValueDisposition rdf:type owl:Class ;
+    rdfs:subClassOf vn-core:ValueDisposition ;
+    rdfs:label "moral value Disposition"@en ;
+    skos:altLabel "moral value"@en ;
+    skos:definition "A value disposition that pertains to moral judgments and behaviors, often concerning right and wrong, or the welfare of others."@en .
+
+### https://fandaws.com/ontology/bfo/valuenet-core#PersonalValueDisposition
+vn-core:PersonalValueDisposition rdf:type owl:Class ;
+    rdfs:subClassOf vn-core:ValueDisposition ;
+    rdfs:label "personal value Disposition"@en ;
+    skos:altLabel "personal value"@en ;
+    skos:definition "A value disposition that pertains to personal goals, preferences, and guiding principles for one's own life."@en .
+
+### https://fandaws.com/ontology/bfo/valuenet-core#ValueRealizationProcess
+vn-core:ValueRealizationProcess rdf:type owl:Class ;
+    rdfs:subClassOf bfo:0000015 , # bfo:process
+    [ rdf:type owl:Restriction ;
+      owl:onProperty bfo:0000055 ; # bfo:realizes
+      owl:someValuesFrom vn-core:ValueRelatedRealizableEntity
+    ] ;
+    rdfs:label "value realization process"@en ;
+    skos:definition "A process in which a value-related realizable entity (a value disposition or value role) is actualized."@en ;
+    skos:example "A process of helping someone in need, which realizes a benevolence disposition. A process of voting, which may realize a 'good citizen' role."@en .

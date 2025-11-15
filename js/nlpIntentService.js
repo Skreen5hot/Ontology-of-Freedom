@@ -67,6 +67,11 @@
         return (intent.agent || intent.verb) ? intent : null;
     };
 
-    window.NLPIntentService = NLPIntentService;
+    // Export for Node.js/Jest environment, or attach to window for browsers
+    if (typeof module !== 'undefined' && module.exports) {
+        module.exports = { NLPIntentService };
+    } else {
+        window.NLPIntentService = NLPIntentService;
+    }
 
-})(window);
+})(typeof window !== 'undefined' ? window : {});

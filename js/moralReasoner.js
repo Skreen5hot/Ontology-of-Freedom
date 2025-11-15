@@ -12,93 +12,134 @@
     }
 
     MoralReasoner.prototype.evaluateAction = function(instruction) {
-        console.log('Evaluating action for instruction:', instruction);
+        console.log(`\n==================================================`);
+        console.log(`EVALUATING ACTION: "${instruction}"`);
+        console.log(`==================================================`);
+
         const action = this.findActionFromInstruction(instruction);
 
-        if (!action) { // If NLP fails to find an action
+        if (!action) {
+            console.error("Could not identify a specific action from the instruction.");
             return {
-                actionId: null,
-                evaluation: 'negative',
-                justification: 'Could not identify a specific action from the instruction.',
-                values: []
+                evaluations: [{
+                    framework: 'System',
+                    actionLabel: 'Unknown',
+                    deonticStatus: 'Indeterminate',
+                    justification: 'Could not identify a specific action from the instruction provided.'
+                }]
             };
         }
 
-        // New logic: Find pre-existing judgments or derive new ones.
-        const judgments = this.findOrDeriveJudgments(action.id);
+        // --- 1. Understanding the Action's Nature ---
+        console.log("\n--- 1. Understanding the Action ---");
+        const classificationResult = this._classifyAction(action.id);
+        const actionClasses = classificationResult.classes;
+        const classLabelsForLog = Array.from(actionClasses).map(c => `"${this._localName(c)}"`).join(', ');
+        const classLabelsForTest = Array.from(actionClasses).map(c => `"${this._localName(c)}"`);
+        console.log(`   - The system interpreted this action as involving: ${classLabelsForLog || 'no specific categories'}.`);
 
+        // --- 2. Evaluating Against Moral Frameworks ---
+        console.log("\n--- 2. Evaluating Against Moral Frameworks ---");
         const finalEvaluations = [];
+        let hasApplicableRule = false;
 
-        if (judgments.length > 0) {
-            for (const judgment of judgments) {
-                // We only want to display rule-based judgments in this format for now.
-                if (judgment.type !== 'RuleJudgment') continue;
+        for (const framework of this.knowledge.moralFrameworks) {
+            console.log(`\n   - Framework: ${framework.label}`);
+            let frameworkHasMatch = false;
 
-                // Find the rule and its parent framework
-                let rule = null;
-                let framework = null;
-                for (const fw of this.knowledge.moralFrameworks) {
-                    const foundRule = fw.rules.find(r => r.id === judgment.appliesRule);
-                    if (foundRule) {
-                        rule = foundRule;
-                        framework = fw;
-                        break;
+            for (const rule of framework.rules) {
+                const ruleAppliesToClass = this.store.getObjects(rule.id, this.ONTOLOGY_PREFIX + 'appliesToClass', null)[0];
+                // Get the rule's label from the store, as it might be missing on the object.
+                const ruleLabel = this.store.getObjects(rule.id, 'http://www.w3.org/2000/01/rdf-schema#label', null)[0]?.value || this._localName(rule.id);
+
+                if (!ruleAppliesToClass) continue;
+
+                // The core check: Does the rule's target class match any of the action's classes?
+                if (actionClasses.has(ruleAppliesToClass.id) || Array.from(actionClasses).some(ac => this.isSubClassOf(ac, ruleAppliesToClass.id, this.store))) {
+                    frameworkHasMatch = true;
+                    hasApplicableRule = true;
+
+                    const justification = `The action was classified as a form of "${this._localName(ruleAppliesToClass.id)}", and the rule "${ruleLabel}" applies to this class.`;
+                    console.log(`     - Rule Applied: "${ruleLabel}"`);
+                    console.log(`     - Justification: ${justification}`);
+                    console.log(`     - Framework Conclusion: The action is considered ${rule.deontic}.`);
+
+                    // Phase 1: Check for violated values when a rule is broken.
+                    const violatedValues = this.store.getObjects(rule.id, this.ONTOLOGY_PREFIX + 'violatesValue', null);
+                    const violatedValueLabels = violatedValues.map(v => this._localName(v.id));
+
+                    if (violatedValueLabels.length > 0) {
+                        console.log(`     - Violated Values: ${violatedValueLabels.join(', ')}`);
                     }
-                }
 
-                if (rule && framework) {
                     finalEvaluations.push({
                         framework: framework.label,
                         actionLabel: action.label,
-                        deonticStatus: rule.deontic || 'Unknown',
-                        justification: rule.justification || 'No justification provided.'
+                        deonticStatus: rule.deontic,
+                        justification: justification,
+                        // Add violated values to the result object for the UI.
+                        violatedValues: violatedValueLabels
                     });
                 }
             }
+
+            if (!frameworkHasMatch) {
+                console.log(`     - No specific rules from this framework applied to the action.`);
+            }
         }
 
-        if (finalEvaluations.length === 0) {
-            // If after all that, no rule judgments were made, return a neutral result.
+        // --- 3. Overall Judgment Summary ---
+        console.log("\n--- 3. Overall Judgment Summary ---");
+        if (!hasApplicableRule) {
+            console.log("   - No frameworks made a definitive judgment on this action.");
             return {
                 evaluations: [{
                     framework: 'General',
                     actionLabel: action.label,
                     deonticStatus: 'Permissible',
-                    justification: 'This action does not appear to violate any known rules.'
+                    justification: 'This action does not violate any known rules in the loaded ontologies.'
                 }]
             };
         }
 
-        return { evaluations: finalEvaluations, actionId: action.id };
+        const summary = { Prohibited: [], Permitted: [], Obligatory: [] };
+        finalEvaluations.forEach(ev => {
+            if (summary[ev.deonticStatus]) {
+                summary[ev.deonticStatus].push(ev.framework);
+            }
+        });
+        for (const modality in summary) {
+            if (summary[modality].length > 0) {
+                console.log(`   - The action is judged as ${modality} by: ${summary[modality].join(', ')}.`);
+            }
+        }
+        console.log(`--- End of Narrative ---\n`);
+
+        return { evaluations: finalEvaluations, actionId: action.id, actionClasses: classLabelsForTest };
     };
 
     MoralReasoner.prototype.findActionFromInstruction = function(instruction) {
+        console.log('[NLP] Attempting to match instruction to a known action...');
         const intent = this.nlpService.extractIntent(instruction);
-        // A more robust system would use the extracted intent to find the best match.
-        // For now, we will use a simple label-based fallback.
         if (!intent) {
             console.warn('NLP Service could not extract a valid intent. Falling back to label matching.');
         }
 
-        // Fallback/Primary Logic: Find an action whose label is in the instruction.
         const instructionWords = instruction.toLowerCase().split(/\s+/);
-
-        // Find the best match by scoring actions based on keyword overlap.
         let bestMatch = { action: null, score: 0 };
         this.knowledge.actions.forEach(action => {
             if (action.label) {
                 const labelWords = action.label.toLowerCase().split(/\s+/);
                 const score = instructionWords.filter(word => labelWords.includes(word)).length;
                 if (score > bestMatch.score) {
-                    bestMatch = { action: action, score: score };
+                    bestMatch = { action, score };
                 }
             }
         });
 
         const matchedAction = bestMatch.score > 0 ? bestMatch.action : null;
-
         if (matchedAction) {
-            console.log(`Matched action by label: ${matchedAction.id}`);
+            console.log(`[NLP] Matched to action: ${this._localName(matchedAction.id)}`);
             return matchedAction;
         }
 
@@ -106,124 +147,53 @@
         return null;
     };
 
-    MoralReasoner.prototype.findOrDeriveJudgments = function(actionId) {
-        const existingJudgments = this.store.getQuads(null, this.ONTOLOGY_PREFIX + 'judgesAction', actionId);
-
-        if (existingJudgments.length > 0) {
-            console.log(`Found ${existingJudgments.length} pre-existing judgment(s) for action ${actionId}.`);
-            return existingJudgments.map(q => {
-                const judgmentId = q.subject.id;
-                const judgment = {
-                    id: judgmentId,
-                    judgesAction: actionId,
-                    appliesRule: this.store.getObjects(judgmentId, this.ONTOLOGY_PREFIX + 'appliesRule', null)[0]?.id,
-                    conclusion: this.store.getObjects(judgmentId, this.ONTOLOGY_PREFIX + 'hasConclusion', null)[0]?.value
-                };
-                return judgment;
-            });
-        }
-
-        console.log(`No pre-existing judgments found for ${actionId}. Deriving new judgments...`);
-        const derivedJudgments = [];
-        const allRules = this.knowledge.moralFrameworks.flatMap(f => f.rules);
-        const allValues = this.knowledge.moralValues;
-
-        for (const rule of allRules) {
-            const ruleMatch = this.checkForRuleMatch(this.store, actionId, rule.id);
-            if (ruleMatch.detected) {
-                let conclusion = "Judgment Derived"; // Default
-                if (ruleMatch.deonticStatus === "Prohibited") {
-                    conclusion = "Rule Violation Detected";
-                } else if (ruleMatch.deonticStatus === "Obligatory") {
-                    conclusion = "Obligation Fulfilled";
-                } else if (ruleMatch.deonticStatus === "Permissible") {
-                    conclusion = "Permissible Action Confirmed";
-                }
-
-                const judgment = {
-                    id: `${this.ONTOLOGY_PREFIX}Judgment_${Date.now()}`,
-                    type: 'RuleJudgment',
-                    judgesAction: actionId,
-                    appliesRule: rule.id,
-                    conclusion: conclusion,
-                    proof: ruleMatch.chain
-                };
-                derivedJudgments.push(judgment);
-            }
-        }
-
-        // NEW: Check for value violations
-        for (const value of allValues) {
-            const valueViolationProof = this.checkForValueViolation(this.store, actionId, value.id);
-            if (valueViolationProof.detected) {
-                derivedJudgments.push({
-                    id: `${this.ONTOLOGY_PREFIX}Judgment_${Date.now()}`,
-                    type: 'ValueJudgment',
-                    judgesAction: actionId,
-                    appliesRule: valueViolationProof.violatingRule, // The rule that caused the value violation
-                    conclusion: `Value Violation Detected: ${value.label}`,
-                    proof: valueViolationProof.chain
-                });
-            }
-        }
-
-        if (derivedJudgments.length > 0) {
-            console.log(`Derived ${derivedJudgments.length} new judgment(s) for action ${actionId}.`);
-        }
-
-        return derivedJudgments;
-    };
-
-    MoralReasoner.prototype.checkForRuleMatch = function(n3Store, actionId, moralRuleId) {
-        const _localName = (uri) => uri.substring(uri.lastIndexOf('#') + 1);
-        const actionName = _localName(actionId);
-        const moralRuleName = _localName(moralRuleId);
-
-        console.log(`%c[Check] Does "${actionName}" violate rule "${moralRuleName}"?`, 'color: navy; font-weight: bold;');
-
+    /**
+     * Classifies an action by running it against all ClassificationRules.
+     * This is now called only ONCE per evaluation.
+     * @param {string} actionId - The URI of the action to classify.
+     * @returns {object} An object containing a Set of class URIs and a proof chain.
+     */
+    MoralReasoner.prototype._classifyAction = function(actionId) {
         const RDF_TYPE = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type';
-
-        const classificationRules = n3Store.getSubjects(RDF_TYPE, this.ONTOLOGY_PREFIX + 'ClassificationRule', null);
-        const actionClasses = [];
+        const classificationRules = this.store.getSubjects(RDF_TYPE, this.ONTOLOGY_PREFIX + 'ClassificationRule', null);
+        const resultingClasses = new Set();
         const proofChain = new Set();
 
-        n3Store.getQuads(actionId, null, null, null).forEach(q => proofChain.add(q));
+        this.store.getQuads(actionId, null, null, null).forEach(q => proofChain.add(q));
 
         for (const rule of classificationRules) {
             let conditionsMet = true;
-            const ruleQuads = n3Store.getQuads(rule.id, null, null, null);
+            const ruleQuads = this.store.getQuads(rule.id, null, null, null);
 
-            console.log(`  %c- Testing ClassificationRule: "${_localName(rule.id)}"`, 'color: #777');
-
-            const requiredIntent = n3Store.getObjects(rule.id, this.ONTOLOGY_PREFIX + 'requiresIntent', null)[0];
+            const requiredIntent = this.store.getObjects(rule.id, this.ONTOLOGY_PREFIX + 'requiresIntent', null)[0];
             if (requiredIntent) {
-                const actionIntent = n3Store.getObjects(actionId, this.ONTOLOGY_PREFIX + 'realizesIntent', null)[0];
+                const actionIntent = this.store.getObjects(actionId, this.ONTOLOGY_PREFIX + 'realizesIntent', null)[0];
                 if (!actionIntent || actionIntent.id !== requiredIntent.id) {
                     conditionsMet = false;
                 }
             }
 
-            const requiredArtifact = n3Store.getObjects(rule.id, this.ONTOLOGY_PREFIX + 'requiresArtifact', null)[0];
+            const requiredArtifact = this.store.getObjects(rule.id, this.ONTOLOGY_PREFIX + 'requiresArtifact', null)[0];
             if (conditionsMet && requiredArtifact) {
-                const actionArtifact = n3Store.getObjects(actionId, this.ONTOLOGY_PREFIX + 'actsOn', null)[0];
+                const actionArtifact = this.store.getObjects(actionId, this.ONTOLOGY_PREFIX + 'actsOn', null)[0];
                 if (!actionArtifact || actionArtifact.id !== requiredArtifact.id) {
                     conditionsMet = false;
                 }
             }
 
-            const requiresNotOwner = n3Store.getObjects(rule.id, this.ONTOLOGY_PREFIX + 'requiresPerformerIsNotOwner', null)[0];
+            const requiresNotOwner = this.store.getObjects(rule.id, this.ONTOLOGY_PREFIX + 'requiresPerformerIsNotOwner', null)[0];
             if (conditionsMet && requiresNotOwner && requiresNotOwner.value === 'true') {
-                const performer = n3Store.getObjects(actionId, this.ONTOLOGY_PREFIX + 'performedBy', null)[0];
-                const artifact = n3Store.getObjects(actionId, this.ONTOLOGY_PREFIX + 'actsOn', null)[0];
+                const performer = this.store.getObjects(actionId, this.ONTOLOGY_PREFIX + 'performedBy', null)[0];
+                const artifact = this.store.getObjects(actionId, this.ONTOLOGY_PREFIX + 'actsOn', null)[0];
                 if (performer && artifact) {
-                    const owner = n3Store.getObjects(artifact.id, this.ONTOLOGY_PREFIX + 'ownedBy', null)[0];
+                    const owner = this.store.getObjects(artifact.id, this.ONTOLOGY_PREFIX + 'ownedBy', null)[0];
                     if (!owner || performer.id === owner.id) {
                         conditionsMet = false;
                     }
                 }
             }
 
-            const requiredAction = n3Store.getObjects(rule.id, this.ONTOLOGY_PREFIX + 'requiresAction', null)[0];
+            const requiredAction = this.store.getObjects(rule.id, this.ONTOLOGY_PREFIX + 'requiresAction', null)[0];
             if (conditionsMet && requiredAction) {
                 if (actionId !== requiredAction.id) {
                     conditionsMet = false;
@@ -231,44 +201,15 @@
             }
 
             if (conditionsMet) {
-                const classToAssign = n3Store.getObjects(rule.id, this.ONTOLOGY_PREFIX + 'classToAssign', null)[0];
+                const classToAssign = this.store.getObjects(rule.id, this.ONTOLOGY_PREFIX + 'classToAssign', null)[0];
                 if (classToAssign) {
-                    // Store both the class and the rule that assigned it.
-                    console.log(`    %c✔️ Classified "${actionName}" as "${_localName(classToAssign.id)}"`, 'color: green');
-                    actionClasses.push({
-                        classId: classToAssign.id,
-                        classificationRuleQuads: ruleQuads
-                    });
+                    console.log(`     ✔️ Classified as "${this._localName(classToAssign.id)}" via rule "${this._localName(rule.id)}"`);
+                    resultingClasses.add(classToAssign.id);
+                    ruleQuads.forEach(q => proofChain.add(q));
                 }
             }
         }
-
-        if (actionClasses.length === 0) {
-            console.log(`  %c- No classification found for "${actionName}". Rule does not apply.`, 'color: orange');
-            return { detected: false, chain: [] };
-        }
-
-        const ruleAppliesTo = n3Store.getObjects(moralRuleId, this.ONTOLOGY_PREFIX + 'appliesToClass', null)[0];
-        if (!ruleAppliesTo) {
-            console.log(`  %c- Rule "${moralRuleName}" has no 'appliesToClass' property. Skipping.`, 'color: orange');
-            return { detected: false, chain: [] };
-        }
-
-        console.log(`  %c- Moral rule "${moralRuleName}" applies to class "${_localName(ruleAppliesTo.id)}". Checking against action's classes...`, 'color: #777');
-
-        for (const actionClass of actionClasses) {
-            if (this.isSubClassOf(actionClass.classId, ruleAppliesTo.id, n3Store)) {
-                // Now that we have a confirmed match, add the specific classification rule to the proof.
-                actionClass.classificationRuleQuads.forEach(q => proofChain.add(q));
-                n3Store.getQuads(moralRuleId, null, null, null).forEach(q => proofChain.add(q));
-                const deonticStatus = n3Store.getObjects(moralRuleId, this.ONTOLOGY_PREFIX + 'hasDeonticStatus', null)[0] ?.value;
-                console.log(`    %c✔️ RULE MATCH! Rule "${moralRuleName}" (${deonticStatus}) applies to class "${_localName(actionClass.classId)}"`, 'color: green; font-weight: bold;');
-                return { detected: true, chain: Array.from(proofChain), deonticStatus: deonticStatus };
-            }
-        }
-
-        console.log(`  %c- No matching class found. Rule "${moralRuleName}" does not apply.`, 'color: orange');
-        return { detected: false, chain: [] };
+        return { classes: resultingClasses, proof: proofChain };
     };
 
     /**
@@ -302,12 +243,18 @@
     };
 
     MoralReasoner.prototype.isSubClassOf = function(classA, classB, store, visited = new Set()) {
-        if (classA === classB) return true;
+        // Normalize URIs by getting the part after '#' to handle different base URIs.
+        const localA = this._localName(classA);
+        const localB = this._localName(classB);
+
+        if (localA === localB) return true;
+
         if (visited.has(classA)) {
             return false;
         }
         visited.add(classA);
 
+        // Use the full URI for classA to query the store
         const parentQuads = store.getQuads(classA, 'http://www.w3.org/2000/01/rdf-schema#subClassOf', null);
         for (const quad of parentQuads) {
             if (this.isSubClassOf(quad.object.id, classB, store, visited)) {
@@ -315,6 +262,10 @@
             }
         }
         return false;
+    };
+
+    MoralReasoner.prototype._localName = function(uri) {
+        return uri.substring(uri.lastIndexOf('#') + 1);
     };
 
     MoralReasoner.prototype.getHierarchy = function(classA, classB, store) {
@@ -331,6 +282,11 @@
         return chain;
     };
 
-    window.MoralReasoner = MoralReasoner;
+    // Export for Node.js/Jest environment, or attach to window for browsers
+    if (typeof module !== 'undefined' && module.exports) {
+        module.exports = { MoralReasoner };
+    } else {
+        window.MoralReasoner = MoralReasoner;
+    }
 
-})(window);
+})(typeof window !== 'undefined' ? window : {});

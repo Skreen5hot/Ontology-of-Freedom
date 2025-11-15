@@ -1,0 +1,17 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://fandaws.com/ontology/bfo/valuenet-mappings.owl>
+  a owl:Ontology ;
+  owl:imports <https://fandaws.com/ontology/bfo/1.0/valuenet-moral-foundations.owl> ;
+  dc:title "ValueNet Mappings"@en ;
+  dc:description "Provides SKOS mappings from the BFO-aligned ValueNet back to the original ValueNet and related value ontologies."@en .
+
+<https://fandaws.com/ontology/bfo/valuenet-moral-foundations#CareDisposition> skos:broadMatch <https://w3id.org/spice/SON/HaidtValues#Care> .
+<https://fandaws.com/ontology/bfo/valuenet-moral-foundations#FairnessDisposition> skos:broadMatch <https://w3id.org/spice/SON/HaidtValues#Fairness>, <http://www.ontologydesignpatterns.org/ont/values/CurryMoralMolecules.owl#Fairness> .
+<https://fandaws.com/ontology/bfo/valuenet-moral-foundations#LoyaltyDisposition> skos:broadMatch <https://w3id.org/spice/SON/HaidtValues#Loyalty> .
+<https://fandaws.com/ontology/bfo/valuenet-moral-foundations#AuthorityDisposition> skos:broadMatch <https://w3id.org/spice/SON/HaidtValues#Authority> .
+<https://fandaws.com/ontology/bfo/valuenet-moral-foundations#SanctityDisposition> skos:broadMatch <https://w3id.org/spice/SON/HaidtValues#Sanctity> .
+<https://fandaws.com/ontology/bfo/valuenet-moral-foundations#LibertyDisposition> skos:broadMatch <https://w3id.org/spice/SON/HaidtValues#Liberty> .
+<https://fandaws.com/ontology/bfo/valuenet-core#ValueRelatedRealizableEntity> skos:broadMatch <http://www.ontologydesignpatterns.org/ont/values/valuecore_with_value_frames.owl#Value> .

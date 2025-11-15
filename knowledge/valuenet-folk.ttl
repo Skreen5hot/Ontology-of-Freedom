@@ -1,0 +1,1133 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk.owl>
+  a owl:Ontology ;
+  owl:versionIRI <https://fandaws.com/ontology/bfo/1.0/valuenet-folk.owl> ;
+  owl:imports <https://fandaws.com/ontology/bfo/valuenet-core.owl>, <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl> ;
+  rdfs:comment "An ontology of common-sense or 'folk' human values, aligned with BFO and the ValueNet suite. This module extends the core psychological models with more granular, everyday value concepts." ;
+  rdfs:label "ValueNet Folk Values" ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk> .
+
+skos:definition
+  a owl:AnnotationProperty ;
+  rdfs:subPropertyOf <http://purl.obolibrary.org/obo/IAO_0000115> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#KindnessDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#BenevolenceDisposition> ;
+  skos:definition "A personal value disposition to be friendly, generous, and considerate in action or speech."@en ;
+  rdfs:label "Kindness Disposition"@en ;
+  skos:altLabel "Kindness"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#KindnessDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#LoyaltyDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#BenevolenceDisposition> ;
+  skos:definition "A personal value disposition to be faithful and devoted to a person, group, cause, or nation."@en ;
+  rdfs:label "Loyalty Disposition"@en ;
+  skos:altLabel "Loyalty"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#LoyaltyDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#IntegrityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#UniversalismDisposition> ;
+  skos:definition "A personal value disposition to adhere to moral and ethical principles, demonstrating honesty, consistency, and strong moral character."@en ;
+  rdfs:label "Integrity Disposition"@en ;
+  skos:altLabel "Integrity"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#IntegrityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#CuriosityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#StimulationDisposition> ;
+  skos:definition "A personal value disposition to explore, investigate, and learn about new things or ideas."@en ;
+  rdfs:label "Curiosity Disposition"@en ;
+  skos:altLabel "Curiosity"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#CuriosityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ResponsibilityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:broadMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#ConformityDisposition>, <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#UniversalismDisposition> ;
+  skos:definition "A personal value disposition to be reliable, trustworthy, and accountable for one's actions and duties."@en ;
+  rdfs:label "Responsibility Disposition"@en ;
+  skos:altLabel "Responsibility"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ResponsibilityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#AccountabilityRole>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#ValueRole> ;
+  skos:definition "A value role borne by an agent in a social or professional context, conferring the normative expectation of being answerable for one's actions and decisions."@en ;
+  rdfs:label "Accountability Role"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#AccountabilityRole> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#PunctualityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:definition "A personal value disposition to complete a required task or fulfill an obligation before or at a previously designated time."@en ;
+  rdfs:label "Punctuality Disposition"@en ;
+  skos:altLabel "Punctuality"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#PunctualityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#PunctualPersonRole>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#ValueRole> ;
+  skos:definition "A value role borne by a person in a social context that confers a normative expectation of being on time for appointments or deadlines."@en ;
+  rdfs:label "Punctual Person Role"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#PunctualPersonRole> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#AuthenticityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:broadMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#SelfDirectionDisposition> ;
+  skos:definition "A personal value disposition to represent oneself in a way that is true to one's own personality, spirit, or character, despite external pressures."@en ;
+  rdfs:label "Authenticity Disposition"@en ;
+  skos:altLabel "Authenticity"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#AuthenticityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#CreativityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#StimulationDisposition> ;
+  skos:definition "A personal value disposition towards generating or recognizing ideas, alternatives, or possibilities that may be useful in solving problems, communicating with others, and entertaining oneself and others."@en ;
+  rdfs:label "Creativity Disposition"@en ;
+  skos:altLabel "Creativity"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#CreativityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#AmbitionDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#AchievementDisposition> ;
+  skos:definition "A personal value disposition to strive for success, power, or distinction."@en ;
+  rdfs:label "Ambition Disposition"@en ;
+  skos:altLabel "Ambition"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#AmbitionDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ExcellenceDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#AchievementDisposition> ;
+  skos:definition "A personal value disposition to possess qualities to a very high degree and to strive for superiority in performance or outcome."@en ;
+  rdfs:label "Excellence Disposition"@en ;
+  skos:altLabel "Excellence"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ExcellenceDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#LearningDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:broadMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#SelfDirectionDisposition> ;
+  skos:definition "A personal value disposition to acquire new knowledge, behaviors, skills, or understanding."@en ;
+  rdfs:label "Learning Disposition"@en ;
+  skos:altLabel "Learning"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#LearningDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#DeterminationDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#AchievementDisposition> ;
+  skos:definition "A personal value disposition to continue trying to do something, although it is very difficult."@en ;
+  rdfs:label "Determination Disposition"@en ;
+  skos:altLabel "Determination"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#DeterminationDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#GrowthDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#SelfDirectionDisposition> ;
+  skos:definition "A personal value disposition to seek continuous personal development and improvement."@en ;
+  rdfs:label "Growth Disposition"@en ;
+  skos:altLabel "Growth"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#GrowthDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#MasteryDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#AchievementDisposition> ;
+  skos:definition "A personal value disposition to seek comprehensive knowledge or skill in a particular subject or activity."@en ;
+  rdfs:label "Mastery Disposition"@en ;
+  skos:altLabel "Mastery"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#MasteryDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ResilienceDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:definition "A personal value disposition to recover quickly from difficulties or setbacks."@en ;
+  rdfs:label "Resilience Disposition"@en ;
+  skos:altLabel "Resilience"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ResilienceDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ResourcefulnessDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:broadMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#StimulationDisposition> ;
+  skos:definition "A personal value disposition to find quick and clever ways to overcome difficulties."@en ;
+  rdfs:label "Resourcefulness Disposition"@en ;
+  skos:altLabel "Resourcefulness"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ResourcefulnessDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#WisdomDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:broadMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#UniversalismDisposition> ;
+  skos:definition "A personal value disposition to seek and apply experience, knowledge, and good judgment."@en ;
+  rdfs:label "Wisdom Disposition"@en ;
+  skos:altLabel "Wisdom"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#WisdomDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#AltruismDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#BenevolenceDisposition> ;
+  skos:definition "A personal value disposition to act with selfless concern for the well-being of others."@en ;
+  rdfs:label "Altruism Disposition"@en ;
+  skos:altLabel "Altruism"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#AltruismDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#CompassionDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#BenevolenceDisposition> ;
+  skos:definition "A personal value disposition to recognize the suffering of others and be motivated to alleviate it."@en ;
+  rdfs:label "Compassion Disposition"@en ;
+  skos:altLabel "Compassion"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#CompassionDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#FriendshipDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#BenevolenceDisposition> ;
+  skos:definition "A personal value disposition to form and maintain bonds of mutual affection with others."@en ;
+  rdfs:label "Friendship Disposition"@en ;
+  skos:altLabel "Friendship"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#FriendshipDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#GenerosityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#BenevolenceDisposition> ;
+  skos:definition "A personal value disposition to freely give to others, such as time, resources, or kindness."@en ;
+  rdfs:label "Generosity Disposition"@en ;
+  skos:altLabel "Generosity"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#GenerosityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#CooperationDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:broadMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#BenevolenceDisposition>, <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#UniversalismDisposition> ;
+  skos:definition "A personal value disposition to work together with others towards a shared goal."@en ;
+  rdfs:label "Cooperation Disposition"@en ;
+  skos:altLabel "Cooperation"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#CooperationDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ContributionDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:broadMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#UniversalismDisposition> ;
+  skos:definition "A personal value disposition to provide service or make a positive impact on a community, cause, or group."@en ;
+  rdfs:label "Contribution Disposition"@en ;
+  skos:altLabel "Contribution"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ContributionDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#GoodCitizenRole>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#ValueRole> ;
+  skos:definition "A value role borne by a person within a community or state that confers a normative expectation of contributing to the public good and upholding laws and social norms."@en ;
+  rdfs:label "Good Citizen Role"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#GoodCitizenRole> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#HonestyDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#IntegrityDisposition> ;
+  skos:definition "A personal value disposition to be truthful, sincere, and straightforward in communication and action."@en ;
+  rdfs:label "Honesty Disposition"@en ;
+  skos:altLabel "Honesty"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#HonestyDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#DependabilityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#ResponsibilityDisposition> ;
+  skos:definition "A personal value disposition to be consistently reliable and trustworthy, such that others can count on one to fulfill commitments."@en ;
+  rdfs:label "Dependability Disposition"@en ;
+  skos:altLabel "Dependability"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#DependabilityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#TrustworthinessDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#ResponsibilityDisposition> ;
+  skos:definition "A personal value disposition to act in a way that makes one worthy of the confidence or trust of others."@en ;
+  rdfs:label "Trustworthiness Disposition"@en ;
+  skos:altLabel "Trustworthiness"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#TrustworthinessDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#FidelityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#IntegrityDisposition> ;
+  skos:definition "A personal value disposition to be faithful to a person, cause, or belief, demonstrated by continuing loyalty and support."@en ;
+  rdfs:label "Fidelity Disposition"@en ;
+  skos:altLabel "Fidelity"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#FidelityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#SelfRespectDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:broadMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#SelfDirectionDisposition> ;
+  skos:definition "A personal value disposition to hold oneself in esteem and to act in a way that upholds one's own dignity and honor."@en ;
+  rdfs:label "Self-Respect Disposition"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#SelfRespectDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#SecurityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#SecurityDisposition> ;
+  skos:definition "A personal value disposition to seek safety, harmony, and stability in society, relationships, and for oneself."@en ;
+  rdfs:label "Security Disposition"@en ;
+  skos:altLabel "Security"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#SecurityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#StabilityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#SecurityDisposition> ;
+  skos:definition "A personal value disposition to prefer constancy, predictability, and resistance to change."@en ;
+  rdfs:label "Stability Disposition"@en ;
+  skos:altLabel "Stability"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#StabilityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#OrderDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:broadMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#ConformityDisposition>, <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#SecurityDisposition> ;
+  skos:definition "A personal value disposition to prefer neatness, organization, and adherence to established structures or arrangements."@en ;
+  rdfs:label "Order Disposition"@en ;
+  skos:altLabel "Order"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#OrderDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ConsistencyDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:broadMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#ConformityDisposition> ;
+  skos:definition "A personal value disposition to act or think in a steady, uniform, and predictable manner over time."@en ;
+  rdfs:label "Consistency Disposition"@en ;
+  skos:altLabel "Consistency"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ConsistencyDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#TraditionDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#TraditionDisposition> ;
+  skos:definition "A personal value disposition to respect, accept, and commit to the customs or ideas that one's culture or religion provide."@en ;
+  rdfs:label "Tradition Disposition"@en ;
+  skos:altLabel "Tradition"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#TraditionDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#CleanlinessDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:broadMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#ConformityDisposition> ;
+  skos:definition "A personal value disposition to be neat and to keep oneself and one's surroundings clean and free from dirt."@en ;
+  rdfs:label "Cleanliness Disposition"@en ;
+  skos:altLabel "Cleanliness"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#CleanlinessDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#AutonomyDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#SelfDirectionDisposition> ;
+  skos:definition "A personal value disposition to be self-directing and independent in thought and action."@en ;
+  rdfs:label "Autonomy Disposition"@en ;
+  skos:altLabel "Autonomy"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#AutonomyDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#FreedomDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#SelfDirectionDisposition> ;
+  skos:definition "A personal value disposition to value liberty and the absence of necessity, coercion, or constraint in choice or action."@en ;
+  rdfs:label "Freedom Disposition"@en ;
+  skos:altLabel "Freedom"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#FreedomDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#PrivacyDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:broadMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#SelfDirectionDisposition>, <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#SecurityDisposition> ;
+  skos:definition "A personal value disposition to value being free from public attention, observation, or intrusion."@en ;
+  rdfs:label "Privacy Disposition"@en ;
+  skos:altLabel "Privacy"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#PrivacyDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#BalanceDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:definition "A personal value disposition to seek equilibrium and harmony among different aspects of one's life, such as work, family, and self."@en ;
+  rdfs:label "Balance Disposition"@en ;
+  skos:altLabel "Balance"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#BalanceDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#CalmnessDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:broadMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#SecurityDisposition> ;
+  skos:definition "A personal value disposition to remain tranquil, serene, and free from agitation or disturbance."@en ;
+  rdfs:label "Calmness Disposition"@en ;
+  skos:altLabel "Calmness"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#CalmnessDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#HarmonyDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:broadMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#UniversalismDisposition> ;
+  skos:definition "A personal value disposition to seek agreement, concord, and a pleasing arrangement of parts, both internally and in social relations."@en ;
+  rdfs:label "Harmony Disposition"@en ;
+  skos:altLabel "Harmony"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#HarmonyDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#JoyDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:broadMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#HedonismDisposition> ;
+  skos:definition "A personal value disposition to seek and experience intense happiness, delight, or elation."@en ;
+  rdfs:label "Joy Disposition"@en ;
+  skos:altLabel "Joy"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#JoyDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#OptimismDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:definition "A personal value disposition to maintain a hopeful and confident attitude about the future or the successful outcome of something."@en ;
+  rdfs:label "Optimism Disposition"@en ;
+  skos:altLabel "Optimism"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#OptimismDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#PurposeDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:broadMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#SelfDirectionDisposition> ;
+  skos:definition "A personal value disposition to seek a central, self-organizing life aim that stimulates goals and gives life meaning."@en ;
+  rdfs:label "Purpose Disposition"@en ;
+  skos:altLabel "Purpose"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#PurposeDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#SpiritualityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:broadMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#UniversalismDisposition> ;
+  skos:definition "A personal value disposition to be concerned with the human spirit or soul and the search for meaning, as opposed to material or physical things."@en ;
+  rdfs:label "Spirituality Disposition"@en ;
+  skos:altLabel "Spirituality"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#SpiritualityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#JusticeDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#UniversalismDisposition> ;
+  skos:definition "A personal value disposition to uphold just behavior and treatment, ensuring fairness and moral rightness in actions and systems."@en ;
+  rdfs:label "Justice Disposition"@en ;
+  skos:altLabel "Justice"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#JusticeDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#EqualityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#JusticeDisposition> ;
+  skos:definition "A personal value disposition to ensure that each individual or group is given the same resources or opportunities, regardless of circumstances."@en ;
+  rdfs:label "Equality Disposition"@en ;
+  skos:altLabel "Equality"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#EqualityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#EquityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#JusticeDisposition> ;
+  skos:definition "A personal value disposition to distribute resources and opportunities based on the needs of individuals to reach a fair and equal outcome."@en ;
+  rdfs:label "Equity Disposition"@en ;
+  skos:altLabel "Equity"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#EquityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#FairnessDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#UniversalismDisposition> ;
+  skos:definition "A personal value disposition to treat people impartially and without favoritism or discrimination."@en ;
+  rdfs:label "Fairness Disposition"@en ;
+  skos:altLabel "Fairness"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#FairnessDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#RespectDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#UniversalismDisposition> ;
+  skos:definition "A personal value disposition to show due regard for the feelings, wishes, rights, or traditions of others."@en ;
+  rdfs:label "Respect Disposition"@en ;
+  skos:altLabel "Respect"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#RespectDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ForgivenessDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#BenevolenceDisposition> ;
+  skos:definition "A personal value disposition to consciously and deliberately decide to release feelings of resentment or vengeance toward a person or group who has harmed you."@en ;
+  rdfs:label "Forgiveness Disposition"@en ;
+  skos:altLabel "Forgiveness"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ForgivenessDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ToleranceDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#UniversalismDisposition> ;
+  skos:definition "A personal value disposition to accept and permit the opinions, beliefs, practices, or behavior of others that one does not necessarily agree with."@en ;
+  rdfs:label "Tolerance Disposition"@en ;
+  skos:altLabel "Tolerance"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ToleranceDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#PowerDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#PowerDisposition> ;
+  skos:definition "A personal value disposition to seek social status, prestige, and control or dominance over people and resources."@en ;
+  rdfs:label "Power Disposition"@en ;
+  skos:altLabel "Power"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#PowerDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#LeadershipDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#PowerDisposition> ;
+  skos:definition "A personal value disposition to guide, direct, or command a group, organization, or country."@en ;
+  rdfs:label "Leadership Disposition"@en ;
+  skos:altLabel "Leadership"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#LeadershipDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#LeaderRole>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#ValueRole> ;
+  skos:definition "A value role borne by a person who holds a formal or informal position of leadership, conferring the normative expectation to guide and make decisions for a group."@en ;
+  rdfs:label "Leader Role"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#LeaderRole> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#InfluenceDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#PowerDisposition> ;
+  skos:definition "A personal value disposition to seek the capacity to have an effect on the character, development, or behavior of someone or something."@en ;
+  rdfs:label "Influence Disposition"@en ;
+  skos:altLabel "Influence"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#InfluenceDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#AssertivenessDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:broadMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#PowerDisposition>, <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#SelfDirectionDisposition> ;
+  skos:definition "A personal value disposition to be self-assured and confident in expressing one's views or needs without being aggressive."@en ;
+  rdfs:label "Assertiveness Disposition"@en ;
+  skos:altLabel "Assertiveness"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#AssertivenessDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#RecognitionDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#PowerDisposition> ;
+  skos:definition "A personal value disposition to seek acknowledgment, appreciation, or validation from others for one's achievements or status."@en ;
+  rdfs:label "Recognition Disposition"@en ;
+  skos:altLabel "Recognition"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#RecognitionDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#VisionDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:broadMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#SelfDirectionDisposition> ;
+  skos:definition "A personal value disposition to think about or plan the future with imagination, wisdom, and a clear sense of direction."@en ;
+  rdfs:label "Vision Disposition"@en ;
+  skos:altLabel "Vision"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#VisionDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#AdventureDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#StimulationDisposition> ;
+  skos:definition "A personal value disposition to seek out unusual, exciting, and daring experiences."@en ;
+  rdfs:label "Adventure Disposition"@en ;
+  skos:altLabel "Adventure"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#AdventureDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#BeautyDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:broadMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#UniversalismDisposition> ;
+  skos:definition "A personal value disposition to appreciate and seek out qualities that give pleasure to the senses or mind, such as in nature, art, or ideas."@en ;
+  rdfs:label "Beauty Disposition"@en ;
+  skos:altLabel "Beauty"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#BeautyDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ChallengeDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#StimulationDisposition> ;
+  skos:definition "A personal value disposition to seek out and engage with tasks that are new and difficult, testing one's abilities."@en ;
+  rdfs:label "Challenge Disposition"@en ;
+  skos:altLabel "Challenge"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ChallengeDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#EnjoymentDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#HedonismDisposition> ;
+  skos:definition "A personal value disposition to seek pleasure, fun, and lighthearted gratification."@en ;
+  rdfs:label "Enjoyment Disposition"@en ;
+  skos:altLabel "Enjoyment"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#EnjoymentDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#HumorDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:broadMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#HedonismDisposition> ;
+  skos:definition "A personal value disposition to appreciate, express, or seek out what is amusing or comical."@en ;
+  rdfs:label "Humor Disposition"@en ;
+  skos:altLabel "Humor"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#HumorDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#InnovationDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#CreativityDisposition> ;
+  skos:definition "A personal value disposition to introduce new methods, ideas, or products."@en ;
+  rdfs:label "Innovation Disposition"@en ;
+  skos:altLabel "Innovation"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#InnovationDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#PassionDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:definition "A personal value disposition to pursue activities or interests with intense enthusiasm and compelling emotion."@en ;
+  rdfs:label "Passion Disposition"@en ;
+  skos:altLabel "Passion"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#PassionDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#SpontaneityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#StimulationDisposition> ;
+  skos:definition "A personal value disposition to act upon sudden impulses and desires without premeditation."@en ;
+  rdfs:label "Spontaneity Disposition"@en ;
+  skos:altLabel "Spontaneity"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#SpontaneityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#VarietyDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#StimulationDisposition> ;
+  skos:definition "A personal value disposition to seek change, novelty, and a lack of uniformity or monotony."@en ;
+  rdfs:label "Variety Disposition"@en ;
+  skos:altLabel "Variety"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#VarietyDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#DisciplineDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:broadMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#ConformityDisposition> ;
+  skos:definition "A personal value disposition to train oneself to follow a code of behavior or to control impulses."@en ;
+  rdfs:label "Discipline Disposition"@en ;
+  skos:altLabel "Discipline"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#DisciplineDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#PatienceDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:definition "A personal value disposition to accept or tolerate delay, problems, or suffering without becoming annoyed or anxious."@en ;
+  rdfs:label "Patience Disposition"@en ;
+  skos:altLabel "Patience"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#PatienceDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#DecisivenessDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:broadMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#SelfDirectionDisposition> ;
+  skos:definition "A personal value disposition to make decisions quickly and effectively."@en ;
+  rdfs:label "Decisiveness Disposition"@en ;
+  skos:altLabel "Decisiveness"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#DecisivenessDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#EnduranceDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:definition "A personal value disposition to withstand hardship, adversity, or stress over a prolonged period."@en ;
+  rdfs:label "Endurance Disposition"@en ;
+  skos:altLabel "Endurance"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#EnduranceDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ThriftDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:broadMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#SecurityDisposition> ;
+  skos:definition "A personal value disposition to use money and other resources carefully and not wastefully."@en ;
+  rdfs:label "Thrift Disposition"@en ;
+  skos:altLabel "Thrift"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ThriftDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#LogicDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:broadMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#SelfDirectionDisposition> ;
+  skos:definition "A personal value disposition to seek and apply principles of valid reasoning and inference."@en ;
+  rdfs:label "Logic Disposition"@en ;
+  skos:altLabel "Logic"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#LogicDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#OpenMindednessDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:broadMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#SelfDirectionDisposition>, <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#UniversalismDisposition> ;
+  skos:definition "A personal value disposition to be receptive to new and different ideas or the opinions of others."@en ;
+  rdfs:label "Open-Mindedness Disposition"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#OpenMindednessDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#OpennessDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:broadMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#StimulationDisposition>, <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#SelfDirectionDisposition> ;
+  skos:definition "A personal value disposition to be transparent, candid, and open to new experiences."@en ;
+  rdfs:label "Openness Disposition"@en ;
+  skos:altLabel "Openness"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#OpennessDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#UnderstandingDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:broadMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#UniversalismDisposition> ;
+  skos:definition "A personal value disposition to seek comprehension of people, ideas, or situations, often with empathy and insight."@en ;
+  rdfs:label "Understanding Disposition"@en ;
+  skos:altLabel "Understanding"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#UnderstandingDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#LoveDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#BenevolenceDisposition> ;
+  skos:definition "A personal value disposition to feel and express deep or intense affection for another person, group, or ideal."@en ;
+  rdfs:label "Love Disposition"@en ;
+  skos:altLabel "Love"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#LoveDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#FamilyDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#LoveDisposition> ;
+  skos:definition "A personal value disposition to prioritize the well-being, support, and bonds of one's family."@en ;
+  rdfs:label "Family Disposition"@en ;
+  skos:altLabel "Family"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#FamilyDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#IntimacyDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#LoveDisposition> ;
+  skos:definition "A personal value disposition to seek and maintain close, familiar, and usually affectionate or loving personal relationships with others."@en ;
+  rdfs:label "Intimacy Disposition"@en ;
+  skos:altLabel "Intimacy"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#IntimacyDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#BelongingDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:broadMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#UniversalismDisposition> ;
+  skos:definition "A personal value disposition to seek a sense of fitting in or being an accepted and integral member of a group or community."@en ;
+  rdfs:label "Belonging Disposition"@en ;
+  skos:altLabel "Belonging"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#BelongingDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#CommunityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#UniversalismDisposition> ;
+  skos:definition "A personal value disposition to value and actively participate in a social group with shared characteristics, interests, or location."@en ;
+  rdfs:label "Community Disposition"@en ;
+  skos:altLabel "Community"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#CommunityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ConnectionDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#BenevolenceDisposition> ;
+  skos:definition "A personal value disposition to seek and maintain a feeling of rapport and meaningful relationship with others."@en ;
+  rdfs:label "Connection Disposition"@en ;
+  skos:altLabel "Connection"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ConnectionDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#UnityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:broadMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#UniversalismDisposition> ;
+  skos:definition "A personal value disposition to seek and promote the state of being joined together or in agreement as a whole, especially within a group."@en ;
+  rdfs:label "Unity Disposition"@en ;
+  skos:altLabel "Unity"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#UnityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#CareDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#BenevolenceDisposition> ;
+  skos:definition "A personal value disposition to provide for the needs of, and show concern for, the well-being of others."@en ;
+  rdfs:label "Care Disposition"@en ;
+  skos:altLabel "Care"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#CareDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#CharityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#GenerosityDisposition> ;
+  skos:definition "A personal value disposition to voluntarily give help, typically in the form of money or resources, to those in need."@en ;
+  rdfs:label "Charity Disposition"@en ;
+  skos:altLabel "Charity"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#CharityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#CollaborationDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#CooperationDisposition> ;
+  skos:definition "A personal value disposition to work jointly on an activity or project to create or achieve something."@en ;
+  rdfs:label "Collaboration Disposition"@en ;
+  skos:altLabel "Collaboration"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#CollaborationDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#EmpathyDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#BenevolenceDisposition> ;
+  skos:definition "A personal value disposition to understand and share the feelings of another."@en ;
+  rdfs:label "Empathy Disposition"@en ;
+  skos:altLabel "Empathy"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#EmpathyDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#EncouragementDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#BenevolenceDisposition> ;
+  skos:definition "A personal value disposition to give support, confidence, or hope to someone."@en ;
+  rdfs:label "Encouragement Disposition"@en ;
+  skos:altLabel "Encouragement"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#EncouragementDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#SelflessnessDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#AltruismDisposition> ;
+  skos:definition "A personal value disposition to be more concerned with the needs and wishes of others than with one's own."@en ;
+  rdfs:label "Selflessness Disposition"@en ;
+  skos:altLabel "Selflessness"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#SelflessnessDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#SharingDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#BenevolenceDisposition> ;
+  skos:definition "A personal value disposition to have or use a portion of something with another or others."@en ;
+  rdfs:label "Sharing Disposition"@en ;
+  skos:altLabel "Sharing"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#SharingDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#SupportDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#BenevolenceDisposition> ;
+  skos:definition "A personal value disposition to give assistance, approval, or comfort to others."@en ;
+  rdfs:label "Support Disposition"@en ;
+  skos:altLabel "Support"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#SupportDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#TeamworkDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#CooperationDisposition> ;
+  skos:definition "A personal value disposition to value and effectively participate in the combined action of a group."@en ;
+  rdfs:label "Teamwork Disposition"@en ;
+  skos:altLabel "Teamwork"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#TeamworkDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#CandorDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#HonestyDisposition> ;
+  skos:definition "A personal value disposition to be frank, open, and sincere in speech or expression."@en ;
+  rdfs:label "Candor Disposition"@en ;
+  skos:altLabel "Candor"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#CandorDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#DignityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:broadMatch <https://fandaws.com/ontology/bfo/valuenet-folk#SelfRespectDisposition> ;
+  skos:definition "A personal value disposition to value the state of being worthy of honor or respect, both for oneself and for others."@en ;
+  rdfs:label "Dignity Disposition"@en ;
+  skos:altLabel "Dignity"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#DignityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#EthicsDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#IntegrityDisposition> ;
+  skos:definition "A personal value disposition to adhere to a system of moral principles that govern a person's behavior or the conducting of an activity."@en ;
+  rdfs:label "Ethics Disposition"@en ;
+  skos:altLabel "Ethics"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#EthicsDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#FaithDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:definition "A personal value disposition to have complete trust or confidence in someone or something, or a strong belief in a religious doctrine."@en ;
+  rdfs:label "Faith Disposition"@en ;
+  skos:altLabel "Faith"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#FaithDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#HonorDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#IntegrityDisposition> ;
+  skos:definition "A personal value disposition to adhere to what is right or to a conventional standard of conduct, showing high respect and esteem."@en ;
+  rdfs:label "Honor Disposition"@en ;
+  skos:altLabel "Honor"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#HonorDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#TransparencyDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#HonestyDisposition> ;
+  skos:definition "A personal value disposition to operate in such a way that it is easy for others to see what actions are performed, implying openness and accountability."@en ;
+  rdfs:label "Transparency Disposition"@en ;
+  skos:altLabel "Transparency"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#TransparencyDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#TrustDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#BenevolenceDisposition> ;
+  skos:definition "A personal value disposition to have a firm belief in the reliability, truth, ability, or strength of someone or something."@en ;
+  rdfs:label "Trust Disposition"@en ;
+  skos:altLabel "Trust"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#TrustDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#CourageDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:broadMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#StimulationDisposition> ;
+  skos:definition "A personal value disposition to face and deal with danger, difficulty, or pain without being overcome by fear."@en ;
+  rdfs:label "Courage Disposition"@en ;
+  skos:altLabel "Courage"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#CourageDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#BoldnessDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#CourageDisposition> ;
+  skos:definition "A personal value disposition to be willing to take risks and act with confidence; a form of courage characterized by forwardness."@en ;
+  rdfs:label "Boldness Disposition"@en ;
+  skos:altLabel "Boldness"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#BoldnessDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#DiligenceDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#DeterminationDisposition> ;
+  skos:definition "A personal value disposition to apply careful and persistent work or effort."@en ;
+  rdfs:label "Diligence Disposition"@en ;
+  skos:altLabel "Diligence"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#DiligenceDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ImpactDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#InfluenceDisposition> ;
+  skos:definition "A personal value disposition to seek to have a strong and marked effect on someone or something."@en ;
+  rdfs:label "Impact Disposition"@en ;
+  skos:altLabel "Impact"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ImpactDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#StrengthDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#ResilienceDisposition> ;
+  skos:definition "A personal value disposition to possess and value the capacity to withstand great force, pressure, or adversity."@en ;
+  rdfs:label "Strength Disposition"@en ;
+  skos:altLabel "Strength"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#StrengthDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#EnthusiasmDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#PassionDisposition> ;
+  skos:definition "A personal value disposition to feel and show intense and eager enjoyment, interest, or approval."@en ;
+  rdfs:label "Enthusiasm Disposition"@en ;
+  skos:altLabel "Enthusiasm"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#EnthusiasmDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ExcitementDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#StimulationDisposition> ;
+  skos:definition "A personal value disposition to seek and experience feelings of great enthusiasm and eagerness."@en ;
+  rdfs:label "Excitement Disposition"@en ;
+  skos:altLabel "Excitement"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ExcitementDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ExplorationDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#CuriosityDisposition> ;
+  skos:definition "A personal value disposition to travel in or through an unfamiliar area in order to learn about it."@en ;
+  rdfs:label "Exploration Disposition"@en ;
+  skos:altLabel "Exploration"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ExplorationDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ExpressivenessDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#AuthenticityDisposition> ;
+  skos:definition "A personal value disposition to effectively convey one's thoughts and feelings."@en ;
+  rdfs:label "Expressiveness Disposition"@en ;
+  skos:altLabel "Expressiveness"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ExpressivenessDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#FlexibilityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:broadMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#SelfDirectionDisposition> ;
+  skos:definition "A personal value disposition to be willing to change or compromise; adaptability."@en ;
+  rdfs:label "Flexibility Disposition"@en ;
+  skos:altLabel "Flexibility"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#FlexibilityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ImaginationDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#CreativityDisposition> ;
+  skos:definition "A personal value disposition to form new ideas, images, or concepts not present to the senses."@en ;
+  rdfs:label "Imagination Disposition"@en ;
+  skos:altLabel "Imagination"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ImaginationDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#IntuitionDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:definition "A personal value disposition to trust and rely on the ability to understand something immediately, without conscious reasoning."@en ;
+  rdfs:label "Intuition Disposition"@en ;
+  skos:altLabel "Intuition"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#IntuitionDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#UniquenessDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:broadMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#SelfDirectionDisposition> ;
+  skos:definition "A personal value disposition to value and express one's quality of being the only one of its kind."@en ;
+  rdfs:label "Uniqueness Disposition"@en ;
+  skos:altLabel "Uniqueness"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#UniquenessDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#CommitmentDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#ResponsibilityDisposition> ;
+  skos:definition "A personal value disposition to be dedicated to a cause, activity, or person."@en ;
+  rdfs:label "Commitment Disposition"@en ;
+  skos:altLabel "Commitment"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#CommitmentDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#CompetitionDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:broadMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#AchievementDisposition> ;
+  skos:definition "A personal value disposition to strive to gain or win something by defeating or establishing superiority over others."@en ;
+  rdfs:label "Competition Disposition"@en ;
+  skos:altLabel "Competition"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#CompetitionDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ControlDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#PowerDisposition> ;
+  skos:definition "A personal value disposition to seek the power to influence or direct people's behavior or the course of events."@en ;
+  rdfs:label "Control Disposition"@en ;
+  skos:altLabel "Control"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ControlDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#CourtesyDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#RespectDisposition> ;
+  skos:definition "A personal value disposition to show politeness in one's attitude and behavior toward others."@en ;
+  rdfs:label "Courtesy Disposition"@en ;
+  skos:altLabel "Courtesy"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#CourtesyDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#DiscretionDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#DisciplineDisposition> ;
+  skos:definition "A personal value disposition to speak or behave in such a way as to avoid causing offense or revealing private information."@en ;
+  rdfs:label "Discretion Disposition"@en ;
+  skos:altLabel "Discretion"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#DiscretionDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#DutyDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#ResponsibilityDisposition> ;
+  skos:definition "A personal value disposition to fulfill one's moral or legal obligations."@en ;
+  rdfs:label "Duty Disposition"@en ;
+  skos:altLabel "Duty"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#DutyDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#GratitudeDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#BenevolenceDisposition> ;
+  skos:definition "A personal value disposition to be ready to show appreciation for and to return kindness."@en ;
+  rdfs:label "Gratitude Disposition"@en ;
+  skos:altLabel "Gratitude"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#GratitudeDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#HopeDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#OptimismDisposition> ;
+  skos:definition "A personal value disposition to maintain a feeling of expectation and desire for a certain thing to happen."@en ;
+  rdfs:label "Hope Disposition"@en ;
+  skos:altLabel "Hope"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#HopeDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#HumilityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:broadMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#TraditionDisposition> ;
+  skos:definition "A personal value disposition to have a modest or low view of one's own importance."@en ;
+  rdfs:label "Humility Disposition"@en ;
+  skos:altLabel "Humility"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#HumilityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#MaturityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:definition "A personal value disposition to respond to the environment in an appropriate manner, showing developed mental and emotional qualities."@en ;
+  rdfs:label "Maturity Disposition"@en ;
+  skos:altLabel "Maturity"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#MaturityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ProfessionalismRole>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#ValueRole> ;
+  skos:definition "A value role borne by a person in a professional context, conferring the normative expectation to exhibit the competence, skill, and conduct appropriate for that profession."@en ;
+  rdfs:label "Professionalism Role"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ProfessionalismRole> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#StatusDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#PowerDisposition> ;
+  skos:definition "A personal value disposition to seek a high relative social or professional standing."@en ;
+  rdfs:label "Status Disposition"@en ;
+  skos:altLabel "Status"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#StatusDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#ChastityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#DisciplineDisposition> ;
+  skos:definition "A personal value disposition to refrain from extramarital, or from all, sexual intercourse."@en ;
+  rdfs:label "Chastity Disposition"@en ;
+  skos:altLabel "Chastity"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#ChastityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#DiscoveryDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#CuriosityDisposition> ;
+  skos:definition "A personal value disposition to value the process of finding something unexpectedly or during a search."@en ;
+  rdfs:label "Discovery Disposition"@en ;
+  skos:altLabel "Discovery"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#DiscoveryDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#LeisureDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#EnjoymentDisposition> ;
+  skos:definition "A personal value disposition to value time when one is not working or occupied; free time."@en ;
+  rdfs:label "Leisure Disposition"@en ;
+  skos:altLabel "Leisure"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#LeisureDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#MeaningDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#PurposeDisposition> ;
+  skos:definition "A personal value disposition to seek and find profound or implicit significance in life."@en ;
+  rdfs:label "Meaning Disposition"@en ;
+  skos:altLabel "Meaning"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#MeaningDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#MindfulnessDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#CalmnessDisposition> ;
+  skos:definition "A personal value disposition to maintain a moment-by-moment awareness of one's thoughts, feelings, bodily sensations, and surrounding environment."@en ;
+  rdfs:label "Mindfulness Disposition"@en ;
+  skos:altLabel "Mindfulness"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#MindfulnessDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#PeaceDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#CalmnessDisposition> ;
+  skos:definition "A personal value disposition to seek freedom from disturbance; a state of tranquility or quiet."@en ;
+  rdfs:label "Peace Disposition"@en ;
+  skos:altLabel "Peace"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#PeaceDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#SensitivityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#EmpathyDisposition> ;
+  skos:definition "A personal value disposition to have a quick and delicate appreciation of others' feelings."@en ;
+  rdfs:label "Sensitivity Disposition"@en ;
+  skos:altLabel "Sensitivity"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#SensitivityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#SimplicityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-core.owl#PersonalValueDisposition> ;
+  skos:definition "A personal value disposition to value the quality or condition of being easy to understand or do; being plain, natural, or unembellished."@en ;
+  rdfs:label "Simplicity Disposition"@en ;
+  skos:altLabel "Simplicity"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#SimplicityDisposition> .
+
+<https://fandaws.com/ontology/bfo/valuenet-folk#SustainabilityDisposition>
+  a owl:Class ;
+  rdfs:subClassOf <https://fandaws.com/ontology/bfo/valuenet-folk#ResponsibilityDisposition> ;
+  skos:broadMatch <https://fandaws.com/ontology/bfo/valuenet-schwartz-values.owl#UniversalismDisposition> ;
+  skos:definition "A personal value disposition to seek the maintenance of ecological balance by avoiding depletion of natural resources."@en ;
+  rdfs:label "Sustainability Disposition"@en ;
+  skos:altLabel "Sustainability"@en ;
+  rdfs:seeAlso <https://w3id.org/valuenet/folk#SustainabilityDisposition> .

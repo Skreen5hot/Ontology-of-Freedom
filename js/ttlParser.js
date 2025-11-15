@@ -29,6 +29,9 @@ function parseTTL(ttlContent) {
 (function(window) {
     'use strict';
 
+    // If in Node.js, require N3. Otherwise, expect it on the window.
+    var N3 = (typeof require !== 'undefined') ? require('n3') : window.N3;
+
     function TTLParser() {
         if (typeof N3 === 'undefined') {
             console.error('N3 library not loaded');
@@ -211,7 +214,10 @@ function parseTTL(ttlContent) {
         return knowledge;
     };
 
-    // expose
-    window.TTLParser = TTLParser;
-
-})(window);
+    // Export for Node.js/Jest environment, or attach to window for browsers
+    if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+        module.exports = { TTLParser };
+    } else {
+        window.TTLParser = TTLParser;
+    }
+})(typeof window !== 'undefined' ? window : {});

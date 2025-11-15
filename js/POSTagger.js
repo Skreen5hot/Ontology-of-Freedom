@@ -1751,6 +1751,19 @@ class GDCService {
     }
 }
 
+// Export for Node.js/Jest environment, or attach to window for browsers
+if (typeof module !== 'undefined' && module.exports) {
+    // Export all the classes that might be needed by other modules or for testing
+    module.exports = {
+        POSTagger,
+        Lemmatizer,
+        DependencyParser,
+        WikidataLinker,
+        Analyzer,
+        GDCService
+    };
+}
+
 // ======================================================
 // NEW CLASS: GDC & DATABASE MANAGER
 // ======================================================

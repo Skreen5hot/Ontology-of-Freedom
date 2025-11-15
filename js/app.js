@@ -90,20 +90,52 @@ document.addEventListener('DOMContentLoaded', () => {
         const result = reasoner.evaluateAction(instruction);
 
         if (result) {
-            // NEW: Display multiple evaluation blocks
-            moralScores.innerHTML = result.evaluations.map(evalResult => `
-                <div class="evaluation-block">
-                    <h4>Framework: ${evalResult.framework}</h4>
-                    <p><strong>Action:</strong> ${evalResult.actionLabel}</p>
-                    <div class="moral-score ${evalResult.deonticStatus.toLowerCase()}">
-                        <strong>Deontic Status: ${evalResult.deonticStatus.toUpperCase()}</strong>
-                    </div>
-                    <p><strong>Justification:</strong> ${evalResult.justification}</p>
-                </div>
-            `).join('');
+            // Display multiple evaluation blocks
+            moralScores.innerHTML = result.evaluations.map(evalResult => {
+                // Check for and create the HTML for violated values.
+                const violatedValuesHtml = (evalResult.violatedValues && evalResult.violatedValues.length > 0)
+                    ? `<div class="violated-values">
+                           <strong>Violated Values:</strong>
+                           <ul>
+                               ${evalResult.violatedValues.map(v => `<li>${v}</li>`).join('')}
+                           </ul>
+                       </div>`
+                    : '';
 
-            if (result.actionId) {
-                reasoningSteps.innerHTML = `<p>Successfully evaluated action: <strong>${result.actionId.split('#').pop()}</strong></p>`;
+                return `
+                    <div class="evaluation-block">
+                        <h4>Framework: ${evalResult.framework}</h4>
+                        <p><strong>Action:</strong> ${evalResult.actionLabel}</p>
+                        <div class="moral-score ${evalResult.deonticStatus.toLowerCase()}">
+                            <strong>Deontic Status: ${evalResult.deonticStatus.toUpperCase()}</strong>
+                        </div>
+                        <p><strong>Justification:</strong> ${evalResult.justification}</p>
+                        ${violatedValuesHtml}
+                    </div>
+                `;
+            }).join('');
+
+            // Create a more detailed reasoning log for the UI
+            if (result.evaluations && result.evaluations.length > 0 && result.evaluations[0].framework !== 'System') {
+                const actionLabel = result.evaluations[0].actionLabel;
+                const appliedFrameworks = result.evaluations.map(ev => 
+                    `<li><strong>${ev.framework}:</strong> Judged as <strong>${ev.deonticStatus.toUpperCase()}</strong>.</li>`
+                ).join('');
+
+                const classificationHtml = result.actionClasses ? `<li>Classified action as involving: <strong>${result.actionClasses}</strong>.</li>` : '';
+
+                reasoningSteps.innerHTML = `
+                    <h4>Reasoning Steps:</h4>
+                    <ol>
+                        <li>Identified action: <strong>${actionLabel}</strong> from the instruction.</li>
+                        ${classificationHtml}
+                        <li>Evaluated against frameworks:
+                            <ul>
+                                ${appliedFrameworks}
+                            </ul>
+                        </li>
+                    </ol>
+                `;
             }
         } else {
             moralScores.innerHTML = `

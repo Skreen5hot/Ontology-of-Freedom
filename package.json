@@ -1,0 +1,8 @@
+{
+  "devDependencies": {
+    "n3": "^1.17.3"
+  },
+  "scripts": {
+    "test": "node run-all-tests.js"
+  }
+}

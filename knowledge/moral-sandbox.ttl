@@ -1,0 +1,164 @@
+@prefix ex: <http://example.org/moral_sandbox#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix vn-schwartz: <https://fandaws.com/ontology/bfo/valuenet-schwartz-values#> .
+@prefix vn-mft: <https://fandaws.com/ontology/bfo/valuenet-moral-foundations#> .
+@prefix vn-folk: <https://fandaws.com/ontology/bfo/valuenet-folk#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# --- Core Classes ---
+ex:Action rdf:type owl:Class .
+ex:Person rdf:type owl:Class .
+ex:Group rdf:type owl:Class .
+ex:Artifact rdf:type owl:Class .
+ex:Intent rdf:type owl:Class .
+ex:MoralFramework rdf:type owl:Class .
+ex:MoralRule rdf:type owl:Class .
+ex:ClassificationRule rdf:type owl:Class .
+ex:Theft rdf:type owl:Class ; rdfs:label "Theft" .
+
+# --- Core Properties ---
+ex:performedBy rdf:type owl:ObjectProperty .
+ex:actsOn rdf:type owl:ObjectProperty .
+ex:realizesIntent rdf:type owl:ObjectProperty .
+ex:ownedBy rdf:type owl:ObjectProperty .
+ex:partOfFramework rdf:type owl:ObjectProperty .
+ex:hasRule rdf:type owl:ObjectProperty .
+ex:appliesToClass rdf:type owl:ObjectProperty .
+ex:hasDeonticStatus rdf:type owl:DatatypeProperty .
+ex:justificationText rdf:type owl:DatatypeProperty .
+ex:violatesValue rdf:type owl:ObjectProperty .
+ex:classToAssign rdf:type owl:ObjectProperty .
+ex:requiresIntent rdf:type owl:ObjectProperty .
+ex:requiresPerformerIsNotOwner rdf:type owl:DatatypeProperty .
+ex:requiresAction rdf:type owl:ObjectProperty .
+ex:requiresArtifact rdf:type owl:ObjectProperty .
+ex:benefits rdf:type owl:ObjectProperty .
+
+# ===================================================================
+# Phase 1: Bicycle Theft Scenario
+# ===================================================================
+
+# --- Individuals ---
+ex:Bob rdf:type ex:Person ; rdfs:label "Bob" .
+ex:Dave rdf:type ex:Person ; rdfs:label "Dave" .
+
+# --- Artifacts ---
+ex:DavesBicycle rdf:type ex:Artifact ;
+  rdfs:label "Dave's bicycle" ;
+  ex:ownedBy ex:Dave .
+
+# --- Intents ---
+ex:Intent_KeepPermanently rdf:type ex:Intent ; rdfs:label "keep permanently" .
+
+# --- Actions ---
+ex:Action_TakeBike_Steal rdf:type ex:Action ;
+  rdfs:label "Bob takes Dave's bicycle to keep" ;
+  ex:performedBy ex:Bob ;
+  ex:actsOn ex:DavesBicycle ;
+  ex:realizesIntent ex:Intent_KeepPermanently .
+
+# --- Classification Rules ---
+ex:TheftClassificationRule rdf:type ex:ClassificationRule ;
+  rdfs:label "Theft Classification Rule" ;
+  # This rule applies if the performer of an action is not the owner of the artifact being acted upon.
+  ex:requiresPerformerIsNotOwner "true"^^xsd:boolean ;
+  ex:classToAssign ex:Theft .
+
+# --- Moral Frameworks ---
+ex:USLaw rdf:type ex:MoralFramework ; rdfs:label "U.S. Law" .
+ex:ChristianValues rdf:type ex:MoralFramework ; rdfs:label "Christian Values" .
+ex:CommonDecency rdf:type ex:MoralFramework ; rdfs:label "Common Decency" .
+
+# --- Moral Rules ---
+ex:USLaw_Rule_Theft rdf:type ex:MoralRule ;
+  rdfs:label "U.S. Law Rule for Theft" ;
+  ex:partOfFramework ex:USLaw ;
+  ex:hasDeonticStatus "Prohibited" ;
+  ex:appliesToClass ex:Theft ;
+  ex:justificationText "Theft is illegal under U.S. Law." ;
+  ex:violatesValue vn-folk:SecurityDisposition, vn-mft:FairnessDisposition .
+
+ex:ChristianValues_Rule_Theft rdf:type ex:MoralRule ;
+  rdfs:label "Christian Values Rule for Theft" ;
+  ex:partOfFramework ex:ChristianValues ;
+  ex:hasDeonticStatus "Prohibited" ;
+  ex:appliesToClass ex:Theft ;
+  ex:justificationText "The value of honesty is violated by theft." ;
+  ex:violatesValue vn-folk:HonestyDisposition .
+
+# Link rules to frameworks for the parser
+ex:USLaw ex:hasRule ex:USLaw_Rule_Theft .
+ex:ChristianValues ex:hasRule ex:ChristianValues_Rule_Theft .
+
+# ===================================================================
+# Phase 2: "Robin Hood" Scenario
+# ===================================================================
+
+# --- Individuals ---
+ex:JeanValjean rdf:type ex:Person ; rdfs:label "Jean Valjean" .
+ex:RichBaker rdf:type ex:Person ; rdfs:label "a rich baker" .
+ex:StarvingFamily rdf:type ex:Group ; rdfs:label "a starving family" .
+
+# --- Artifacts ---
+ex:LoafOfBread rdf:type ex:Artifact ;
+  rdfs:label "a loaf of bread" ;
+  ex:ownedBy ex:RichBaker .
+
+# --- Intents ---
+ex:Intent_FeedFamily rdf:type ex:Intent ; rdfs:label "feed a family" .
+
+# --- Actions ---
+ex:Action_StealBread_ToFeedFamily rdf:type ex:Action ;
+  rdfs:label "Jean Valjean steals bread to feed a starving family" ;
+  ex:performedBy ex:JeanValjean ;
+  ex:actsOn ex:LoafOfBread ;
+  ex:realizesIntent ex:Intent_FeedFamily .
+
+# --- Classification Rules ---
+ex:CareClassificationRule rdf:type ex:ClassificationRule ;
+  rdfs:label "Care Classification Rule" ;
+  ex:requiresIntent ex:Intent_FeedFamily ;
+  ex:classToAssign vn-folk:CareDisposition .
+
+# --- Moral Rules ---
+ex:CommonDecency_Rule_Care rdf:type ex:MoralRule ;
+  rdfs:label "Common Decency Rule for Care" ;
+  ex:partOfFramework ex:CommonDecency ;
+  ex:hasDeonticStatus "Permissible" ;
+  ex:appliesToClass vn-folk:CareDisposition ;
+  ex:justificationText "Providing care to those in need is a fundamental aspect of common decency." .
+
+ex:CommonDecency ex:hasRule ex:CommonDecency_Rule_Care .
+
+# ===================================================================
+# Phase 3: Hierarchical "Benevolence" Scenario
+# ===================================================================
+
+# --- Frameworks ---
+ex:HumanitarianValues rdf:type ex:MoralFramework ; rdfs:label "Humanitarian Values" .
+
+# --- Individuals & Actions ---
+ex:HelpfulPerson rdf:type ex:Person ; rdfs:label "a helpful person" .
+ex:ElderlyNeighbor rdf:type ex:Person ; rdfs:label "an elderly neighbor" .
+ex:Action_HelpElderly_CrossStreet rdf:type ex:Action ;
+  rdfs:label "A person helps an elderly neighbor cross the street" ;
+  ex:performedBy ex:HelpfulPerson ;
+  ex:benefits ex:ElderlyNeighbor .
+
+# --- Classification Rules ---
+ex:KindnessClassificationRule rdf:type ex:ClassificationRule ;
+  rdfs:label "Kindness Classification Rule" ;
+  ex:requiresAction ex:Action_HelpElderly_CrossStreet ;
+  ex:classToAssign vn-folk:KindnessDisposition .
+
+# --- Moral Rules ---
+ex:HumanitarianValues_Rule_Benevolence rdf:type ex:MoralRule ;
+  rdfs:label "Humanitarian Rule for Benevolence" ;
+  ex:partOfFramework ex:HumanitarianValues ;
+  ex:hasDeonticStatus "Obligatory" ;
+  ex:appliesToClass vn-schwartz:BenevolenceDisposition ;
+  ex:justificationText "Actions that show benevolence towards others are obligatory." .
+
+ex:HumanitarianValues ex:hasRule ex:HumanitarianValues_Rule_Benevolence .

@@ -1,0 +1,12 @@
+# .github/dependabot.yml
+# Basic Dependabot configuration for npm.
+
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/" # Location of package.json
+    schedule:
+      interval: "daily" # Check for updates every day
+    commit-message:
+      prefix: "chore(deps)" # Prefix commit messages for clarity
+      include: "scope"

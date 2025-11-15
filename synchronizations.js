@@ -2,6 +2,7 @@
 
 import { taskManager } from './concepts/taskManager.js';
 import { progressTracker } from './concepts/progressTracker.js';
+import { uiRenderer } from './concepts/uiRenderer.js';
 
 /**
  * This array defines all cross-concept interactions in the application.
@@ -19,6 +20,16 @@ export const synchronizations = [
     when: 'taskToggled',
     from: taskManager,
     do: (tasksPayload) => progressTracker.actions.updateProgress(tasksPayload)
+  },
+  {
+    when: 'taskAdded',
+    from: taskManager,
+    do: (tasksPayload) => uiRenderer.actions.renderTaskList(tasksPayload)
+  },
+  {
+    when: 'taskToggled',
+    from: taskManager,
+    do: (tasksPayload) => uiRenderer.actions.renderTaskList(tasksPayload)
   }
 ];
 

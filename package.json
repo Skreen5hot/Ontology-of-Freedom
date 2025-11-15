@@ -3,6 +3,7 @@
     "n3": "^1.17.3"
   },
   "scripts": {
-    "test": "node run-all-tests.js"
+    "test": "node run-all-tests.js",
+    "security-check": "npm audit --audit-level=high"
   }
 }

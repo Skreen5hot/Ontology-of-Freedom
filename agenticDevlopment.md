@@ -1,11 +1,3 @@
-Excellent — that’s a very natural and valuable addition.
-Pure functions and unit tests are exactly what reinforce the **legibility and safety** goals of the *Concepts + Synchronizations* model.
-
-Below is the **revised full VS Code AI context template**, with added sections on **Pure Function Principles** and **Unit Testing Practices** that align with this modular architecture.
-It’s still written for `.ai-context.md` or `.gemini-project-context.md`, ready to drop into a repo.
-
----
-
 ## 🧱 **Final Template: Concepts + Synchronizations Architecture Context**
 
 ````markdown
@@ -226,7 +218,3 @@ test('taskAdded triggers progress update', () => {
 
 ```
 
----
-
-Would you like me to provide a **companion test scaffold** (a pre-built `tests/` directory with Jest or Vitest configuration) that matches this pattern? It would give you instant runnable examples for Gemini to build upon.
-```

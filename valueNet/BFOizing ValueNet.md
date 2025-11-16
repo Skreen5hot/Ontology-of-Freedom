@@ -91,6 +91,7 @@ classDiagram
     %% Notes/Annotations
     note for Value "The central entity representing a value or set of values."
     note for ValueType "Defines categories like Good, Bad, Fundamental, Instrumental."
+```
 
 ## How We Did It — A Systematic Approach to Folk Values
 

@@ -30,6 +30,9 @@ const TestRunner = {
         } catch (error) {
           console.error(`  ${colors.red}❌ FAIL:${colors.reset} ${testName}`);
           console.error(`     ${colors.yellow}${error.message}${colors.reset}`);
+          if (error.stack) {
+            console.error(`     ${error.stack.split('\n').slice(1).join('\n     ')}`);
+          }
           failed++;
         }
       };

@@ -36,6 +36,62 @@ BFO provides the precise categorical machinery for this task. By classifying val
 
 This realist, BFO-based approach is essential for interoperability within the broader scientific ontology ecosystem, particularly the OBO Foundry. By modeling agents, dispositions, and processes in a way compatible with ontologies for biology (Gene Ontology), medicine (OGMS), and social entities (SO), we create a path for integrating models of human values with models of human health, disease, and social behavior.
 
+## 🐠 ValueNet Ontology Diagram
+
+```mermaid
+classDiagram
+    direction LR
+    
+    %% Classes
+    class Value {
+        +String label
+        +String comment
+        +String uri
+    }
+    class ValueType {
+        +String label
+        +String comment
+    }
+    class GoodValue
+    class BadValue
+    class FundamentalValue
+    class InstrumentalValue
+    class ValueMetric
+    class ValueTarget
+    
+    %% Inheritance (is-a relationships)
+    GoodValue --|> ValueType : is a
+    BadValue --|> ValueType : is a
+    FundamentalValue --|> ValueType : is a
+    InstrumentalValue --|> ValueType : is a
+    
+    %% Relationships (Object Properties)
+    
+    %% Value to ValueType
+    Value "1" --> "1" ValueType : hasType
+    
+    %% Value to Metric and Target
+    Value "1" --> "*" ValueMetric : hasMetric
+    Value "1" --> "*" ValueTarget : affects
+    
+    %% ValueTarget to Value
+    ValueTarget "1" --> "*" Value : isTargetOf
+    
+    %% ValueMetric to Value
+    ValueMetric "1" --> "1" Value : isMetricFor
+    
+    %% Value/ValueType to Value
+    ValueType "1" --> "*" Value : contributesTo
+    Value "1" --> "*" Value : isSubcomponentOf
+    
+    %% Other relationships (showing flow/direction)
+    ValueMetric --|> ValueTarget : isMetricOfTarget
+    ValueTarget --|> Value : targetsValue
+    
+    %% Notes/Annotations
+    note for Value "The central entity representing a value or set of values."
+    note for ValueType "Defines categories like Good, Bad, Fundamental, Instrumental."
+
 ## How We Did It — A Systematic Approach to Folk Values
 
 While the BFO-aligned core provided the formal structure, it was incomplete without a comprehensive collection of the "folk values" people use in everyday language. To build this module (`valuenet-folk.owl`), we executed a rigorous, four-phase plan to smartly manage the "messiness" of natural language.

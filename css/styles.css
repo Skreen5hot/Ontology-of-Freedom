@@ -155,6 +155,11 @@ button:hover {
 #reasoning-steps li {
     margin: 5px 0;
 }
+.evaluation-block {
+    border: 1px solid;
+    padding: 20px;
+    margin-bottom: 10px;
+}
 
 /* Responsive design */
 @media (max-width: 768px) {

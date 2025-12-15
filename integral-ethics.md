@@ -1404,3 +1404,102 @@ Individual autonomy and collective flourishing
 Critical analysis and constructive synthesis
 
 The work of integral ethics has only begun.
+
+References
+Adams, R. M. (1999). Finite and Infinite Goods: A Framework for Ethics. Oxford University Press.
+Ardelt, M. (2003). Empirical assessment of a three-dimensional wisdom scale. Research on Aging, 25(3), 275-324.
+Baumeister, R. F., & Leary, M. R. (1995). The need to belong: Desire for interpersonal attachments as a fundamental human motivation. Psychological Bulletin, 117(3), 497-529.
+Berlin, I. (1969). Four Essays on Liberty. Oxford University Press.
+Brown, D. E. (1991). Human Universals. Temple University Press.
+Cacioppo, J. T., & Patrick, W. (2008). Loneliness: Human Nature and the Need for Social Connection. W.W. Norton.
+Case, A., & Deaton, A. (2020). Deaths of Despair and the Future of Capitalism. Princeton University Press.
+Chalmers, D. J. (1996). The Conscious Mind: In Search of a Fundamental Theory. Oxford University Press.
+Churchland, P. M. (1981). Eliminative materialism and the propositional attitudes. Journal of Philosophy, 78(2), 67-90.
+Cialdini, R. B., & Goldstein, N. J. (2004). Social influence: Compliance and conformity. Annual Review of Psychology, 55, 591-621.
+Commons, M. L., Richards, F. A., & Armon, C. (Eds.). (1990). Beyond Formal Operations: Late Adolescent and Adult Cognitive Development. Praeger.
+Csikszentmihalyi, M. (1990). Flow: The Psychology of Optimal Experience. Harper & Row.
+Davidson, R. J., Kabat-Zinn, J., Schumacher, J., et al. (2003). Alterations in brain and immune function produced by mindfulness meditation. Psychosomatic Medicine, 65(4), 564-570.
+Deci, E. L., & Ryan, R. M. (2000). The "what" and "why" of goal pursuits: Human needs and the self-determination of behavior. Psychological Inquiry, 11(4), 227-268.
+Devitt, M. (1991). Realism and Truth (2nd ed.). Princeton University Press.
+Diener, E., & Biswas-Diener, R. (2002). Will money increase subjective well-being? Social Indicators Research, 57(2), 119-169.
+Diener, E., & Suh, E. M. (Eds.). (2000). Culture and Subjective Well-Being. MIT Press.
+Diener, E., Suh, E. M., Lucas, R. E., & Smith, H. L. (1999). Subjective well-being: Three decades of progress. Psychological Bulletin, 125(2), 276-302.
+Dreyfus, H. L., & Dreyfus, S. E. (1986). Mind Over Machine. Free Press.
+Epstein, R., Pandit, M., & Thakar, M. (2013). How love emerges in arranged marriages: Two cross-cultural studies. Journal of Comparative Family Studies, 44(3), 341-360.
+Finkel, E. J., Hui, C. M., Carswell, K. L., & Larson, G. M. (2014). The suffocation of marriage: Climbing Mount Maslow without enough oxygen. Psychological Inquiry, 25(1), 1-41.
+Foot, P. (2001). Natural Goodness. Oxford University Press.
+Frankl, V. E. (1946/2006). Man's Search for Meaning. Beacon Press.
+Gadamer, H.-G. (1975). Truth and Method. Seabury Press.
+Greenberg, L. S., & Safran, J. D. (1987). Emotion in Psychotherapy. Guilford Press.
+Greene, J. D., Nystrom, L. E., Engell, A. D., Darley, J. M., & Cohen, J. D. (2004). The neural bases of cognitive conflict and control in moral judgment. Neuron, 44(2), 389-400.
+Gregory, R. L. (1970). The Intelligent Eye. Weidenfeld & Nicolson.
+Griffin, D. R. (1998). Unsnarling the World-Knot: Consciousness, Freedom, and the Mind-Body Problem. University of California Press.
+Hebb, D. O. (1958). A Textbook of Psychology. W.B. Saunders.
+Henrich, J. (2020). The WEIRDest People in the World: How the West Became Psychologically Peculiar and Particularly Prosperous. Farrar, Straus and Giroux.
+Hood, R. W. (2001). Dimensions of mystical experiences: Empirical studies and psychological links. Rodopi.
+Hume, D. (1739/2000). A Treatise of Human Nature. Oxford University Press.
+Hursthouse, R. (1999). On Virtue Ethics. Oxford University Press.
+Husserl, E. (1913/1982). Ideas Pertaining to a Pure Phenomenology and to a Phenomenological Philosophy. Kluwer Academic.
+Jacobsen, T., Buchta, K., Köhler, M., & Schröger, E. (2006). The primacy of beauty in judging the aesthetics of objects. Psychological Reports, 94(4), 1253-1260.
+James, W. (1902/1982). The Varieties of Religious Experience. Penguin Classics.
+Jung, C. G. (1921/1971). Psychological Types. Princeton University Press.
+Kant, I. (1785/1997). Groundwork of the Metaphysics of Morals (M. Gregor, Trans.). Cambridge University Press.
+Kegan, R. (1994). In Over Our Heads: The Mental Demands of Modern Life. Harvard University Press.
+Kernis, M. H., & Goldman, B. M. (2006). A multicomponent conceptualization of authenticity: Theory and research. Advances in Experimental Social Psychology, 38, 283-357.
+Keyes, C. L. M. (2002). The mental health continuum: From languishing to flourishing in life. Journal of Health and Social Behavior, 43(2), 207-222.
+Koenig, H. G. (2012). Religion, spirituality, and health: The research and clinical implications. ISRN Psychiatry, 2012, 278730.
+Koenig, H. G., & Larson, D. B. (2001). Religion and mental health: Evidence for an association. International Review of Psychiatry, 13(2), 67-78.
+Kohlberg, L. (1981). Essays on Moral Development, Vol. I: The Philosophy of Moral Development. Harper & Row.
+Labouvie-Vief, G. (2003). Dynamic integration: Affect, cognition, and the self in adulthood. Current Directions in Psychological Science, 12(6), 201-206.
+MacIntyre, A. (1981). After Virtue: A Study in Moral Theory. University of Notre Dame Press.
+Maslow, A. H. (1943). A theory of human motivation. Psychological Review, 50(4), 370-396.
+Naess, A. (1973). The shallow and the deep, long-range ecology movement. Inquiry, 16(1-4), 95-100.
+Nagel, T. (1974). What is it like to be a bat? Philosophical Review, 83(4), 435-450.
+Nagel, T. (1979). Mortal Questions. Cambridge University Press.
+Nagel, T. (1986). The View from Nowhere. Oxford University Press.
+Newport, C. (2012). So Good They Can't Ignore You: Why Skills Trump Passion in the Quest for Work You Love. Grand Central Publishing.
+Nisbett, R. E., Peng, K., Choi, I., & Norenzayan, A. (2001). Culture and systems of thought: Holistic versus analytic cognition. Psychological Review, 108(2), 291-310.
+Nisbet, E. K., Zelenski, J. M., & Murphy, S. A. (2011). Happiness is in our nature: Exploring nature relatedness as a contributor to subjective well-being. Journal of Happiness Studies, 12(2), 303-322.
+Nussbaum, M. C. (2000). Women and Human Development: The Capabilities Approach. Cambridge University Press.
+Oishi, S., & Diener, E. (2009). Goals, culture, and subjective well-being. In E. Diener (Ed.), Culture and Well-Being (pp. 93-108). Springer.
+Parfit, D. (1984). Reasons and Persons. Oxford University Press.
+Park, C. L. (2010). Making sense of the meaning literature: An integrative review of meaning making and its effects on adjustment to stressful life events. Psychological Bulletin, 136(2), 257-301.
+Patall, E. A., Cooper, H., & Robinson, J. C. (2008). The effects of choice on intrinsic motivation and related outcomes: A meta-analysis of research findings. Psychological Bulletin, 134(2), 270-300.
+Pepper, S. C. (1942). World Hypotheses: A Study in Evidence. University of California Press.
+Peterson, C., & Seligman, M. E. P. (2004). Character Strengths and Virtues: A Handbook and Classification. Oxford University Press.
+Plumwood, V. (1993). Feminism and the Mastery of Nature. Routledge.
+Putnam, H. (1981). Reason, Truth and History. Cambridge University Press.
+Putnam, H. (2002). The Collapse of the Fact/Value Dichotomy and Other Essays. Harvard University Press.
+Putnam, R. D., & Campbell, D. E. (2010). American Grace: How Religion Divides and Unites Us. Simon & Schuster.
+Ramachandran, V. S., & Hirstein, W. (1999). The science of art: A neurological theory of aesthetic experience. Journal of Consciousness Studies, 6(6-7), 15-51.
+Richardson, H. S. (1994). Practical Reasoning about Final Ends. Cambridge University Press.
+Rusbult, C. E., Martz, J. M., & Agnew, C. R. (1998). The Investment Model Scale: Measuring commitment level, satisfaction level, quality of alternatives, and investment size. Personal Relationships, 5(4), 357-391.
+Ryan, R. M., & Deci, E. L. (2000). Self-determination theory and the facilitation of intrinsic motivation, social development, and well-being. American Psychologist, 55(1), 68-78.
+Ryan, R. M., & Deci, E. L. (2001). On happiness and human potentials: A review of research on hedonic and eudaimonic well-being. Annual Review of Psychology, 52, 141-166.
+Ryff, C. D. (1989). Happiness is everything, or is it? Explorations on the meaning of psychological well-being. Journal of Personality and Social Psychology, 57(6), 1069-1081.
+Ryff, C. D., & Singer, B. H. (2008). Know thyself and become what you are: A eudaimonic approach to psychological well-being. *Journal of Happiness Studies*, 9(1), 13-39.
+Saroglou, V. (2013). Religion, spirituality, and altruism. In K. I. Pargament (Ed.), APA Handbook of Psychology, Religion, and Spirituality (Vol. 1, pp. 439-457). American Psychological Association.
+Schwartz, B. (2004). The Paradox of Choice: Why More Is Less. Ecco.
+Schwartz, S. H. (1992). Universals in the content and structure of values: Theoretical advances and empirical tests in 20 countries. Advances in Experimental Social Psychology, 25, 1-65.
+Seligman, M. E. P. (2011). Flourish: A Visionary New Understanding of Happiness and Well-being. Free Press.
+Shafer-Landau, R. (2003). Moral Realism: A Defence. Oxford University Press.
+Shapiro, S. L., Carlson, L. E., Astin, J. A., & Freedman, B. (2006). Mechanisms of mindfulness. Journal of Clinical Psychology, 62(3), 373-386.
+Singer, P. (1979). Practical Ethics. Cambridge University Press.
+Sirgy, M. J., & Wu, J. (2009). The pleasant life, the engaged life, and the meaningful life: What about the balanced life? Journal of Happiness Studies, 10(2), 183-196.
+Soenens, B., & Vansteenkiste, M. (2010). A theoretical upgrade of the concept of parental psychological control: Proposing new insights on the basis of self-determination theory. Developmental Review, 30(1), 74-99.
+Steger, M. F. (2012). Experiencing meaning in life: Optimal functioning at the nexus of well-being, psychopathology, and spirituality. In P. T. P. Wong (Ed.), The Human Quest for Meaning (2nd ed., pp. 165-184). Routledge.
+Steiner, R. (1914/2008). The Riddles of Philosophy. Anthroposophic Press.
+Steiner, R. (1923/1973). The Philosophy of Freedom: The Basis for a Modern World Conception. Anthroposophic Press.
+Sternberg, E. M. (2009). Healing Spaces: The Science of Place and Well-Being. Belknap Press.
+Tegmark, M. (2014). Our Mathematical Universe: My Quest for the Ultimate Nature of Reality. Knopf.
+Twenge, J. M. (2017). iGen: Why Today's Super-Connected Kids Are Growing Up Less Rebellious, More Tolerant, Less Happy—and Completely Unprepared for Adulthood. Atria Books.
+Waldinger, R. J., & Schulz, M. S. (2023). The Good Life: Lessons from the World's Longest Scientific Study of Happiness. Simon & Schuster.
+Whitehead, A. N. (1929). Process and Reality: An Essay in Cosmology. Macmillan.
+Wigner, E. P. (1960). The unreasonable effectiveness of mathematics in the natural sciences. Communications in Pure and Applied Mathematics, 13(1), 1-14.
+Wilber, K. (2000). A Theory of Everything: An Integral Vision for Business, Politics, Science and Spirituality. Shambhala.
+Wilson, T. D., & Dunn, E. W. (2004). Self-knowledge: Its limits, value, and potential for improvement. Annual Review of Psychology, 55, 493-518.
+Wood, A. M., Linley, P. A., Maltby, J., Baliousis, M., & Joseph, S. (2008). The authentic personality: A theoretical and empirical conceptualization and the development of the Authenticity Scale. Journal of Counseling Psychology, 55(3), 385-399.
+
+
+
+

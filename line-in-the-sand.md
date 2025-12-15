@@ -173,7 +173,7 @@ Adult humans clearly meet all three criteria:
 
 **Young children** have developing answerability. We do not hold infants fully accountable for their actions. This framework suggests that personhood is not binary but admits of degrees—a philosophically defensible position (see Shoemaker, "Persons and Personal Identity").
 
-**People with severe dementia** may lose the continuity required for irreversibility. This does not mean they lose all moral standing—they retain moral patiency (we must still care for them)—but their capacity for moral agency is compromised. This aligns with legal practice (conservatorships, guardianship).
+**People with severe dementia** may lose the continuity required for irreversibility. This does not mean they lose all moral standing—they retain moral patiency (we must still care for them)—but their capacity for moral agency is compromised. This aligns with legal practice (conservatorships, guardianship). Irreversibility concerns moral standing, not perfect memory retention.
 
 **People in temporarily altered states** (intoxication, mania, psychosis) still bear the history of their actions even if their capacity for rational choice was compromised. We might mitigate blame, but we do not erase moral consequence.
 

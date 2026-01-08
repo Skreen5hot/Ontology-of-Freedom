@@ -77,7 +77,9 @@ This document specifies the functional requirements for Fandaws 3.0, a semantic 
 
 - Basic Formal Ontology (BFO) 2.0 Specification
 - OWL 2 Web Ontology Language Document Overview
-- Fandaws 2.4 Relationship Management Specification
+- **Semantically Honest Middle Layer (SHML)** - Architectural Basis
+- **Grounded Intentionality Theory (GIT)** - Core Ontology
+- **Generative Concretization v2.0** - LLM Integration Spec
 - HIRI Protocol Specification
 - ECCPS Architecture Document
 - Synthetic Moral Agent Design Document

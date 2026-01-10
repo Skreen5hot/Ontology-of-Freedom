@@ -1,7 +1,18 @@
 {
   "permissions": {
     "allow": [
-      "Bash(python:*)"
+      "Bash(python:*)",
+      "Bash(dir:*)",
+      "Bash(findstr:*)",
+      "Bash(find:*)",
+      "Bash(powershell -Command:*)",
+      "Bash(for file in valuenet-core.ttl valuenet-folk.ttl valuenet-mappings.ttl valuenet-moral-foundations.ttl valuenet-schwartz-values.ttl)",
+      "Bash(do echo \"Comparing $file\")",
+      "Bash(done)",
+      "Bash(wc:*)",
+      "Bash(ls:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ]
   }
 }
